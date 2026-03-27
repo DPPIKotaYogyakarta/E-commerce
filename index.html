@@ -15,17 +15,26 @@
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
 
     <script>
-        // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI (Pastikan di-deploy ulang/New Version)
-        const SCRIPT_URL = 'PASTE_URL_WEB_APP_ANDA_DISINI'; 
+        // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx8467il3ItwR8vsFkmYj7sfeh1vklwQXCj17i7raFxaVxlgxVwdGmiaCA086Fzw8GT/exec'; 
     </script>
 
+    <!-- LOADING SCREEN AWAL PENGATURAN -->
+    <div id="init-loading" class="fixed inset-0 bg-white z-[100] flex flex-col items-center justify-center">
+        <i class="fa-solid fa-spinner fa-spin text-4xl text-indigo-600 mb-4"></i>
+        <p class="text-slate-500 font-medium">Menghubungkan ke Toko...</p>
+    </div>
+
     <!-- ==================== AREA LOGIN & REGISTER ==================== -->
-    <div id="auth-section" class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-100 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');">
+    <div id="auth-section" class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-100 bg-cover bg-center hidden" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
         
         <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-2xl z-10 relative">
             <div class="text-center">
-                <i class="fa-solid fa-shirt text-4xl text-indigo-600 mb-2"></i>
+                <!-- LOGO AUTH -->
+                <div id="app-logo-auth" class="text-indigo-600 mb-2 flex justify-center">
+                    <i class="fa-solid fa-shirt text-5xl"></i>
+                </div>
                 <h2 class="text-3xl font-extrabold text-slate-900">TokoBaju Fashion</h2>
                 <p class="mt-2 text-sm text-slate-600" id="auth-subtitle">Silakan masuk ke akun Anda</p>
             </div>
@@ -55,24 +64,11 @@
 
             <!-- FORM REGISTER -->
             <form id="form-register" onsubmit="handleRegister(event)" class="mt-8 space-y-4 hidden h-96 overflow-y-auto hide-scrollbar pr-2">
-                <div>
-                    <label class="text-sm font-medium text-slate-700">Nama Lengkap</label>
-                    <input id="r-nama" required type="text" class="w-full mt-1 px-4 py-2 border border-slate-300 rounded-lg outline-none">
-                </div>
-                <div>
-                    <label class="text-sm font-medium text-slate-700">Nomor HP / WhatsApp</label>
-                    <input id="r-hp" required type="tel" class="w-full mt-1 px-4 py-2 border border-slate-300 rounded-lg outline-none">
-                </div>
-                <div>
-                    <label class="text-sm font-medium text-slate-700">Username</label>
-                    <input id="r-user" required type="text" class="w-full mt-1 px-4 py-2 border border-slate-300 rounded-lg outline-none">
-                </div>
-                <div>
-                    <label class="text-sm font-medium text-slate-700">Password</label>
-                    <input id="r-pass" required type="password" class="w-full mt-1 px-4 py-2 border border-slate-300 rounded-lg outline-none">
-                </div>
+                <div><label class="text-sm font-medium text-slate-700">Nama Lengkap</label><input id="r-nama" required type="text" class="w-full mt-1 px-4 py-2 border border-slate-300 rounded-lg outline-none"></div>
+                <div><label class="text-sm font-medium text-slate-700">Nomor HP / WhatsApp</label><input id="r-hp" required type="tel" class="w-full mt-1 px-4 py-2 border border-slate-300 rounded-lg outline-none"></div>
+                <div><label class="text-sm font-medium text-slate-700">Username</label><input id="r-user" required type="text" class="w-full mt-1 px-4 py-2 border border-slate-300 rounded-lg outline-none"></div>
+                <div><label class="text-sm font-medium text-slate-700">Password</label><input id="r-pass" required type="password" class="w-full mt-1 px-4 py-2 border border-slate-300 rounded-lg outline-none"></div>
                 
-                <!-- Upload Foto Profil -->
                 <div class="pt-2">
                     <label class="text-sm font-medium text-slate-700 block mb-2">Foto Profil</label>
                     <div onclick="document.getElementById('r-foto').click()" class="relative w-24 h-24 rounded-full border-2 border-dashed border-indigo-300 bg-indigo-50 hover:bg-indigo-100 flex items-center justify-center cursor-pointer overflow-hidden mx-auto">
@@ -81,10 +77,7 @@
                         <img id="r-foto-preview" src="" class="absolute inset-0 w-full h-full object-cover hidden">
                     </div>
                 </div>
-
-                <button type="submit" id="btn-register" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none mt-6">
-                    Daftar Akun Baru
-                </button>
+                <button type="submit" id="btn-register" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none mt-6">Daftar Akun Baru</button>
             </form>
         </div>
     </div>
@@ -97,8 +90,9 @@
         <nav class="bg-white shadow-sm sticky top-0 z-40">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-shirt text-2xl text-indigo-600"></i>
+                    <!-- LOGO NAV -->
+                    <div id="app-logo-nav" class="flex items-center gap-2 text-indigo-600">
+                        <i class="fa-solid fa-shirt text-2xl"></i>
                         <span class="font-bold text-xl tracking-tight hidden sm:block">TokoBaju</span>
                     </div>
                     
@@ -111,7 +105,6 @@
                         
                         <div class="h-6 w-px bg-slate-200"></div>
 
-                        <!-- User Profile Area -->
                         <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1 rounded-full transition" onclick="toggleProfileModal()">
                             <div class="text-right hidden md:block">
                                 <p id="nav-nama" class="text-sm font-bold text-slate-800 leading-tight">User</p>
@@ -160,27 +153,18 @@
     <div id="profile-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
         <div class="modal-overlay absolute w-full h-full bg-slate-900/60 backdrop-blur-sm" onclick="toggleProfileModal()"></div>
         <div class="bg-white w-11/12 max-w-sm mx-auto rounded-3xl shadow-2xl z-50 overflow-hidden">
-            <div class="bg-indigo-600 h-24 relative">
-                <button onclick="toggleProfileModal()" class="absolute top-3 right-3 text-white hover:text-slate-200 bg-black/20 w-8 h-8 rounded-full flex items-center justify-center"><i class="fa-solid fa-times"></i></button>
-            </div>
+            <div class="bg-indigo-600 h-24 relative"><button onclick="toggleProfileModal()" class="absolute top-3 right-3 text-white hover:text-slate-200 bg-black/20 w-8 h-8 rounded-full flex items-center justify-center"><i class="fa-solid fa-times"></i></button></div>
             <div class="px-6 pb-6 text-center relative -mt-12">
                 <img id="prof-foto" src="" class="w-24 h-24 rounded-full object-cover border-4 border-white mx-auto shadow-md bg-white">
                 <h3 id="prof-nama" class="text-xl font-bold text-slate-800 mt-2">Nama Pengguna</h3>
                 <p id="prof-user" class="text-slate-500 text-sm">@username</p>
-                
                 <div class="mt-6 bg-slate-50 rounded-xl p-4 text-left space-y-3 border border-slate-100">
                     <div class="flex items-center gap-3 text-sm">
                         <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-phone"></i></div>
-                        <div>
-                            <p class="text-slate-500 text-xs">No Handphone / WA</p>
-                            <p id="prof-hp" class="font-semibold text-slate-800">-</p>
-                        </div>
+                        <div><p class="text-slate-500 text-xs">No Handphone / WA</p><p id="prof-hp" class="font-semibold text-slate-800">-</p></div>
                     </div>
                 </div>
-
-                <button onclick="handleLogout()" class="w-full mt-6 bg-red-50 hover:bg-red-100 text-red-600 font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-sign-out-alt"></i> Keluar Akun
-                </button>
+                <button onclick="handleLogout()" class="w-full mt-6 bg-red-50 hover:bg-red-100 text-red-600 font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2"><i class="fa-solid fa-sign-out-alt"></i> Keluar Akun</button>
             </div>
         </div>
     </div>
@@ -189,12 +173,10 @@
     <div id="checkout-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
         <div class="modal-overlay absolute w-full h-full bg-slate-900/60 backdrop-blur-sm" onclick="toggleCheckoutModal()"></div>
         <div class="bg-white w-11/12 md:max-w-lg mx-auto rounded-2xl shadow-2xl z-50 max-h-[90vh] flex flex-col">
-            
             <div class="p-5 border-b flex justify-between items-center bg-slate-50 rounded-t-2xl">
                 <p class="text-xl font-bold text-slate-800">Detail Pembelian</p>
                 <i class="fa-solid fa-times text-xl cursor-pointer text-slate-400 hover:text-red-500" onclick="toggleCheckoutModal()"></i>
             </div>
-
             <div class="p-6 overflow-y-auto">
                 <div class="flex gap-4 mb-6 pb-6 border-b border-dashed">
                     <img id="m-gambar" src="" class="w-24 h-24 object-cover rounded-xl border border-slate-200 shadow-sm">
@@ -206,10 +188,7 @@
                 </div>
 
                 <form id="form-beli" onsubmit="prosesBeli(event)">
-                    <input type="hidden" id="m-id">
-                    <input type="hidden" id="m-hargasatuan">
-                    
-                    <!-- Jumlah -->
+                    <input type="hidden" id="m-id"><input type="hidden" id="m-hargasatuan">
                     <div class="mb-5 flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-100">
                         <label class="font-medium text-slate-700">Jumlah Pesanan</label>
                         <div class="flex items-center gap-1">
@@ -219,32 +198,25 @@
                         </div>
                     </div>
 
-                    <!-- Tipe Pembayaran -->
                     <div class="mb-5">
                         <label class="block font-medium text-slate-700 mb-2">Tipe Pembayaran</label>
                         <div class="grid grid-cols-2 gap-3">
                             <label class="cursor-pointer">
                                 <input type="radio" name="tipe_bayar" value="Lunas" class="peer sr-only" checked onchange="hitungTotalModal()">
-                                <div class="text-center py-3 border-2 border-slate-200 rounded-xl peer-checked:border-indigo-600 peer-checked:bg-indigo-50 peer-checked:text-indigo-700 font-bold transition">
-                                    Bayar Lunas
-                                </div>
+                                <div class="text-center py-3 border-2 border-slate-200 rounded-xl peer-checked:border-indigo-600 peer-checked:bg-indigo-50 peer-checked:text-indigo-700 font-bold transition">Bayar Lunas</div>
                             </label>
                             <label class="cursor-pointer">
                                 <input type="radio" name="tipe_bayar" value="DP" class="peer sr-only" onchange="hitungTotalModal()">
-                                <div class="text-center py-3 border-2 border-slate-200 rounded-xl peer-checked:border-emerald-600 peer-checked:bg-emerald-50 peer-checked:text-emerald-700 font-bold transition">
-                                    DP (50%)
-                                </div>
+                                <div class="text-center py-3 border-2 border-slate-200 rounded-xl peer-checked:border-emerald-600 peer-checked:bg-emerald-50 peer-checked:text-emerald-700 font-bold transition">DP (50%)</div>
                             </label>
                         </div>
                     </div>
 
-                    <!-- Total Bayar Tagihan -->
                     <div class="bg-indigo-600 p-4 rounded-xl text-white mb-5 flex justify-between items-center shadow-md">
                         <span class="font-medium opacity-90">Total Harus Dibayar:</span>
                         <span id="m-totalharga" class="text-2xl font-extrabold">Rp 0</span>
                     </div>
 
-                    <!-- Upload Bukti -->
                     <div class="mb-6">
                         <label class="block font-medium text-slate-700 mb-2">Upload Bukti Transfer <span class="text-red-500">*</span></label>
                         <div onclick="document.getElementById('m-bukti').click()" class="relative w-full h-32 border-2 border-dashed border-slate-300 rounded-xl bg-slate-50 hover:bg-slate-100 transition flex flex-col items-center justify-center cursor-pointer overflow-hidden group">
@@ -276,12 +248,48 @@
         let authFotoBase64 = "";
         let buktiBase64 = "";
 
+        // STATE UNTUK PENGATURAN TAMPILAN
+        let appSettings = {
+            logo: '',
+            loginBg: '',
+            banners: []
+        };
+
+        // --- SISTEM MEMUAT PENGATURAN DARI ADMIN ---
+        async function initApp() {
+            try {
+                const res = await fetch(`${SCRIPT_URL}?action=getPengaturan`);
+                const data = await res.json();
+                if(data.status === 'success' && data.data) {
+                    data.data.forEach(item => {
+                        if(item.Key === 'logo' && item.Value) appSettings.logo = item.Value;
+                        if(item.Key === 'login_bg' && item.Value) appSettings.loginBg = item.Value;
+                        if(item.Key.startsWith('banner_') && item.Value) appSettings.banners.push(item.Value);
+                    });
+                    
+                    // Terapkan Background Login
+                    if (appSettings.loginBg) {
+                        document.getElementById('auth-section').style.backgroundImage = `url('${appSettings.loginBg}')`;
+                    }
+                    
+                    // Terapkan Logo (Jika diupload oleh Admin)
+                    if (appSettings.logo) {
+                        document.getElementById('app-logo-auth').innerHTML = `<img src="${appSettings.logo}" class="h-20 object-contain mx-auto">`;
+                        document.getElementById('app-logo-nav').innerHTML = `<img src="${appSettings.logo}" class="h-10 object-contain"><span class="font-bold text-xl tracking-tight hidden sm:block text-slate-800 ml-2">TokoBaju</span>`;
+                    }
+                }
+            } catch(err) { console.log('Gagal memuat pengaturan toko', err); }
+            
+            // Tutup loading awal dan cek login
+            document.getElementById('init-loading').classList.add('hidden');
+            checkAuth();
+        }
+
         // --- SISTEM IMAGE COMPRESSOR (Untuk Profil & Bukti Bayar) ---
-        function previewImage(event, previewId, targetVariable, isCircle = false) {
+        function previewImage(event, previewId, targetVariable) {
             const file = event.target.files[0];
             const preview = document.getElementById(previewId);
-            const icon = preview.previousElementSibling; // Ambil div/icon sebelumnya
-            
+            const icon = preview.previousElementSibling; 
             if (!file) return;
 
             const reader = new FileReader();
@@ -289,32 +297,18 @@
                 const img = new Image();
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
-                    const MAX_SIZE = 500; 
-                    let width = img.width;
-                    let height = img.height;
-
-                    if (width > height && width > MAX_SIZE) {
-                        height *= MAX_SIZE / width;
-                        width = MAX_SIZE;
-                    } else if (height > MAX_SIZE) {
-                        width *= MAX_SIZE / height;
-                        height = MAX_SIZE;
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
+                    const MAX_SIZE = 800; // Limit resolusi bukti/profil
+                    let width = img.width; let height = img.height;
+                    if (width > height && width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; } 
+                    else if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; }
+                    canvas.width = width; canvas.height = height;
+                    const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
+                    const base64Str = canvas.toDataURL('image/jpeg', 0.8);
                     
-                    const base64Str = canvas.toDataURL('image/jpeg', 0.7);
-                    
-                    // Simpan ke variabel global yang sesuai
                     if(targetVariable === 'authFotoBase64') authFotoBase64 = base64Str;
                     if(targetVariable === 'buktiBase64') buktiBase64 = base64Str;
                     
-                    preview.src = base64Str;
-                    preview.classList.remove('hidden');
-                    if(icon) icon.style.display = 'none';
+                    preview.src = base64Str; preview.classList.remove('hidden'); if(icon) icon.style.display = 'none';
                 }
                 img.src = e.target.result;
             }
@@ -326,16 +320,13 @@
             const savedUser = localStorage.getItem('tokoBajuUser');
             if(savedUser) {
                 currentUser = JSON.parse(savedUser);
-                // Update UI Profile
-                document.getElementById('nav-nama').textContent = currentUser.nama_lengkap.split(' ')[0]; // Nama depan
+                document.getElementById('nav-nama').textContent = currentUser.nama_lengkap.split(' ')[0]; 
                 document.getElementById('nav-foto').src = currentUser.foto_profil;
-                
                 document.getElementById('prof-nama').textContent = currentUser.nama_lengkap;
                 document.getElementById('prof-user').textContent = "@" + currentUser.username;
                 document.getElementById('prof-hp').textContent = currentUser.no_hp;
                 document.getElementById('prof-foto').src = currentUser.foto_profil;
 
-                // Tampilkan App, Sembunyikan Auth
                 document.getElementById('auth-section').classList.add('hidden');
                 document.getElementById('app-section').classList.remove('hidden');
                 fetchKatalog();
@@ -349,7 +340,6 @@
             const isLogin = tab === 'login';
             document.getElementById('form-login').classList.toggle('hidden', !isLogin);
             document.getElementById('form-register').classList.toggle('hidden', isLogin);
-            
             document.getElementById('tab-login').className = isLogin ? "flex-1 py-2 font-bold text-indigo-600 border-b-2 border-indigo-600" : "flex-1 py-2 font-bold text-slate-400 border-b-2 border-transparent hover:text-indigo-500";
             document.getElementById('tab-register').className = !isLogin ? "flex-1 py-2 font-bold text-indigo-600 border-b-2 border-indigo-600" : "flex-1 py-2 font-bold text-slate-400 border-b-2 border-transparent hover:text-indigo-500";
             document.getElementById('auth-subtitle').textContent = isLogin ? "Silakan masuk ke akun Anda" : "Lengkapi data untuk mendaftar";
@@ -358,289 +348,125 @@
         async function handleLogin(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-login');
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Memeriksa...';
-            btn.disabled = true;
-
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Memeriksa...'; btn.disabled = true;
             try {
-                const res = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        action: 'login',
-                        username: document.getElementById('l-user').value,
-                        password: document.getElementById('l-pass').value
-                    }),
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-                });
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'login', username: document.getElementById('l-user').value, password: document.getElementById('l-pass').value }), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
                 const data = await res.json();
-                
-                if(data.status === 'success') {
-                    localStorage.setItem('tokoBajuUser', JSON.stringify(data.data));
-                    checkAuth();
-                } else {
-                    alert(data.message);
-                }
+                if(data.status === 'success') { localStorage.setItem('tokoBajuUser', JSON.stringify(data.data)); checkAuth(); } 
+                else { alert(data.message); }
             } catch (err) { alert("Kesalahan jaringan."); }
-            
-            btn.innerHTML = 'Masuk Sekarang';
-            btn.disabled = false;
+            btn.innerHTML = 'Masuk Sekarang'; btn.disabled = false;
         }
 
         async function handleRegister(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-register');
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Mendaftar... (Bisa butuh waktu upload)';
-            btn.disabled = true;
-
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Mendaftar...'; btn.disabled = true;
             try {
-                const res = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        action: 'register',
-                        nama_lengkap: document.getElementById('r-nama').value,
-                        no_hp: document.getElementById('r-hp').value,
-                        username: document.getElementById('r-user').value,
-                        password: document.getElementById('r-pass').value,
-                        foto: authFotoBase64
-                    }),
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-                });
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'register', nama_lengkap: document.getElementById('r-nama').value, no_hp: document.getElementById('r-hp').value, username: document.getElementById('r-user').value, password: document.getElementById('r-pass').value, foto: authFotoBase64 }), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
                 const data = await res.json();
-                
-                if(data.status === 'success') {
-                    alert('Registrasi Berhasil! Silakan Login.');
-                    document.getElementById('form-register').reset();
-                    authFotoBase64 = "";
-                    document.getElementById('r-foto-preview').classList.add('hidden');
-                    document.getElementById('r-foto-icon').style.display = 'block';
-                    switchAuthTab('login');
-                } else {
-                    alert(data.message);
-                }
+                if(data.status === 'success') { alert('Registrasi Berhasil! Silakan Login.'); document.getElementById('form-register').reset(); authFotoBase64 = ""; document.getElementById('r-foto-preview').classList.add('hidden'); document.getElementById('r-foto-icon').style.display = 'block'; switchAuthTab('login'); } 
+                else { alert(data.message); }
             } catch (err) { alert("Kesalahan jaringan."); }
-            
-            btn.innerHTML = 'Daftar Akun Baru';
-            btn.disabled = false;
+            btn.innerHTML = 'Daftar Akun Baru'; btn.disabled = false;
         }
 
         function handleLogout() {
-            if(confirm("Yakin ingin keluar dari akun?")) {
-                localStorage.removeItem('tokoBajuUser');
-                currentUser = null;
-                toggleProfileModal();
-                checkAuth();
-            }
+            if(confirm("Yakin ingin keluar dari akun?")) { localStorage.removeItem('tokoBajuUser'); currentUser = null; toggleProfileModal(); checkAuth(); }
         }
 
         function toggleProfileModal() {
-            const body = document.querySelector('body');
-            const modal = document.getElementById('profile-modal');
-            modal.classList.toggle('opacity-0');
-            modal.classList.toggle('pointer-events-none');
-            body.classList.toggle('modal-active');
+            const body = document.querySelector('body'); const modal = document.getElementById('profile-modal');
+            modal.classList.toggle('opacity-0'); modal.classList.toggle('pointer-events-none'); body.classList.toggle('modal-active');
         }
 
         // --- SISTEM KATALOG & CHECKOUT ---
-        let slideIndex = 0;
-        let slideInterval;
+        let slideIndex = 0; let slideInterval;
 
         async function fetchKatalog() {
             document.getElementById('loading').classList.remove('hidden');
             const grid = document.getElementById('product-grid');
-            
             try {
                 const res = await fetch(`${SCRIPT_URL}?action=getProduk`);
                 const data = await res.json();
-                
                 if(data.status === 'success') {
                     const produkTersedia = data.data.filter(p => parseInt(p.Stok || p.stok) > 0);
                     initBanner(produkTersedia);
-                    
                     if(produkTersedia.length > 0) {
                         grid.innerHTML = produkTersedia.map(p => {
-                            const id = p.ID || p.id;
-                            const nama = p['Nama Baju'] || p.nama;
-                            const kategori = p.Kategori || p.kategori;
-                            const harga = p.Harga || p.harga;
-                            const stok = p.Stok || p.stok;
-                            const gambar = p['URL Gambar'] || p.gambar || 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=300&q=80';
-
+                            const id = p.ID || p.id; const nama = p['Nama Baju'] || p.nama; const kategori = p.Kategori || p.kategori; const harga = p.Harga || p.harga; const stok = p.Stok || p.stok; const gambar = p['URL Gambar'] || p.gambar || 'https://via.placeholder.com/300';
                             return `
                             <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col group relative">
-                                <!-- Favorite Button Overlay -->
-                                <button class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/80 backdrop-blur shadow-sm text-slate-400 hover:text-rose-500 flex items-center justify-center transition opacity-0 group-hover:opacity-100">
-                                    <i class="fa-solid fa-heart"></i>
-                                </button>
-                                
-                                <div class="h-56 overflow-hidden bg-slate-100">
-                                    <img src="${gambar}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://via.placeholder.com/300'">
-                                </div>
+                                <button class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/80 backdrop-blur shadow-sm text-slate-400 hover:text-rose-500 flex items-center justify-center transition opacity-0 group-hover:opacity-100"><i class="fa-solid fa-heart"></i></button>
+                                <div class="h-56 overflow-hidden bg-slate-100"><img src="${gambar}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://via.placeholder.com/300'"></div>
                                 <div class="p-5 flex-1 flex flex-col">
                                     <span class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mb-1">${kategori}</span>
                                     <h3 class="font-bold text-slate-800 text-lg mb-2 leading-tight">${nama}</h3>
                                     <div class="mt-auto">
                                         <div class="flex justify-between items-end mb-4">
-                                            <div>
-                                                <p class="text-xs text-slate-400 mb-0.5">Harga</p>
-                                                <span class="font-extrabold text-xl text-slate-800">${formatRp(harga)}</span>
-                                            </div>
+                                            <div><p class="text-xs text-slate-400 mb-0.5">Harga</p><span class="font-extrabold text-xl text-slate-800">${formatRp(harga)}</span></div>
                                             <span class="text-xs bg-emerald-50 text-emerald-600 border border-emerald-100 px-2 py-1 rounded-md font-bold">Stok: ${stok}</span>
                                         </div>
                                         <div class="flex gap-2">
-                                            <button class="w-12 h-11 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl flex items-center justify-center transition">
-                                                <i class="fa-solid fa-cart-plus"></i>
-                                            </button>
-                                            <button onclick="bukaModalBeli('${id}', '${nama.replace(/'/g, "\\'")}', ${harga}, ${stok}, '${gambar}')" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2">
-                                                Beli Langsung
-                                            </button>
+                                            <button onclick="bukaModalBeli('${id}', '${nama.replace(/'/g, "\\'")}', ${harga}, ${stok}, '${gambar}')" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2">Beli Langsung</button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            `;
+                            </div>`;
                         }).join('');
-                    } else {
-                        grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500">Maaf, semua produk sedang kehabisan stok.</div>`;
-                    }
+                    } else { grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500">Maaf, semua produk sedang kehabisan stok.</div>`; }
                 }
             } catch (err) { grid.innerHTML = `<div class="col-span-full text-center py-12 text-red-500">Gagal menghubungkan ke toko.</div>`; }
             document.getElementById('loading').classList.add('hidden');
         }
 
-        // -- Modal Checkout Logic
         const checkoutModal = document.getElementById('checkout-modal');
-        function toggleCheckoutModal() {
-            const body = document.querySelector('body');
-            checkoutModal.classList.toggle('opacity-0');
-            checkoutModal.classList.toggle('pointer-events-none');
-            body.classList.toggle('modal-active');
-        }
+        function toggleCheckoutModal() { const body = document.querySelector('body'); checkoutModal.classList.toggle('opacity-0'); checkoutModal.classList.toggle('pointer-events-none'); body.classList.toggle('modal-active'); }
 
         function bukaModalBeli(id, nama, harga, stok, gambar) {
-            document.getElementById('m-id').value = id;
-            document.getElementById('m-nama').textContent = nama;
-            document.getElementById('m-harga').textContent = formatRp(harga);
-            document.getElementById('m-stok').textContent = stok;
-            document.getElementById('m-gambar').src = gambar;
-            document.getElementById('m-hargasatuan').value = harga;
-            
-            document.getElementById('m-jumlah').value = 1;
-            selectedMaxStok = stok;
-            
-            // Reset Bukti
-            buktiBase64 = "";
-            document.getElementById('m-bukti').value = "";
-            document.getElementById('m-bukti-preview').classList.add('hidden');
-            document.getElementById('m-bukti-icon').style.display = 'block';
-            
-            document.querySelector('input[name="tipe_bayar"][value="Lunas"]').checked = true;
-
-            hitungTotalModal();
-            toggleCheckoutModal();
+            document.getElementById('m-id').value = id; document.getElementById('m-nama').textContent = nama; document.getElementById('m-harga').textContent = formatRp(harga); document.getElementById('m-stok').textContent = stok; document.getElementById('m-gambar').src = gambar; document.getElementById('m-hargasatuan').value = harga; document.getElementById('m-jumlah').value = 1; selectedMaxStok = stok;
+            buktiBase64 = ""; document.getElementById('m-bukti').value = ""; document.getElementById('m-bukti-preview').classList.add('hidden'); document.getElementById('m-bukti-icon').style.display = 'block'; document.querySelector('input[name="tipe_bayar"][value="Lunas"]').checked = true;
+            hitungTotalModal(); toggleCheckoutModal();
         }
 
-        function ubahJumlah(delta) {
-            const input = document.getElementById('m-jumlah');
-            let val = parseInt(input.value) + delta;
-            if(val < 1) val = 1;
-            if(val > selectedMaxStok) val = selectedMaxStok;
-            input.value = val;
-            hitungTotalModal();
-        }
-
-        function hitungTotalModal() {
-            const input = document.getElementById('m-jumlah');
-            let qty = parseInt(input.value) || 1;
-            if(qty > selectedMaxStok) { qty = selectedMaxStok; input.value = qty; }
-            
-            const harga = parseInt(document.getElementById('m-hargasatuan').value);
-            let total = harga * qty;
-
-            const tipeBayar = document.querySelector('input[name="tipe_bayar"]:checked').value;
-            if(tipeBayar === "DP") {
-                total = total / 2; // DP 50%
-            }
-
-            document.getElementById('m-totalharga').textContent = formatRp(total);
-        }
+        function ubahJumlah(delta) { let val = parseInt(document.getElementById('m-jumlah').value) + delta; if(val < 1) val = 1; if(val > selectedMaxStok) val = selectedMaxStok; document.getElementById('m-jumlah').value = val; hitungTotalModal(); }
+        function hitungTotalModal() { let qty = parseInt(document.getElementById('m-jumlah').value) || 1; if(qty > selectedMaxStok) { qty = selectedMaxStok; document.getElementById('m-jumlah').value = qty; } let total = parseInt(document.getElementById('m-hargasatuan').value) * qty; if(document.querySelector('input[name="tipe_bayar"]:checked').value === "DP") total = total / 2; document.getElementById('m-totalharga').textContent = formatRp(total); }
 
         async function prosesBeli(e) {
             e.preventDefault();
-            
-            if(!buktiBase64) {
-                alert("Harap upload bukti transfer pembayaran Anda!");
-                return;
-            }
-
-            const btn = document.getElementById('btn-proses-beli');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim Pesanan & Bukti...';
-            btn.disabled = true;
-
-            const qty = parseInt(document.getElementById('m-jumlah').value);
-            const hargaSatuan = parseInt(document.getElementById('m-hargasatuan').value);
-            const totalBayarLunas = qty * hargaSatuan;
-            const tipeBayar = document.querySelector('input[name="tipe_bayar"]:checked').value;
-
-            const payload = {
-                action: "addPenjualan",
-                username: currentUser.username, // Didapat dari sesi login
-                id_baju: document.getElementById('m-id').value,
-                nama_baju: document.getElementById('m-nama').textContent,
-                jumlah: qty,
-                total_harga: totalBayarLunas, // Simpan harga aslinya di sheet
-                tipe_pembayaran: tipeBayar,
-                bukti_pembayaran: buktiBase64
-            };
-
+            if(!buktiBase64) { alert("Harap upload bukti transfer pembayaran Anda!"); return; }
+            const btn = document.getElementById('btn-proses-beli'); const originalText = btn.innerHTML; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim Pesanan...'; btn.disabled = true;
+            const payload = { action: "addPenjualan", username: currentUser.username, id_baju: document.getElementById('m-id').value, nama_baju: document.getElementById('m-nama').textContent, jumlah: parseInt(document.getElementById('m-jumlah').value), total_harga: (parseInt(document.getElementById('m-jumlah').value) * parseInt(document.getElementById('m-hargasatuan').value)), tipe_pembayaran: document.querySelector('input[name="tipe_bayar"]:checked').value, bukti_pembayaran: buktiBase64 };
             try {
-                const res = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(payload),
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-                });
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
                 const data = await res.json();
-                
-                if(data.status === 'success') {
-                    alert('Pembayaran Berhasil! Pesanan Anda akan segera diproses oleh Admin.');
-                    toggleCheckoutModal();
-                    fetchKatalog(); // Refresh stok
-                } else {
-                    alert('Gagal: ' + data.message);
-                }
-            } catch (err) { alert('Terjadi kesalahan saat memproses pesanan.'); }
-
-            btn.innerHTML = originalText;
-            btn.disabled = false;
+                if(data.status === 'success') { alert('Pembayaran Berhasil! Pesanan Anda akan segera diproses oleh Admin.'); toggleCheckoutModal(); fetchKatalog(); } else alert('Gagal: ' + data.message);
+            } catch (err) {}
+            btn.innerHTML = originalText; btn.disabled = false;
         }
 
         // --- BANNER SLIDER ---
         function initBanner(products) {
             const track = document.getElementById('banner-track');
-            const bannerProducts = products.filter(p => p['URL Gambar'] || p.gambar).slice(0, 5);
-            if (bannerProducts.length > 0) {
-                track.innerHTML = bannerProducts.map((p, index) => `
+            // Gunakan banner dari Pengaturan, jika kosong gunakan foto produk otomatis
+            let finalBanners = appSettings.banners.length > 0 ? appSettings.banners : products.filter(p => p['URL Gambar'] || p.gambar).slice(0, 5).map(p => p['URL Gambar'] || p.gambar);
+            
+            if (finalBanners.length > 0) {
+                track.innerHTML = finalBanners.map((imgUrl, index) => `
                     <div class="slide absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === 0 ? 'opacity-100' : 'opacity-0'}">
                         <div class="absolute inset-0 bg-black/40 z-10"></div>
-                        <img src="${p['URL Gambar'] || p.gambar}" class="w-full h-full object-cover">
+                        <img src="${imgUrl}" class="w-full h-full object-cover">
                     </div>
                 `).join('');
-                slideIndex = 0;
-                clearInterval(slideInterval);
-                slideInterval = setInterval(() => gantiSlide(1), 4000); 
+                slideIndex = 0; clearInterval(slideInterval); slideInterval = setInterval(() => gantiSlide(1), 4000); 
             }
         }
-        function gantiSlide(arah) {
-            const slides = document.querySelectorAll('.slide');
-            if(slides.length <= 1) return;
-            slides[slideIndex].classList.replace('opacity-100', 'opacity-0');
-            slideIndex = (slideIndex + arah + slides.length) % slides.length;
-            slides[slideIndex].classList.replace('opacity-0', 'opacity-100');
-        }
+        function gantiSlide(arah) { const slides = document.querySelectorAll('.slide'); if(slides.length <= 1) return; slides[slideIndex].classList.replace('opacity-100', 'opacity-0'); slideIndex = (slideIndex + arah + slides.length) % slides.length; slides[slideIndex].classList.replace('opacity-0', 'opacity-100'); }
         function nextSlideManual() { clearInterval(slideInterval); gantiSlide(1); slideInterval = setInterval(() => gantiSlide(1), 4000); }
         function prevSlide() { clearInterval(slideInterval); gantiSlide(-1); slideInterval = setInterval(() => gantiSlide(1), 4000); }
 
-        // Start
-        window.onload = checkAuth;
+        // Mulaik Aplikasi dengan Mengambil Data Pengaturan Dahulu
+        window.onload = initApp;
     </script>
 </body>
 </html>
