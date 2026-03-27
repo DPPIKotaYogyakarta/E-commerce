@@ -2,22 +2,24 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Toko Baju Fashion</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Gaya font sistem Apple & animasi halus */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #F2F2F7; /* iOS System Gray 6 */
+            background-color: #F2F2F7;
             -webkit-font-smoothing: antialiased;
         }
         .modal { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .modal-sheet { transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .modal.show .modal-sheet { transform: translateY(0); }
         body.modal-active { overflow: hidden !important; }
+        
         .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .scroll-touch { -webkit-overflow-scrolling: touch; }
+        
         .glass-panel {
             background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(24px);
@@ -29,17 +31,21 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
         }
+
+        .safe-pb { padding-bottom: max(env(safe-area-inset-bottom), 24px); }
+        .safe-pt-nav { top: max(env(safe-area-inset-top), 16px); }
+        .safe-mt-content { margin-top: calc(max(env(safe-area-inset-top), 16px) + 80px); }
     </style>
 </head>
-<body class="text-[#1C1C1E] min-h-screen pb-12 selection:bg-blue-200">
+<body class="text-[#1C1C1E] min-h-screen selection:bg-blue-200 flex flex-col">
 
     <script>
         // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyAO7v7Em850ZyCfp2W0eL_tlS801C-MlMSz4ifRvn0U2TtvBThZS15digWG2KGe7Cc/exec'; 
     </script>
 
-    <!-- LOADING SCREEN AWAL PENGATURAN -->
-    <div id="init-loading" class="fixed inset-0 bg-[#F2F2F7] z-[100] flex flex-col items-center justify-center">
+    <!-- LOADING SCREEN AWAL -->
+    <div id="init-loading" class="fixed inset-0 bg-[#F2F2F7] z-[100] flex flex-col items-center justify-center transition-opacity duration-300">
         <i class="fa-solid fa-circle-notch fa-spin text-4xl text-blue-500 mb-4"></i>
         <p class="text-slate-500 font-medium">Memuat Pengalaman...</p>
     </div>
@@ -47,18 +53,12 @@
     <!-- ==================== AREA LOGIN & REGISTER ==================== -->
     <div id="auth-section" class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-cover bg-center hidden relative" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');">
         <div class="absolute inset-0 glass-dark"></div>
-        
         <div class="max-w-md w-full space-y-8 glass-panel p-8 rounded-[40px] shadow-[0_32px_64px_rgba(0,0,0,0.2)] z-10 relative">
             <div class="text-center pt-2">
-                <!-- LOGO AUTH -->
-                <div id="app-logo-auth" class="text-blue-500 mb-4 flex justify-center drop-shadow-md">
-                    <i class="fa-solid fa-shirt text-5xl"></i>
-                </div>
+                <div id="app-logo-auth" class="text-blue-500 mb-4 flex justify-center drop-shadow-md"><i class="fa-solid fa-shirt text-5xl"></i></div>
                 <h2 class="text-3xl font-bold text-black tracking-tight">TokoBaju</h2>
                 <p class="mt-2 text-sm text-slate-500 font-medium" id="auth-subtitle">Masuk untuk melanjutkan</p>
             </div>
-
-            <!-- TABS (Gaya Segmented Control iOS) -->
             <div class="bg-[#767680]/12 p-1 rounded-[14px] flex gap-1 relative mt-6">
                 <button onclick="switchAuthTab('login')" id="tab-login" class="flex-1 py-2 rounded-[10px] bg-white shadow-sm text-black font-semibold text-sm transition-all duration-300">Masuk</button>
                 <button onclick="switchAuthTab('register')" id="tab-register" class="flex-1 py-2 rounded-[10px] text-slate-500 hover:text-black font-semibold text-sm transition-all duration-300">Daftar</button>
@@ -67,213 +67,227 @@
             <!-- FORM LOGIN -->
             <form id="form-login" onsubmit="handleLogin(event)" class="mt-6 space-y-5">
                 <div class="space-y-4">
-                    <input id="l-user" required type="text" placeholder="Username" class="w-full bg-[#767680]/10 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium text-black placeholder-slate-400">
-                    <input id="l-pass" required type="password" placeholder="Password" class="w-full bg-[#767680]/10 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium text-black placeholder-slate-400">
+                    <input id="l-user" required type="text" placeholder="Username" class="w-full bg-[#767680]/10 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black placeholder-slate-400">
+                    <input id="l-pass" required type="password" placeholder="Password" class="w-full bg-[#767680]/10 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black placeholder-slate-400">
                 </div>
-                <button type="submit" id="btn-login" class="w-full flex justify-center py-4 px-4 rounded-full shadow-lg shadow-blue-500/30 text-[17px] font-semibold text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.97] transition-all">
-                    Lanjutkan
-                </button>
+                <button type="submit" id="btn-login" class="w-full flex justify-center py-4 px-4 rounded-full shadow-lg shadow-blue-500/30 text-[17px] font-semibold text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.97] transition-all">Lanjutkan</button>
             </form>
 
             <!-- FORM REGISTER -->
-            <form id="form-register" onsubmit="handleRegister(event)" class="mt-6 space-y-4 hidden max-h-[60vh] overflow-y-auto hide-scrollbar pb-4">
-                <!-- Upload Foto Profil -->
+            <form id="form-register" onsubmit="handleRegister(event)" class="mt-6 space-y-4 hidden max-h-[55vh] overflow-y-auto hide-scrollbar scroll-touch pb-4">
                 <div class="flex justify-center mb-6">
                     <div onclick="document.getElementById('r-foto').click()" class="relative w-28 h-28 rounded-full bg-[#767680]/10 flex items-center justify-center cursor-pointer overflow-hidden shadow-inner border-4 border-white">
                         <input type="file" id="r-foto" accept="image/*" class="hidden" onchange="previewImage(event, 'r-foto-preview', 'authFotoBase64', true)">
                         <i id="r-foto-icon" class="fa-solid fa-camera text-slate-400 text-2xl"></i>
                         <img id="r-foto-preview" src="" class="absolute inset-0 w-full h-full object-cover hidden">
-                        <div class="absolute bottom-0 inset-x-0 bg-black/30 py-1 text-center"><span class="text-[10px] text-white font-bold">Ubah</span></div>
                     </div>
                 </div>
-
-                <input id="r-nama" required type="text" placeholder="Nama Lengkap" class="w-full bg-[#767680]/10 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium text-black placeholder-slate-400">
-                <input id="r-hp" required type="tel" placeholder="Nomor Handphone" class="w-full bg-[#767680]/10 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium text-black placeholder-slate-400">
-                <input id="r-user" required type="text" placeholder="Username" class="w-full bg-[#767680]/10 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium text-black placeholder-slate-400">
-                <input id="r-pass" required type="password" placeholder="Buat Password" class="w-full bg-[#767680]/10 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium text-black placeholder-slate-400">
-                
-                <button type="submit" id="btn-register" class="w-full flex justify-center py-4 px-4 rounded-full shadow-lg shadow-blue-500/30 text-[17px] font-semibold text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.97] transition-all mt-6">
-                    Buat Akun Apple.. eh TokoBaju
-                </button>
+                <input id="r-nama" required type="text" placeholder="Nama Lengkap" class="w-full bg-[#767680]/10 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black placeholder-slate-400">
+                <input id="r-hp" required type="tel" placeholder="Nomor Handphone" class="w-full bg-[#767680]/10 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black placeholder-slate-400">
+                <input id="r-user" required type="text" placeholder="Username" class="w-full bg-[#767680]/10 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black placeholder-slate-400">
+                <input id="r-pass" required type="password" placeholder="Buat Password" class="w-full bg-[#767680]/10 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black placeholder-slate-400">
+                <button type="submit" id="btn-register" class="w-full flex justify-center py-4 px-4 rounded-full shadow-lg shadow-blue-500/30 text-[17px] font-semibold text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.97] transition-all mt-6">Buat Akun</button>
             </form>
         </div>
     </div>
 
 
-    <!-- ==================== AREA APLIKASI UTAMA (Tampil setelah Login) ==================== -->
-    <div id="app-section" class="hidden relative">
+    <!-- ==================== AREA APLIKASI UTAMA ==================== -->
+    <div id="app-section" class="hidden flex-1 flex flex-col relative w-full">
         
-        <!-- Navbar Melayang (Floating Dynamic Nav) -->
-        <nav class="fixed top-4 inset-x-4 md:inset-x-auto md:w-[800px] md:left-1/2 md:-translate-x-1/2 z-40 glass-panel rounded-full px-5 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.08)] transition-all">
+        <!-- Navbar Melayang -->
+        <nav class="fixed inset-x-4 md:inset-x-auto md:w-[800px] md:left-1/2 md:-translate-x-1/2 z-40 glass-panel rounded-full px-5 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.08)] transition-all safe-pt-nav">
             <div class="flex justify-between items-center h-10">
-                <!-- LOGO NAV -->
-                <div id="app-logo-nav" class="flex items-center gap-2 text-blue-500 pl-2">
+                <div id="app-logo-nav" class="flex items-center gap-2 text-blue-500 pl-2 cursor-pointer active:scale-95 transition-transform" onclick="showHome()">
                     <i class="fa-solid fa-shirt text-2xl drop-shadow-sm"></i>
                     <span class="font-bold text-lg tracking-tight hidden sm:block text-black">TokoBaju</span>
                 </div>
                 
-                <div class="flex items-center gap-5 pr-1">
-                    <button class="text-slate-500 hover:text-pink-500 active:scale-90 transition-all"><i class="fa-solid fa-heart text-[22px]"></i></button>
-                    <button class="text-slate-500 hover:text-blue-500 active:scale-90 transition-all relative">
-                        <i class="fa-solid fa-cart-shopping text-[22px]"></i>
-                        <span class="absolute -top-1.5 -right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white shadow-sm">0</span>
+                <div class="flex items-center gap-4 sm:gap-5 pr-1">
+                    <!-- Tombol Favorit -->
+                    <button onclick="showFavorites()" class="text-slate-500 hover:text-pink-500 active:scale-90 transition-all" title="Favorit Saya">
+                        <i class="fa-solid fa-heart text-[20px] sm:text-[22px]"></i>
+                    </button>
+                    <!-- Tombol Pesanan / Keranjang -->
+                    <button onclick="showPesanan()" class="text-slate-500 hover:text-blue-500 active:scale-90 transition-all relative" title="Pesanan Saya">
+                        <i class="fa-solid fa-cart-shopping text-[20px] sm:text-[22px]"></i>
+                        <span id="badge-pesanan-count" class="absolute -top-1.5 -right-2 bg-red-500 text-white text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white shadow-sm hidden">0</span>
                     </button>
                     
-                    <div class="h-6 w-px bg-slate-300"></div>
+                    <div class="h-6 w-px bg-slate-300 mx-1"></div>
 
-                    <!-- User Profile Area -->
+                    <!-- User Profile -->
                     <div class="flex items-center gap-3 cursor-pointer active:scale-95 transition-all" onclick="toggleProfileModal()">
-                        <div class="text-right hidden md:block">
-                            <p id="nav-nama" class="text-sm font-bold text-black leading-none">User</p>
-                        </div>
-                        <img id="nav-foto" src="" class="w-9 h-9 rounded-full object-cover shadow-sm ring-2 ring-white">
+                        <div class="text-right hidden md:block"><p id="nav-nama" class="text-sm font-bold text-black leading-none">User</p></div>
+                        <img id="nav-foto" src="" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover shadow-sm ring-2 ring-white">
                     </div>
                 </div>
             </div>
         </nav>
 
-        <!-- Banner Slider (Gaya iOS Widget Ekstra Besar) -->
-        <div class="relative max-w-7xl mx-auto h-[350px] md:h-[480px] bg-black rounded-[40px] md:rounded-[48px] overflow-hidden group shadow-[0_24px_48px_rgba(0,0,0,0.12)] mt-24 mx-4 md:mx-auto border border-white/50">
-            <div class="absolute inset-0 flex items-center justify-center text-white z-20 pointer-events-none">
-                <div class="text-center px-4 mt-12 md:mt-0">
-                    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-xl text-white tracking-tight">Gaya Masa Depan.</h1>
-                    <p class="text-white/90 max-w-2xl mx-auto font-medium text-lg drop-shadow-lg glass-dark px-6 py-3 rounded-full">Koleksi terbaru dengan kualitas premium.</p>
+        <!-- SECTION 1: HOME (Katalog Utama) -->
+        <div id="sec-home" class="flex-1 w-full">
+            <div class="relative max-w-7xl mx-4 lg:mx-auto h-[300px] sm:h-[350px] md:h-[480px] bg-black rounded-[32px] md:rounded-[48px] overflow-hidden group shadow-[0_24px_48px_rgba(0,0,0,0.12)] safe-mt-content border border-slate-200/20">
+                <div class="absolute inset-0 flex items-center justify-center text-white z-20 pointer-events-none">
+                    <div class="text-center px-4 mt-6 sm:mt-12 md:mt-0">
+                        <h1 class="text-3xl sm:text-4xl md:text-6xl font-extrabold mb-3 sm:mb-4 drop-shadow-xl text-white tracking-tight">Gaya Masa Depan.</h1>
+                        <p class="text-white/90 max-w-2xl mx-auto font-medium text-sm sm:text-lg drop-shadow-lg glass-dark px-4 sm:px-6 py-2 sm:py-3 rounded-full inline-block">Koleksi premium terbaru.</p>
+                    </div>
                 </div>
+                <div id="banner-track" class="w-full h-full relative z-10">
+                    <div class="slide absolute inset-0 transition-opacity duration-[1200ms] opacity-100 bg-blue-500"></div>
+                </div>
+                <button onclick="prevSlide()" class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-30 glass-panel hover:bg-white text-black w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg active:scale-90"><i class="fa-solid fa-chevron-left text-sm sm:text-base"></i></button>
+                <button onclick="nextSlideManual()" class="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-30 glass-panel hover:bg-white text-black w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg active:scale-90"><i class="fa-solid fa-chevron-right text-sm sm:text-base"></i></button>
             </div>
-            <div id="banner-track" class="w-full h-full relative z-10">
-                <div class="slide absolute inset-0 transition-opacity duration-1000 opacity-100 bg-blue-500"></div>
-            </div>
-            <!-- Slider Controls Pilled -->
-            <button onclick="prevSlide()" class="absolute left-6 top-1/2 -translate-y-1/2 z-30 glass-panel hover:bg-white text-black w-12 h-12 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg active:scale-90"><i class="fa-solid fa-chevron-left"></i></button>
-            <button onclick="nextSlideManual()" class="absolute right-6 top-1/2 -translate-y-1/2 z-30 glass-panel hover:bg-white text-black w-12 h-12 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg active:scale-90"><i class="fa-solid fa-chevron-right"></i></button>
+
+            <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+                <div class="flex justify-between items-end mb-6 md:mb-8 px-2">
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-black tracking-tight">Katalog Produk</h2>
+                        <p class="text-slate-500 font-medium mt-1 text-xs sm:text-sm">Pilih favoritmu hari ini.</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div id="loading" class="text-xs sm:text-sm text-blue-500 hidden font-medium"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i> <span class="hidden sm:inline">Memuat...</span></div>
+                        <button onclick="fetchKatalog()" class="bg-white text-blue-500 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-semibold hover:shadow-md active:scale-95 transition-all shadow-sm flex items-center"><i class="fa-solid fa-rotate-right sm:mr-1"></i> <span class="hidden sm:inline">Refresh</span></button>
+                    </div>
+                </div>
+                <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"></div>
+            </main>
         </div>
 
-        <!-- Product Catalog -->
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="flex justify-between items-end mb-8 px-2">
-                <div>
-                    <h2 class="text-3xl font-bold text-black tracking-tight">Katalog Produk</h2>
-                    <p class="text-slate-500 font-medium mt-1 text-sm">Pilih favoritmu hari ini.</p>
+        <!-- SECTION 2: FAVORIT SAYA -->
+        <div id="sec-favorite" class="flex-1 w-full hidden">
+            <main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 safe-mt-content">
+                <div class="mb-8 px-2 flex items-center gap-4">
+                    <button onclick="showHome()" class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-500 hover:text-black active:scale-90 transition-all"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-black tracking-tight text-pink-500"><i class="fa-solid fa-heart mr-2"></i>Koleksi Favorit</h2>
+                        <p class="text-slate-500 font-medium mt-1 text-xs sm:text-sm">Produk yang Anda simpan.</p>
+                    </div>
                 </div>
-                <div class="flex items-center gap-3">
-                    <div id="loading" class="text-sm text-blue-500 hidden font-medium"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Menyinkronkan...</div>
-                    <button onclick="fetchKatalog()" class="bg-white text-blue-500 px-4 py-2 rounded-full text-sm font-semibold hover:shadow-md active:scale-95 transition-all shadow-sm"><i class="fa-solid fa-rotate-right mr-1"></i> Muat Ulang</button>
+                <div id="favorite-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"></div>
+            </main>
+        </div>
+
+        <!-- SECTION 3: PESANAN SAYA (KERANJANG / HISTORY) -->
+        <div id="sec-pesanan" class="flex-1 w-full hidden">
+            <main class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 safe-mt-content">
+                <div class="mb-8 px-2 flex items-center gap-4">
+                    <button onclick="showHome()" class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-500 hover:text-black active:scale-90 transition-all"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-black tracking-tight text-blue-500"><i class="fa-solid fa-cart-shopping mr-2"></i>Pesanan Saya</h2>
+                        <p class="text-slate-500 font-medium mt-1 text-xs sm:text-sm">Pantau status pembelian Anda di sini.</p>
+                    </div>
                 </div>
-            </div>
-            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
-        </main>
+                <div id="list-pesanan-customer" class="space-y-4">
+                    <!-- List pesanan diisi via JS -->
+                </div>
+            </main>
+        </div>
         
-        <footer class="text-slate-400 py-12 text-center mt-auto font-medium text-sm">
+        <footer class="text-slate-400 py-8 text-center mt-auto font-medium text-xs sm:text-sm safe-pb">
             <p>&copy; 2026 TokoBaju Fashion. Didesain secara eksklusif.</p>
         </footer>
     </div>
 
-    <!-- ==================== MODAL PROFIL AKUN (Gaya Action Sheet iOS) ==================== -->
+    <!-- ==================== MODAL ZOOM GAMBAR PRODUK ==================== -->
+    <div id="modal-zoom" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[100] transition-opacity duration-300">
+        <div class="absolute w-full h-full bg-black/90 backdrop-blur-md" onclick="closeZoom()"></div>
+        <div class="relative w-full max-w-2xl flex flex-col items-center p-4 z-10">
+            <button onclick="closeZoom()" class="absolute -top-12 right-4 md:right-0 bg-white/20 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/40 transition active:scale-90"><i class="fa-solid fa-times text-lg"></i></button>
+            <img id="zoom-img" src="" class="w-full h-auto max-h-[85vh] object-contain rounded-[32px] shadow-2xl">
+        </div>
+    </div>
+
+    <!-- ==================== MODAL PROFIL AKUN ==================== -->
     <div id="profile-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-end sm:items-center justify-center z-50 transition-opacity duration-300">
         <div class="absolute w-full h-full bg-black/40 backdrop-blur-sm" onclick="toggleProfileModal()"></div>
-        <div class="modal-sheet bg-white w-full sm:w-11/12 sm:max-w-sm mx-auto rounded-t-[40px] sm:rounded-[40px] shadow-2xl z-50 overflow-hidden relative pb-8 sm:pb-0">
-            <!-- Drag Handle -->
+        <div class="modal-sheet bg-white w-full sm:w-11/12 sm:max-w-sm mx-auto rounded-t-[40px] sm:rounded-[40px] shadow-2xl z-50 overflow-hidden relative pb-4 sm:pb-0 safe-pb">
             <div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mt-4 mb-2 sm:hidden"></div>
-            
-            <div class="px-6 pb-6 pt-4 text-center">
-                <button onclick="toggleProfileModal()" class="absolute top-4 right-5 text-slate-400 hover:text-black bg-slate-100 w-8 h-8 rounded-full flex items-center justify-center transition-colors"><i class="fa-solid fa-times"></i></button>
-                
-                <img id="prof-foto" src="" class="w-28 h-28 rounded-full object-cover border-4 border-white shadow-[0_8px_16px_rgba(0,0,0,0.1)] mx-auto mt-2">
-                <h3 id="prof-nama" class="text-2xl font-bold text-black mt-4 tracking-tight">Nama Pengguna</h3>
-                <p id="prof-user" class="text-slate-500 font-medium">@username</p>
-                
+            <div class="px-6 pb-6 pt-2 sm:pt-4 text-center">
+                <button onclick="toggleProfileModal()" class="absolute top-4 right-5 text-slate-400 hover:text-black bg-slate-100 w-8 h-8 rounded-full flex items-center justify-center transition-colors hidden sm:flex"><i class="fa-solid fa-times"></i></button>
+                <img id="prof-foto" src="" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-4 border-white shadow-[0_8px_16px_rgba(0,0,0,0.1)] mx-auto mt-2">
+                <h3 id="prof-nama" class="text-xl sm:text-2xl font-bold text-black mt-4 tracking-tight">Nama Pengguna</h3>
+                <p id="prof-user" class="text-slate-500 font-medium text-sm sm:text-base">@username</p>
                 <div class="mt-6 bg-[#F2F2F7] rounded-[24px] p-4 text-left space-y-3">
                     <div class="flex items-center gap-4">
                         <div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center shadow-md"><i class="fa-solid fa-phone text-lg"></i></div>
-                        <div>
-                            <p class="text-slate-500 text-xs font-semibold uppercase tracking-wider">No Handphone / WA</p>
-                            <p id="prof-hp" class="font-bold text-black text-lg">-</p>
-                        </div>
+                        <div><p class="text-slate-500 text-[10px] sm:text-xs font-semibold uppercase tracking-wider">No Handphone / WA</p><p id="prof-hp" class="font-bold text-black text-base sm:text-lg">-</p></div>
                     </div>
                 </div>
-
-                <button onclick="handleLogout()" class="w-full mt-6 bg-[#FFE5E5] text-red-600 font-bold py-4 rounded-full active:scale-95 transition-all text-[17px]">
-                    Keluar dari Akun
-                </button>
+                <button onclick="handleLogout()" class="w-full mt-6 bg-[#FFE5E5] text-red-600 font-bold py-4 rounded-full active:scale-95 transition-all text-[16px] sm:text-[17px]">Keluar dari Akun</button>
             </div>
         </div>
     </div>
 
-    <!-- ==================== MODAL CHECKOUT (Gaya iOS Modal Form) ==================== -->
-    <div id="checkout-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-end sm:items-center justify-center z-50 transition-opacity duration-300">
+    <!-- ==================== MODAL CHECKOUT PEMBELIAN ==================== -->
+    <div id="checkout-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-end sm:items-center justify-center z-[80] transition-opacity duration-300">
         <div class="absolute w-full h-full bg-black/40 backdrop-blur-sm" onclick="toggleCheckoutModal()"></div>
-        <div class="modal-sheet bg-white w-full sm:w-11/12 sm:max-w-md mx-auto rounded-t-[40px] sm:rounded-[40px] shadow-2xl z-50 max-h-[90vh] flex flex-col relative pb-6 sm:pb-0">
-            <!-- Drag Handle -->
+        <div class="modal-sheet bg-white w-full sm:w-11/12 sm:max-w-md mx-auto rounded-t-[40px] sm:rounded-[40px] shadow-2xl z-50 h-[85vh] sm:max-h-[90vh] flex flex-col relative safe-pb">
             <div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mt-4 mb-2 sm:hidden shrink-0"></div>
-
-            <div class="px-6 py-4 flex justify-between items-center shrink-0">
-                <p class="text-2xl font-bold text-black tracking-tight">Detail Pesanan</p>
+            <div class="px-5 sm:px-6 py-3 sm:py-4 flex justify-between items-center shrink-0">
+                <p class="text-xl sm:text-2xl font-bold text-black tracking-tight">Checkout Pesanan</p>
                 <button onclick="toggleCheckoutModal()" class="text-slate-400 hover:text-black bg-slate-100 w-8 h-8 rounded-full flex items-center justify-center transition-colors"><i class="fa-solid fa-times"></i></button>
             </div>
-
-            <div class="px-6 overflow-y-auto hide-scrollbar">
-                <div class="flex gap-5 mb-6 pb-6 border-b border-slate-100">
-                    <img id="m-gambar" src="" class="w-24 h-24 object-cover rounded-[20px] shadow-sm">
+            <div class="px-5 sm:px-6 overflow-y-auto hide-scrollbar scroll-touch flex-1">
+                <div class="flex gap-4 sm:gap-5 mb-5 pb-5 border-b border-slate-100">
+                    <img id="m-gambar" src="" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-[16px] sm:rounded-[20px] shadow-sm">
                     <div class="flex flex-col justify-center">
-                        <h3 id="m-nama" class="font-bold text-lg text-black leading-tight line-clamp-2">Nama Baju</h3>
-                        <p id="m-harga" class="text-blue-500 font-extrabold mt-1 text-xl">Rp 0</p>
-                        <p class="text-sm text-slate-500 mt-1 font-medium">Stok Tersedia: <span id="m-stok" class="font-bold text-black">0</span></p>
+                        <h3 id="m-nama" class="font-bold text-base sm:text-lg text-black leading-tight line-clamp-2">Nama Baju</h3>
+                        <p id="m-harga" class="text-blue-500 font-extrabold mt-1 text-lg sm:text-xl">Rp 0</p>
+                        <p class="text-xs sm:text-sm text-emerald-600 mt-1 font-bold bg-emerald-50 px-2 py-0.5 rounded inline-block w-max">Sisa Stok: <span id="m-stok">0</span></p>
                     </div>
                 </div>
 
-                <form id="form-beli" onsubmit="prosesBeli(event)">
+                <form id="form-beli" onsubmit="prosesBeli(event)" class="pb-4">
                     <input type="hidden" id="m-id"><input type="hidden" id="m-hargasatuan">
                     
-                    <div class="bg-[#F2F2F7] p-4 rounded-[24px] space-y-5 mb-6">
-                        <!-- Jumlah -->
+                    <div class="bg-[#F2F2F7] p-4 rounded-[24px] space-y-4 sm:space-y-5 mb-5 sm:mb-6">
                         <div class="flex items-center justify-between">
-                            <label class="font-semibold text-black">Jumlah Pesanan</label>
+                            <label class="font-semibold text-black text-sm sm:text-base">Jumlah Beli</label>
                             <div class="flex items-center bg-white rounded-full shadow-sm p-1">
-                                <button type="button" onclick="ubahJumlah(-1)" class="w-8 h-8 rounded-full bg-slate-100 text-black hover:bg-slate-200 active:scale-90 transition-all"><i class="fa-solid fa-minus text-sm"></i></button>
-                                <input type="number" id="m-jumlah" required min="1" value="1" oninput="hitungTotalModal()" class="w-10 h-8 text-center bg-transparent font-bold outline-none border-0 p-0 text-black">
-                                <button type="button" onclick="ubahJumlah(1)" class="w-8 h-8 rounded-full bg-slate-100 text-black hover:bg-slate-200 active:scale-90 transition-all"><i class="fa-solid fa-plus text-sm"></i></button>
+                                <button type="button" onclick="ubahJumlah(-1)" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 text-black hover:bg-slate-200 active:scale-90 transition-all"><i class="fa-solid fa-minus text-xs sm:text-sm"></i></button>
+                                <input type="number" id="m-jumlah" required min="1" value="1" oninput="hitungTotalModal()" class="w-10 h-7 sm:h-8 text-center bg-transparent font-bold outline-none border-0 p-0 text-black text-sm sm:text-base">
+                                <button type="button" onclick="ubahJumlah(1)" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 text-black hover:bg-slate-200 active:scale-90 transition-all"><i class="fa-solid fa-plus text-xs sm:text-sm"></i></button>
                             </div>
                         </div>
-
                         <hr class="border-slate-200/60">
-
-                        <!-- Tipe Pembayaran (iOS Segmented Control) -->
                         <div>
-                            <label class="block font-semibold text-black mb-3">Tipe Pembayaran</label>
+                            <label class="block font-semibold text-black mb-3 text-sm sm:text-base">Metode Pembayaran</label>
                             <div class="bg-[#767680]/12 p-1 rounded-[14px] flex gap-1 relative">
                                 <label class="flex-1 cursor-pointer">
                                     <input type="radio" name="tipe_bayar" value="Lunas" class="peer sr-only" checked onchange="hitungTotalModal()">
-                                    <div class="text-center py-2.5 rounded-[10px] peer-checked:bg-white peer-checked:shadow-sm peer-checked:text-black text-slate-500 font-semibold text-[15px] transition-all duration-300">Bayar Lunas</div>
+                                    <div class="text-center py-2 sm:py-2.5 rounded-[10px] peer-checked:bg-white peer-checked:shadow-sm peer-checked:text-black text-slate-500 font-semibold text-[13px] sm:text-[15px] transition-all duration-300">Bayar Lunas</div>
                                 </label>
                                 <label class="flex-1 cursor-pointer">
                                     <input type="radio" name="tipe_bayar" value="DP" class="peer sr-only" onchange="hitungTotalModal()">
-                                    <div class="text-center py-2.5 rounded-[10px] peer-checked:bg-white peer-checked:shadow-sm peer-checked:text-black text-slate-500 font-semibold text-[15px] transition-all duration-300">DP (50%)</div>
+                                    <div class="text-center py-2 sm:py-2.5 rounded-[10px] peer-checked:bg-white peer-checked:shadow-sm peer-checked:text-black text-slate-500 font-semibold text-[13px] sm:text-[15px] transition-all duration-300">DP (50%)</div>
                                 </label>
                             </div>
                         </div>
                     </div>
 
-                    <div class="mb-6">
-                        <label class="block font-semibold text-black mb-3">Upload Bukti Transfer</label>
-                        <div onclick="document.getElementById('m-bukti').click()" class="relative w-full h-32 border-0 rounded-[24px] bg-[#F2F2F7] hover:bg-[#E5E5EA] transition-colors flex flex-col items-center justify-center cursor-pointer overflow-hidden group shadow-inner">
+                    <div class="mb-5 sm:mb-6">
+                        <label class="block font-semibold text-black mb-2 sm:mb-3 text-sm sm:text-base">Upload Bukti Transfer</label>
+                        <div onclick="document.getElementById('m-bukti').click()" class="relative w-full h-28 sm:h-32 border-0 rounded-[20px] sm:rounded-[24px] bg-[#F2F2F7] hover:bg-[#E5E5EA] transition-colors flex flex-col items-center justify-center cursor-pointer overflow-hidden group shadow-inner">
                             <input type="file" id="m-bukti" required accept="image/*" class="hidden" onchange="previewImage(event, 'm-bukti-preview', 'buktiBase64')">
                             <div id="m-bukti-icon" class="text-center">
-                                <div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-2 text-blue-500 group-hover:scale-110 transition-transform"><i class="fa-solid fa-arrow-up-from-bracket"></i></div>
-                                <p class="text-sm font-semibold text-slate-500">Pilih Foto Struk</p>
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-2 text-blue-500 group-hover:scale-110 transition-transform"><i class="fa-solid fa-arrow-up-from-bracket"></i></div>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-500">Pilih Foto Struk</p>
                             </div>
                             <img id="m-bukti-preview" src="" class="absolute inset-0 w-full h-full object-cover hidden">
                         </div>
                     </div>
 
-                    <!-- Total Bayar Tagihan Floating Area -->
-                    <div class="pt-4 border-t border-slate-100 flex items-center justify-between mb-6">
+                    <div class="pt-3 sm:pt-4 border-t border-slate-100 flex items-center justify-between mb-5 sm:mb-6">
                         <div>
-                            <span class="text-sm font-semibold text-slate-500">Total Tagihan</span>
-                            <div id="m-totalharga" class="text-3xl font-bold text-black tracking-tight">Rp 0</div>
+                            <span class="text-xs sm:text-sm font-semibold text-slate-500">Total Harus Dibayar</span>
+                            <div id="m-totalharga" class="text-2xl sm:text-3xl font-bold text-black tracking-tight">Rp 0</div>
                         </div>
                     </div>
 
-                    <button type="submit" id="btn-proses-beli" class="w-full bg-blue-500 text-white font-bold py-4 rounded-full active:scale-[0.97] transition-all text-[17px] shadow-lg shadow-blue-500/30">
+                    <button type="submit" id="btn-proses-beli" class="w-full bg-blue-500 text-white font-bold py-3.5 sm:py-4 rounded-full active:scale-[0.97] transition-all text-[15px] sm:text-[17px] shadow-lg shadow-blue-500/30">
                         Selesaikan Pesanan
                     </button>
                 </form>
@@ -286,20 +300,17 @@
     <script>
         const formatRp = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
         
-        // State
         let currentUser = null;
         let selectedMaxStok = 0;
         let authFotoBase64 = "";
         let buktiBase64 = "";
+        let appSettings = { logo: '', loginBg: '', banners: [] };
 
-        // STATE UNTUK PENGATURAN TAMPILAN
-        let appSettings = {
-            logo: '',
-            loginBg: '',
-            banners: []
-        };
+        // STATE KATALOG & FAVORIT
+        let globalProduk = [];
+        let listFavorit = [];
 
-        // --- SISTEM MEMUAT PENGATURAN DARI ADMIN ---
+        // --- SISTEM INISIALISASI ---
         async function initApp() {
             try {
                 const res = await fetch(`${SCRIPT_URL}?action=getPengaturan`);
@@ -311,22 +322,20 @@
                         if(item.Key.startsWith('banner_') && item.Value) appSettings.banners.push(item.Value);
                     });
                     
-                    if (appSettings.loginBg) {
-                        document.getElementById('auth-section').style.backgroundImage = `url('${appSettings.loginBg}')`;
-                    }
+                    if (appSettings.loginBg) document.getElementById('auth-section').style.backgroundImage = `url('${appSettings.loginBg}')`;
                     if (appSettings.logo) {
-                        document.getElementById('app-logo-auth').innerHTML = `<img src="${appSettings.logo}" class="h-24 object-contain mx-auto drop-shadow-md">`;
-                        document.getElementById('app-logo-nav').innerHTML = `<img src="${appSettings.logo}" class="h-8 object-contain"><span class="font-bold text-lg tracking-tight hidden sm:block text-black ml-1">TokoBaju</span>`;
+                        document.getElementById('app-logo-auth').innerHTML = `<img src="${appSettings.logo}" class="h-20 sm:h-24 object-contain mx-auto drop-shadow-md">`;
+                        document.getElementById('app-logo-nav').innerHTML = `<img src="${appSettings.logo}" class="h-7 sm:h-8 object-contain"><span class="font-bold text-base sm:text-lg tracking-tight hidden sm:block text-black ml-1">TokoBaju</span>`;
                     }
                 }
-            } catch(err) { console.log('Gagal memuat pengaturan toko', err); }
+            } catch(err) {}
             
             document.getElementById('init-loading').style.opacity = '0';
             setTimeout(() => { document.getElementById('init-loading').classList.add('hidden'); }, 300);
             checkAuth();
         }
 
-        // --- SISTEM IMAGE COMPRESSOR ---
+        // --- IMAGE COMPRESSOR ---
         function previewImage(event, previewId, targetVariable) {
             const file = event.target.files[0];
             const preview = document.getElementById(previewId);
@@ -368,9 +377,13 @@
                 document.getElementById('prof-hp').textContent = currentUser.no_hp;
                 document.getElementById('prof-foto').src = currentUser.foto_profil;
 
+                loadFavoritesFromLocal(); // Load data favorit
+                
                 document.getElementById('auth-section').classList.add('hidden');
                 document.getElementById('app-section').classList.remove('hidden');
-                fetchKatalog();
+                
+                showHome();
+                fetchPesananCustomer(true); // Ambil jumlah badge pesanan di background
             } else {
                 document.getElementById('auth-section').classList.remove('hidden');
                 document.getElementById('app-section').classList.add('hidden');
@@ -381,11 +394,7 @@
             const isLogin = tab === 'login';
             document.getElementById('form-login').classList.toggle('hidden', !isLogin);
             document.getElementById('form-register').classList.toggle('hidden', isLogin);
-            
-            // Toggle Segmented Control Style
-            const tabLogin = document.getElementById('tab-login');
-            const tabReg = document.getElementById('tab-register');
-            
+            const tabLogin = document.getElementById('tab-login'); const tabReg = document.getElementById('tab-register');
             if(isLogin) {
                 tabLogin.className = "flex-1 py-2 rounded-[10px] bg-white shadow-sm text-black font-semibold text-sm transition-all duration-300";
                 tabReg.className = "flex-1 py-2 rounded-[10px] text-slate-500 hover:text-black font-semibold text-sm transition-all duration-300";
@@ -399,8 +408,7 @@
 
         async function handleLogin(e) {
             e.preventDefault();
-            const btn = document.getElementById('btn-login');
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Memeriksa...'; btn.disabled = true;
+            const btn = document.getElementById('btn-login'); btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Memeriksa...'; btn.disabled = true;
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'login', username: document.getElementById('l-user').value, password: document.getElementById('l-pass').value }), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
                 const data = await res.json();
@@ -412,34 +420,210 @@
 
         async function handleRegister(e) {
             e.preventDefault();
-            const btn = document.getElementById('btn-register');
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Menyimpan...'; btn.disabled = true;
+            const btn = document.getElementById('btn-register'); btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Menyimpan...'; btn.disabled = true;
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'register', nama_lengkap: document.getElementById('r-nama').value, no_hp: document.getElementById('r-hp').value, username: document.getElementById('r-user').value, password: document.getElementById('r-pass').value, foto: authFotoBase64 }), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
                 const data = await res.json();
                 if(data.status === 'success') { alert('Registrasi Berhasil! Silakan Login.'); document.getElementById('form-register').reset(); authFotoBase64 = ""; document.getElementById('r-foto-preview').classList.add('hidden'); document.getElementById('r-foto-icon').style.display = 'block'; switchAuthTab('login'); } 
                 else { alert(data.message); }
             } catch (err) { alert("Kesalahan jaringan."); }
-            btn.innerHTML = 'Buat Akun Apple.. eh TokoBaju'; btn.disabled = false;
+            btn.innerHTML = 'Buat Akun'; btn.disabled = false;
         }
 
         function handleLogout() {
             if(confirm("Yakin ingin keluar dari akun?")) { localStorage.removeItem('tokoBajuUser'); currentUser = null; toggleProfileModal(); checkAuth(); }
         }
 
-        // --- Modals Toggle dengan Class untuk Animasi ---
         function toggleProfileModal() {
             const body = document.querySelector('body'); const modal = document.getElementById('profile-modal');
-            if(modal.classList.contains('opacity-0')) {
-                modal.classList.remove('opacity-0', 'pointer-events-none');
-                setTimeout(() => modal.classList.add('show'), 10);
-                body.classList.add('modal-active');
+            if(modal.classList.contains('opacity-0')) { modal.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => modal.classList.add('show'), 10); body.classList.add('modal-active'); } 
+            else { modal.classList.remove('show'); setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); body.classList.remove('modal-active'); }, 300); }
+        }
+
+        // --- FITUR ZOOM GAMBAR PRODUK ---
+        function zoomImage(url) {
+            document.getElementById('zoom-img').src = url;
+            const modal = document.getElementById('modal-zoom');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+        function closeZoom() {
+            document.getElementById('modal-zoom').classList.add('opacity-0', 'pointer-events-none');
+        }
+
+
+        // --- FITUR FAVORIT ---
+        function loadFavoritesFromLocal() {
+            if(!currentUser) return;
+            const stored = localStorage.getItem(`tokoBajuFavs_${currentUser.username}`);
+            if(stored) listFavorit = JSON.parse(stored);
+        }
+        
+        function saveFavoritesToLocal() {
+            if(!currentUser) return;
+            localStorage.setItem(`tokoBajuFavs_${currentUser.username}`, JSON.stringify(listFavorit));
+        }
+
+        function toggleFavorite(id, event) {
+            event.stopPropagation(); // Mencegah terklik ke zoom gambar
+            const idx = listFavorit.indexOf(id);
+            if(idx > -1) listFavorit.splice(idx, 1);
+            else listFavorit.push(id);
+            saveFavoritesToLocal();
+            
+            // Re-render UI yang sedang aktif
+            if(!document.getElementById('sec-home').classList.contains('hidden')) renderKatalogToDOM(globalProduk, 'product-grid');
+            else if(!document.getElementById('sec-favorite').classList.contains('hidden')) showFavorites();
+        }
+
+        // --- SISTEM RENDER KATALOG CARD ---
+        function createProductCardHTML(p) {
+            const id = p.ID || p.id; const nama = p['Nama Baju'] || p.nama; const kategori = p.Kategori || p.kategori; const harga = p.Harga || p.harga; const stok = p.Stok || p.stok; const gambar = p['URL Gambar'] || p.gambar || 'https://via.placeholder.com/400';
+            
+            // Cek apakah item ini favorit
+            const isFav = listFavorit.includes(id);
+            const heartIconClass = isFav ? "fa-solid fa-heart text-pink-500" : "fa-regular fa-heart text-slate-400 group-hover/fav:text-pink-500";
+
+            return `
+            <div class="bg-white rounded-[24px] sm:rounded-[32px] p-2 shadow-[0_8px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-all duration-300 flex flex-col border border-slate-100">
+                <div class="relative h-44 sm:h-52 md:h-60 rounded-[18px] sm:rounded-[24px] overflow-hidden bg-[#F2F2F7] cursor-pointer group" onclick="zoomImage('${gambar}')">
+                    <button onclick="toggleFavorite('${id}', event)" class="absolute top-2 right-2 sm:top-3 sm:right-3 z-10 w-8 h-8 sm:w-9 sm:h-9 rounded-full glass-panel flex items-center justify-center transition active:scale-90 group/fav">
+                        <i class="${heartIconClass} text-base sm:text-lg transition-colors"></i>
+                    </button>
+                    <!-- Label Zoom -->
+                    <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-300 pointer-events-none">
+                        <span class="bg-black/60 text-white text-[10px] font-bold px-3 py-1.5 rounded-full backdrop-blur-md">Lihat Jelas</span>
+                    </div>
+                    <img src="${gambar}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-in-out" onerror="this.src='https://via.placeholder.com/400'">
+                </div>
+                <div class="p-3 sm:p-4 flex-1 flex flex-col">
+                    <h3 class="font-bold text-black text-sm sm:text-[17px] leading-tight line-clamp-2 pr-1 mb-1">${nama}</h3>
+                    <span class="text-[10px] sm:text-xs font-semibold text-slate-500 mb-2">${kategori}</span>
+                    <div class="mt-auto pt-2 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0">
+                        <div>
+                            <span class="font-bold text-lg sm:text-xl text-black tracking-tight block leading-none">${formatRp(harga)}</span>
+                            <span class="text-[9px] sm:text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded inline-block mt-1">Stok: ${stok}</span>
+                        </div>
+                        <button onclick="bukaModalBeli('${id}', '${nama.replace(/'/g, "\\'")}', ${harga}, ${stok}, '${gambar}')" class="w-full sm:w-auto bg-blue-500 text-white px-4 py-2 sm:py-2.5 rounded-full font-bold text-xs sm:text-sm hover:bg-blue-600 active:scale-95 transition-all text-center shadow-md shadow-blue-500/30">Beli</button>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        function renderKatalogToDOM(dataArray, containerId) {
+            const grid = document.getElementById(containerId);
+            if(dataArray.length > 0) {
+                grid.innerHTML = dataArray.map(p => createProductCardHTML(p)).join('');
             } else {
-                modal.classList.remove('show');
-                setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); body.classList.remove('modal-active'); }, 300);
+                grid.innerHTML = `<div class="col-span-full text-center py-16 text-slate-500 font-medium text-base sm:text-lg">Tidak ada produk untuk ditampilkan.</div>`;
             }
         }
 
+
+        // --- SISTEM NAVIGASI HALAMAN PELANGGAN ---
+        function showHome() {
+            document.getElementById('sec-home').classList.remove('hidden');
+            document.getElementById('sec-favorite').classList.add('hidden');
+            document.getElementById('sec-pesanan').classList.add('hidden');
+            if(globalProduk.length === 0) fetchKatalog();
+            else renderKatalogToDOM(globalProduk, 'product-grid');
+        }
+
+        function showFavorites() {
+            document.getElementById('sec-home').classList.add('hidden');
+            document.getElementById('sec-favorite').classList.remove('hidden');
+            document.getElementById('sec-pesanan').classList.add('hidden');
+            
+            // Filter globalProduk sesuai listFavorit
+            const favProducts = globalProduk.filter(p => listFavorit.includes(p.ID || p.id));
+            renderKatalogToDOM(favProducts, 'favorite-grid');
+        }
+
+        function showPesanan() {
+            document.getElementById('sec-home').classList.add('hidden');
+            document.getElementById('sec-favorite').classList.add('hidden');
+            document.getElementById('sec-pesanan').classList.remove('hidden');
+            fetchPesananCustomer(); // Ambil riwayat terbaru setiap buka tab
+        }
+
+
+        // --- PENGAMBILAN DATA (API) ---
+        async function fetchKatalog() {
+            const loading = document.getElementById('loading');
+            if(loading) loading.classList.remove('hidden');
+            
+            try {
+                const res = await fetch(`${SCRIPT_URL}?action=getProduk`);
+                const data = await res.json();
+                if(data.status === 'success') {
+                    const produkTersedia = data.data.filter(p => parseInt(p.Stok || p.stok) > 0);
+                    globalProduk = produkTersedia; // Simpan ke global
+                    
+                    initBanner(produkTersedia);
+                    renderKatalogToDOM(produkTersedia, 'product-grid');
+                }
+            } catch (err) { 
+                document.getElementById('product-grid').innerHTML = `<div class="col-span-full text-center py-16 text-red-500 font-medium">Gagal menghubungkan ke toko.</div>`; 
+            }
+            if(loading) loading.classList.add('hidden');
+        }
+
+        // AMBIL HISTORI PESANAN (KERANJANG) KHUSUS USER INI
+        async function fetchPesananCustomer(silent = false) {
+            const container = document.getElementById('list-pesanan-customer');
+            const badge = document.getElementById('badge-pesanan-count');
+            
+            if(!silent) container.innerHTML = `<div class="text-center py-12 text-slate-500 font-medium"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Mengambil data pesanan...</div>`;
+            
+            try {
+                const res = await fetch(`${SCRIPT_URL}?action=getPenjualan`);
+                const data = await res.json();
+                if(data.status === 'success') {
+                    // Filter pesanan milik user yang sedang login
+                    const myOrders = data.data.filter(p => p['Username Pembeli'] === currentUser.username).reverse();
+                    
+                    // Update Badge Keranjang
+                    if(myOrders.length > 0) {
+                        badge.textContent = myOrders.length;
+                        badge.classList.remove('hidden');
+                    } else {
+                        badge.classList.add('hidden');
+                    }
+
+                    if(!silent) {
+                        if(myOrders.length > 0) {
+                            container.innerHTML = myOrders.map(p => {
+                                const idTrx = p['ID Transaksi'];
+                                const status = p.Status || "Menunggu Konfirmasi";
+                                let badgeColor = status === 'Diproses' ? "bg-blue-50 text-blue-600" : (status === 'Selesai' ? "bg-emerald-50 text-emerald-600" : (status === 'Dibatalkan' ? "bg-red-50 text-red-600" : "bg-orange-50 text-orange-600"));
+                                
+                                return `
+                                <div class="bg-white p-5 rounded-[24px] shadow-sm border border-slate-100 mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-1.5">
+                                            <span class="font-mono text-[10px] font-bold text-slate-400">${idTrx}</span>
+                                            <span class="px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${badgeColor}">${status}</span>
+                                        </div>
+                                        <h4 class="font-bold text-black text-[15px] sm:text-base leading-tight">${p['Nama Baju']}</h4>
+                                        <p class="text-xs text-slate-500 mt-1 font-medium">${p.Tanggal.split(',')[0]} &bull; ${p.Jumlah} Barang &bull; ${p['Tipe Pembayaran']}</p>
+                                    </div>
+                                    <div class="bg-[#F2F2F7] px-4 py-2 rounded-xl text-center w-full sm:w-auto">
+                                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Total Bayar</p>
+                                        <p class="text-blue-500 font-extrabold text-sm sm:text-base">${formatRp(p['Total Harga'])}</p>
+                                    </div>
+                                </div>`;
+                            }).join('');
+                        } else {
+                            container.innerHTML = `<div class="text-center py-16 flex flex-col items-center"><div class="w-20 h-20 rounded-full bg-[#F2F2F7] flex items-center justify-center mb-4"><i class="fa-solid fa-box-open text-3xl text-slate-300"></i></div><p class="text-slate-500 font-medium">Belum ada pesanan. Yuk belanja sekarang!</p><button onclick="showHome()" class="mt-4 text-blue-500 font-bold text-sm bg-blue-50 px-4 py-2 rounded-full">Lihat Katalog</button></div>`;
+                        }
+                    }
+                }
+            } catch (err) {
+                if(!silent) container.innerHTML = `<div class="text-center py-12 text-red-500 font-medium">Gagal memuat pesanan.</div>`;
+            }
+        }
+
+
+        // --- MODAL CHECKOUT PEMBELIAN ---
         const checkoutModal = document.getElementById('checkout-modal');
         function toggleCheckoutModal() { 
             const body = document.querySelector('body');
@@ -451,48 +635,6 @@
                 checkoutModal.classList.remove('show');
                 setTimeout(() => { checkoutModal.classList.add('opacity-0', 'pointer-events-none'); body.classList.remove('modal-active'); }, 300);
             }
-        }
-
-
-        // --- SISTEM KATALOG & CHECKOUT ---
-        let slideIndex = 0; let slideInterval;
-
-        async function fetchKatalog() {
-            document.getElementById('loading').classList.remove('hidden');
-            const grid = document.getElementById('product-grid');
-            try {
-                const res = await fetch(`${SCRIPT_URL}?action=getProduk`);
-                const data = await res.json();
-                if(data.status === 'success') {
-                    const produkTersedia = data.data.filter(p => parseInt(p.Stok || p.stok) > 0);
-                    initBanner(produkTersedia);
-                    if(produkTersedia.length > 0) {
-                        grid.innerHTML = produkTersedia.map(p => {
-                            const id = p.ID || p.id; const nama = p['Nama Baju'] || p.nama; const kategori = p.Kategori || p.kategori; const harga = p.Harga || p.harga; const stok = p.Stok || p.stok; const gambar = p['URL Gambar'] || p.gambar || 'https://via.placeholder.com/400';
-                            return `
-                            <div class="bg-white rounded-[32px] p-2 shadow-[0_8px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-all duration-300 flex flex-col group border border-slate-100">
-                                <div class="relative h-60 rounded-[24px] overflow-hidden bg-[#F2F2F7]">
-                                    <button class="absolute top-3 right-3 z-10 w-9 h-9 rounded-full glass-panel text-slate-500 hover:text-pink-500 flex items-center justify-center transition active:scale-90"><i class="fa-solid fa-heart text-lg"></i></button>
-                                    <img src="${gambar}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-in-out" onerror="this.src='https://via.placeholder.com/400'">
-                                </div>
-                                <div class="p-4 flex-1 flex flex-col">
-                                    <div class="flex justify-between items-start mb-1">
-                                        <h3 class="font-bold text-black text-[17px] leading-tight line-clamp-2 pr-2">${nama}</h3>
-                                    </div>
-                                    <span class="text-xs font-semibold text-slate-500 mb-2">${kategori}</span>
-                                    <div class="mt-auto pt-2">
-                                        <div class="flex justify-between items-center">
-                                            <span class="font-bold text-xl text-black tracking-tight">${formatRp(harga)}</span>
-                                            <button onclick="bukaModalBeli('${id}', '${nama.replace(/'/g, "\\'")}', ${harga}, ${stok}, '${gambar}')" class="bg-black text-white px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-slate-800 active:scale-95 transition-all">Beli</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                        }).join('');
-                    } else { grid.innerHTML = `<div class="col-span-full text-center py-16 text-slate-500 font-medium text-lg">Semua produk sedang kehabisan stok.</div>`; }
-                }
-            } catch (err) { grid.innerHTML = `<div class="col-span-full text-center py-16 text-red-500 font-medium">Gagal menghubungkan ke toko.</div>`; }
-            document.getElementById('loading').classList.add('hidden');
         }
 
         function bukaModalBeli(id, nama, harga, stok, gambar) {
@@ -512,23 +654,25 @@
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
                 const data = await res.json();
-                if(data.status === 'success') { alert('Berhasil! Pesanan Anda akan segera diproses.'); toggleCheckoutModal(); fetchKatalog(); } else alert('Gagal: ' + data.message);
+                if(data.status === 'success') { 
+                    alert('Berhasil! Pesanan Anda akan segera diproses.'); 
+                    toggleCheckoutModal(); 
+                    
+                    // LANGSUNG PINDAH KE HALAMAN PESANAN SETELAH BELI
+                    showPesanan(); 
+                    fetchKatalog(); // Refresh stok diam-diam
+                } else alert('Gagal: ' + data.message);
             } catch (err) {}
             btn.innerHTML = originalText; btn.disabled = false;
         }
 
         // --- BANNER SLIDER ---
+        let slideIndex = 0; let slideInterval;
         function initBanner(products) {
             const track = document.getElementById('banner-track');
             let finalBanners = appSettings.banners.length > 0 ? appSettings.banners : products.filter(p => p['URL Gambar'] || p.gambar).slice(0, 5).map(p => p['URL Gambar'] || p.gambar);
-            
             if (finalBanners.length > 0) {
-                track.innerHTML = finalBanners.map((imgUrl, index) => `
-                    <div class="slide absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${index === 0 ? 'opacity-100' : 'opacity-0'}">
-                        <div class="absolute inset-0 bg-black/30 z-10"></div>
-                        <img src="${imgUrl}" class="w-full h-full object-cover">
-                    </div>
-                `).join('');
+                track.innerHTML = finalBanners.map((imgUrl, index) => `<div class="slide absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${index === 0 ? 'opacity-100' : 'opacity-0'}"><div class="absolute inset-0 bg-black/30 z-10"></div><img src="${imgUrl}" class="w-full h-full object-cover"></div>`).join('');
                 slideIndex = 0; clearInterval(slideInterval); slideInterval = setInterval(() => gantiSlide(1), 5000); 
             }
         }
