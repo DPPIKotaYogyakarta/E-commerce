@@ -176,7 +176,7 @@
             </main>
         </div>
 
-        <!-- [UPDATE] SECTION DETAIL PRODUK -->
+        <!-- SECTION DETAIL PRODUK -->
         <div id="sec-detail-produk" class="flex-1 w-full hidden">
             <main class="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 safe-mt-content">
                 <button onclick="showHome()" class="mb-6 flex items-center gap-2 text-slate-500 hover:text-black dark:hover:text-white font-bold transition-colors">
@@ -335,7 +335,6 @@
                         </div>
                     </div>
 
-                    <!-- [UPDATE] METODE PEMBAYARAN (CASH / QRIS) -->
                     <div class="mb-5">
                         <label class="block font-semibold text-black dark:text-white mb-2 text-sm">Pilih Metode Pembayaran</label>
                         <div class="bg-[#767680]/12 dark:bg-[#767680]/30 p-1 rounded-[14px] flex gap-1 relative">
@@ -350,7 +349,6 @@
                         </div>
                     </div>
 
-                    <!-- [UPDATE] JENIS PEMBAYARAN (LUNAS / DP) -->
                     <div class="mb-5">
                         <label class="block font-semibold text-black dark:text-white mb-2 text-sm">Jenis Pembayaran</label>
                         <div class="bg-[#767680]/12 dark:bg-[#767680]/30 p-1 rounded-[14px] flex gap-1 relative">
@@ -365,7 +363,6 @@
                         </div>
                     </div>
 
-                    <!-- [UPDATE] INPUT CUSTOM DP (Tampil Jika Pilih DP) -->
                     <div id="area-custom-dp" class="mb-5 hidden bg-blue-50 dark:bg-blue-500/10 p-4 rounded-[20px] border border-blue-100 dark:border-blue-500/20">
                         <label class="block font-semibold text-blue-700 dark:text-blue-400 mb-3 text-sm">Tentukan Nilai DP (Persen atau Nominal)</label>
                         <div class="flex gap-4 items-center">
@@ -385,7 +382,6 @@
                         </div>
                     </div>
 
-                    <!-- AREA QRIS (Sembunyi jika Cash) -->
                     <div id="area-qris" class="mb-5 text-center">
                         <label class="block font-semibold text-black dark:text-white mb-3 text-sm">Scan QRIS Untuk Membayar</label>
                         <div class="bg-white p-3 rounded-[24px] inline-block shadow-sm border border-slate-200">
@@ -393,7 +389,6 @@
                         </div>
                         <p id="qris-nama-label" class="mt-2 text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full inline-block">A/N: -</p>
                         
-                        <!-- UPLOAD BUKTI -->
                         <div class="mt-5 text-left">
                             <label id="lbl-upload-1" class="block font-semibold text-black dark:text-white mb-2 text-sm">Upload Bukti Transfer</label>
                             <div onclick="document.getElementById('m-bukti').click()" class="relative w-full h-24 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-[20px] bg-[#F2F2F7]/50 dark:bg-[#2C2C2E]/50 hover:bg-[#E5E5EA] transition-colors flex flex-col items-center justify-center cursor-pointer overflow-hidden group">
@@ -406,7 +401,6 @@
                             </div>
                         </div>
 
-                        <!-- UPLOAD BUKTI PELUNASAN (Muncul Jika DP) -->
                         <div id="area-upload-pelunasan" class="mt-4 text-left hidden">
                             <label class="block font-semibold text-black dark:text-white mb-2 text-sm">Upload Bukti Pelunasan <span class="text-[10px] text-slate-400 font-normal">(Opsional jika dibayar nanti)</span></label>
                             <div onclick="document.getElementById('m-pelunasan').click()" class="relative w-full h-24 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-[20px] bg-[#F2F2F7]/50 dark:bg-[#2C2C2E]/50 hover:bg-[#E5E5EA] transition-colors flex flex-col items-center justify-center cursor-pointer overflow-hidden group">
@@ -421,7 +415,6 @@
 
                     </div>
 
-                    <!-- AREA INFO CASH -->
                     <div id="area-cash-info" class="hidden mb-5 bg-emerald-50 dark:bg-emerald-500/10 p-4 rounded-[20px] border border-emerald-100 dark:border-emerald-500/20 text-center">
                         <i class="fa-solid fa-money-bill-wave text-3xl text-emerald-500 mb-2"></i>
                         <p class="text-emerald-700 dark:text-emerald-400 font-bold text-sm">Bayar Langsung (Cash)</p>
@@ -440,7 +433,7 @@
         </div>
     </div>
 
-    <!-- [UPDATE] MODAL WA REDIRECT -->
+    <!-- MODAL WA REDIRECT -->
     <div id="modal-wa" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[110] transition-opacity duration-300">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
         <div class="modal-sheet bg-white dark:bg-[#1C1C1E] w-11/12 max-w-sm mx-auto rounded-[32px] p-6 text-center shadow-2xl z-10 relative">
@@ -456,24 +449,38 @@
         </div>
     </div>
 
+    <!-- MODAL BUKTI TRANSAKSI CUSTOMER -->
+    <div id="modal-bukti-customer" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[120] transition-opacity duration-300">
+        <div class="absolute w-full h-full bg-black/90 backdrop-blur-md" onclick="tutupBuktiModal()"></div>
+        <div class="modal-sheet bg-transparent w-full sm:max-w-md mx-auto rounded-[40px] z-[120] flex flex-col items-center relative p-4">
+            <div class="bg-white dark:bg-[#1C1C1E] p-2 rounded-[32px] w-full mx-auto shadow-2xl relative border border-slate-100 dark:border-slate-800">
+                <button onclick="tutupBuktiModal()" class="absolute -top-4 -right-4 bg-white dark:bg-zinc-800 text-black dark:text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg border border-slate-200 dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-700 transition"><i class="fa-solid fa-times"></i></button>
+                <img id="img-bukti-customer" src="" class="w-full h-auto max-h-[70vh] object-contain rounded-[24px] bg-slate-100 dark:bg-black">
+            </div>
+        </div>
+    </div>
+
     <script>
         const formatRp = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
         
+        // VARIABEL CACHING
+        let dataLoaded = { pesanan: false };
         let currentUser = null;
         let selectedMaxStok = 0;
         let authFotoBase64 = "";
         let buktiBase64 = "";
-        let pelunasanBase64 = ""; // Untuk DP
+        let pelunasanBase64 = ""; 
         let appSettings = { logo: '', loginBg: '', banners: [], qris_lunas: '', qris_dp: '', qris_name: '', admin_wa: '' };
         let globalProduk = [];
         let listFavorit = [];
         let activeKategori = 'Semua';
         let activeSort = 'terbaru'; 
+        let globalPenjualan = [];
 
         // ZOOM STATE
         let zoomImages = [];
         let zoomIdx = 0;
-        let currentDetailId = null; // Menyimpan ID produk yg sedang dibuka detailnya
+        let currentDetailId = null;
 
         function initTheme() {
             const savedTheme = localStorage.getItem('tokoBajuTheme');
@@ -487,13 +494,9 @@
             }
         }
         function toggleTheme() {
-            const html = document.documentElement;
-            const toggle = document.getElementById('theme-toggle');
-            if (toggle.checked) {
-                html.classList.add('dark'); localStorage.setItem('tokoBajuTheme', 'dark');
-            } else {
-                html.classList.remove('dark'); localStorage.setItem('tokoBajuTheme', 'light');
-            }
+            const html = document.documentElement; const toggle = document.getElementById('theme-toggle');
+            if (toggle.checked) { html.classList.add('dark'); localStorage.setItem('tokoBajuTheme', 'dark'); } 
+            else { html.classList.remove('dark'); localStorage.setItem('tokoBajuTheme', 'light'); }
         }
         initTheme();
 
@@ -504,50 +507,63 @@
         }
 
         async function initApp() {
+            const cachedSettings = sessionStorage.getItem('tokoBaju_settings');
+            if(cachedSettings) {
+                applySettings(JSON.parse(cachedSettings));
+                document.getElementById('init-loading').classList.add('hidden');
+                checkAuth();
+            }
+            fetchSettingsBg();
+        }
+
+        function applySettings(data) {
+            appSettings = { ...appSettings, ...data };
+            if (appSettings.loginBg) document.getElementById('auth-section').style.backgroundImage = `url('${appSettings.loginBg}')`;
+            if (appSettings.logo) {
+                document.getElementById('app-logo-auth').innerHTML = `<img src="${appSettings.logo}" class="h-24 object-contain mx-auto">`;
+                document.getElementById('app-logo-nav').innerHTML = `<img src="${appSettings.logo}" class="h-8 object-contain">`;
+            }
+            if (appSettings.qris_name) document.getElementById('qris-nama-label').textContent = "A/N: " + appSettings.qris_name;
+        }
+
+        async function fetchSettingsBg() {
             try {
                 const res = await fetch(`${SCRIPT_URL}?action=getPengaturan`);
                 const data = await res.json();
                 if(data.status === 'success' && data.data) {
+                    let newSettings = { banners: [] };
                     data.data.forEach(item => {
-                        if(item.Key === 'logo' && item.Value) appSettings.logo = item.Value;
-                        if(item.Key === 'login_bg' && item.Value) appSettings.loginBg = item.Value;
-                        if(item.Key.startsWith('banner_') && item.Value) appSettings.banners.push(item.Value);
-                        if(item.Key === 'qris_lunas' && item.Value) appSettings.qris_lunas = item.Value;
-                        if(item.Key === 'qris_dp' && item.Value) appSettings.qris_dp = item.Value;
-                        if(item.Key === 'qris_name' && item.Value) appSettings.qris_name = item.Value;
-                        if(item.Key === 'admin_wa' && item.Value) appSettings.admin_wa = item.Value;
+                        if(item.Key === 'logo' && item.Value) newSettings.logo = item.Value;
+                        if(item.Key === 'login_bg' && item.Value) newSettings.loginBg = item.Value;
+                        if(item.Key.startsWith('banner_') && item.Value) newSettings.banners.push(item.Value);
+                        if(item.Key === 'qris_lunas' && item.Value) newSettings.qris_lunas = item.Value;
+                        if(item.Key === 'qris_dp' && item.Value) newSettings.qris_dp = item.Value;
+                        if(item.Key === 'qris_name' && item.Value) newSettings.qris_name = item.Value;
+                        if(item.Key === 'admin_wa' && item.Value) newSettings.admin_wa = item.Value;
                     });
-                    if (appSettings.loginBg) document.getElementById('auth-section').style.backgroundImage = `url('${appSettings.loginBg}')`;
-                    if (appSettings.logo) {
-                        document.getElementById('app-logo-auth').innerHTML = `<img src="${appSettings.logo}" class="h-24 object-contain mx-auto">`;
-                        document.getElementById('app-logo-nav').innerHTML = `<img src="${appSettings.logo}" class="h-8 object-contain">`;
-                    }
-                    if (appSettings.qris_name) {
-                        document.getElementById('qris-nama-label').textContent = "A/N: " + appSettings.qris_name;
+                    sessionStorage.setItem('tokoBaju_settings', JSON.stringify(newSettings));
+                    applySettings(newSettings);
+                    
+                    if(!document.getElementById('init-loading').classList.contains('hidden')) {
+                        document.getElementById('init-loading').style.opacity = '0';
+                        setTimeout(() => { document.getElementById('init-loading').classList.add('hidden'); }, 300);
+                        checkAuth();
                     }
                 }
             } catch(err) {}
-            
-            document.getElementById('init-loading').style.opacity = '0';
-            setTimeout(() => { document.getElementById('init-loading').classList.add('hidden'); }, 300);
-            checkAuth();
         }
 
         function previewImage(event, previewId, targetVariable, isAuth = false) {
-            const file = event.target.files[0];
-            const preview = document.getElementById(previewId);
-            const icon = preview.previousElementSibling; 
+            const file = event.target.files[0]; const preview = document.getElementById(previewId); const icon = preview.previousElementSibling; 
             if (!file) return;
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = new Image();
                 img.onload = function() {
                     const canvas = document.createElement('canvas'); const MAX_SIZE = 800; 
-                    let width = img.width; let height = img.height;
-                    if (width > height && width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; } 
-                    else if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; }
-                    canvas.width = width; canvas.height = height;
-                    const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
+                    let w = img.width; let h = img.height;
+                    if (w > h && w > MAX_SIZE) { h *= MAX_SIZE / w; w = MAX_SIZE; } else if (h > MAX_SIZE) { w *= MAX_SIZE / h; h = MAX_SIZE; }
+                    canvas.width = w; canvas.height = h; canvas.getContext('2d').drawImage(img, 0, 0, w, h);
                     const base64Str = canvas.toDataURL('image/jpeg', 0.8);
                     
                     if(targetVariable === 'authFotoBase64') authFotoBase64 = base64Str;
@@ -574,7 +590,7 @@
                 loadFavoritesFromLocal(); 
                 document.getElementById('auth-section').classList.add('hidden');
                 document.getElementById('app-section').classList.remove('hidden');
-                showHome(); fetchPesananCustomer(true); 
+                showHome(); fetchPesananCustomer(); 
             } else {
                 document.getElementById('auth-section').classList.remove('hidden');
                 document.getElementById('app-section').classList.add('hidden');
@@ -583,8 +599,7 @@
 
         function switchAuthTab(tab) {
             const isLogin = tab === 'login';
-            document.getElementById('form-login').classList.toggle('hidden', !isLogin);
-            document.getElementById('form-register').classList.toggle('hidden', isLogin);
+            document.getElementById('form-login').classList.toggle('hidden', !isLogin); document.getElementById('form-register').classList.toggle('hidden', isLogin);
             const tabLogin = document.getElementById('tab-login'); const tabReg = document.getElementById('tab-register');
             if(isLogin) {
                 tabLogin.className = "flex-1 py-2 rounded-[10px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-semibold text-sm";
@@ -603,10 +618,8 @@
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'login', username: document.getElementById('l-user').value, password: document.getElementById('l-pass').value }), headers: { 'Content-Type': 'text/plain' } });
                 const data = await res.json();
-                if(data.status === 'success') { localStorage.setItem('tokoBajuUser', JSON.stringify(data.data)); checkAuth(); } 
-                else { alert(data.message); }
-            } catch (err) { alert("Masalah jaringan."); }
-            btn.innerHTML = 'Lanjutkan'; btn.disabled = false;
+                if(data.status === 'success') { localStorage.setItem('tokoBajuUser', JSON.stringify(data.data)); checkAuth(); } else { alert(data.message); }
+            } catch (err) {} btn.innerHTML = 'Lanjutkan'; btn.disabled = false;
         }
 
         async function handleRegister(e) {
@@ -615,14 +628,12 @@
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'register', nama_lengkap: document.getElementById('r-nama').value, no_hp: document.getElementById('r-hp').value, username: document.getElementById('r-user').value, password: document.getElementById('r-pass').value, foto: authFotoBase64 }), headers: { 'Content-Type': 'text/plain' } });
                 const data = await res.json();
-                if(data.status === 'success') { alert('Registrasi Berhasil!'); switchAuthTab('login'); } 
-                else { alert(data.message); }
-            } catch (err) { alert("Masalah jaringan."); }
-            btn.innerHTML = 'Buat Akun'; btn.disabled = false;
+                if(data.status === 'success') { alert('Registrasi Berhasil!'); switchAuthTab('login'); } else { alert(data.message); }
+            } catch (err) {} btn.innerHTML = 'Buat Akun'; btn.disabled = false;
         }
 
         function handleLogout() {
-            if(confirm("Keluar dari akun?")) { localStorage.removeItem('tokoBajuUser'); currentUser = null; toggleProfileModal(); checkAuth(); }
+            if(confirm("Keluar dari akun?")) { localStorage.removeItem('tokoBajuUser'); currentUser = null; sessionStorage.clear(); toggleProfileModal(); checkAuth(); }
         }
 
         function toggleProfileModal() {
@@ -632,32 +643,26 @@
         }
 
         function openZoom(imageString, startIdx = 0) {
-            zoomImages = imageString.split(',').filter(url => url.trim() !== "");
-            zoomIdx = startIdx;
+            zoomImages = imageString.split(',').filter(url => url.trim() !== ""); zoomIdx = startIdx;
             const track = document.getElementById('zoom-track');
-            track.innerHTML = zoomImages.map((url) => `
-                <div class="w-full h-full flex-shrink-0 snap-center-item flex items-center justify-center p-4">
-                    <img src="${url}" class="max-w-full max-h-full object-contain rounded-2xl shadow-2xl" onerror="this.src='https://via.placeholder.com/800x800?text=Gambar+Rusak'">
-                </div>
-            `).join('');
-            document.getElementById('modal-zoom').classList.remove('opacity-0', 'pointer-events-none');
-            document.querySelector('body').classList.add('modal-active');
-            updateZoomUI();
-            setTimeout(() => { track.scrollLeft = track.offsetWidth * startIdx; }, 50);
-            track.onscroll = () => {
-                const newIdx = Math.round(track.scrollLeft / track.offsetWidth);
-                if(newIdx !== zoomIdx) { zoomIdx = newIdx; updateZoomUI(); }
-            };
+            track.innerHTML = zoomImages.map((url) => `<div class="w-full h-full flex-shrink-0 snap-center-item flex items-center justify-center p-4"><img src="${url}" class="max-w-full max-h-full object-contain rounded-2xl shadow-2xl" onerror="this.src='https://via.placeholder.com/800x800?text=Gambar+Rusak'"></div>`).join('');
+            document.getElementById('modal-zoom').classList.remove('opacity-0', 'pointer-events-none'); document.querySelector('body').classList.add('modal-active');
+            updateZoomUI(); setTimeout(() => { track.scrollLeft = track.offsetWidth * startIdx; }, 50);
+            track.onscroll = () => { const newIdx = Math.round(track.scrollLeft / track.offsetWidth); if(newIdx !== zoomIdx) { zoomIdx = newIdx; updateZoomUI(); } };
         }
-        function moveZoomSlide(dir) {
-            const track = document.getElementById('zoom-track');
-            zoomIdx = Math.max(0, Math.min(zoomIdx + dir, zoomImages.length - 1));
-            track.scrollTo({ left: track.offsetWidth * zoomIdx, behavior: 'smooth' }); updateZoomUI();
-        }
+        function moveZoomSlide(dir) { const track = document.getElementById('zoom-track'); zoomIdx = Math.max(0, Math.min(zoomIdx + dir, zoomImages.length - 1)); track.scrollTo({ left: track.offsetWidth * zoomIdx, behavior: 'smooth' }); updateZoomUI(); }
         function updateZoomUI() { document.getElementById('zoom-counter').textContent = `${zoomIdx + 1} / ${zoomImages.length}`; }
-        function closeZoom() {
-            document.getElementById('modal-zoom').classList.add('opacity-0', 'pointer-events-none');
-            document.querySelector('body').classList.remove('modal-active');
+        function closeZoom() { document.getElementById('modal-zoom').classList.add('opacity-0', 'pointer-events-none'); document.querySelector('body').classList.remove('modal-active'); }
+
+        // Muka Modal Bukti untuk Customer
+        function bukaBuktiModal(url) {
+            document.getElementById('img-bukti-customer').src = url;
+            const body = document.querySelector('body'); const modal = document.getElementById('modal-bukti-customer');
+            modal.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => modal.classList.add('show'), 10); body.classList.add('modal-active');
+        }
+        function tutupBuktiModal() {
+            const body = document.querySelector('body'); const modal = document.getElementById('modal-bukti-customer');
+            modal.classList.remove('show'); setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); body.classList.remove('modal-active'); }, 300);
         }
 
         function loadFavoritesFromLocal() { if(!currentUser) return; const stored = localStorage.getItem(`tokoBajuFavs_${currentUser.username}`); if(stored) listFavorit = JSON.parse(stored); }
@@ -669,7 +674,6 @@
             terapkanFilter();
             if(!document.getElementById('sec-favorite').classList.contains('hidden')) showFavorites();
             if(!document.getElementById('sec-detail-produk').classList.contains('hidden')) {
-               // Update tombol fav di halaman detail
                const isFav = listFavorit.includes(id);
                document.getElementById('dtl-btn-fav').innerHTML = `<i class="${isFav ? 'fa-solid text-pink-500' : 'fa-regular'} fa-heart text-xl"></i>`;
             }
@@ -688,8 +692,8 @@
         function setSortFilter(tipe) {
             activeSort = tipe;
             const btnT = document.getElementById('btn-sort-terbaru'); const btnL = document.getElementById('btn-sort-terlaris');
-            if(tipe === 'terbaru') { btnT.className = "bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold shadow-sm"; btnL.className = "text-slate-500 px-5 py-2 text-xs font-bold"; }
-            else { btnL.className = "bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold shadow-sm"; btnT.className = "text-slate-500 px-5 py-2 text-xs font-bold"; }
+            if(tipe === 'terbaru') { btnT.className = "bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold shadow-sm transition-colors"; btnL.className = "text-slate-500 px-5 py-2 text-xs font-bold"; }
+            else { btnL.className = "bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold shadow-sm transition-colors"; btnT.className = "text-slate-500 px-5 py-2 text-xs font-bold"; }
             terapkanFilter();
         }
 
@@ -709,7 +713,6 @@
                 const gambarRaw = p['URL Gambar'] || p.gambar || '';
                 const mainImg = gambarRaw.split(',')[0] || 'https://via.placeholder.com/400';
                 const isFav = listFavorit.includes(id);
-                // [UPDATE] onClick bukaDetailProduk
                 return `
                 <div class="bg-white dark:bg-[#1C1C1E] rounded-[32px] p-2 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col group cursor-pointer" onclick="bukaDetailProduk('${id}')">
                     <div class="relative h-48 sm:h-64 rounded-[24px] overflow-hidden bg-slate-50 dark:bg-slate-900">
@@ -727,15 +730,10 @@
             else grid.innerHTML = `<div class="col-span-full py-20 text-center text-slate-400">Produk tidak ditemukan</div>`;
         }
 
-        // [UPDATE] NAVIGASI HALAMAN
-        function hideAllSections() {
-            ['sec-home', 'sec-favorite', 'sec-pesanan', 'sec-detail-produk'].forEach(id => {
-                document.getElementById(id).classList.add('hidden');
-            });
-        }
+        function hideAllSections() { ['sec-home', 'sec-favorite', 'sec-pesanan', 'sec-detail-produk'].forEach(id => document.getElementById(id).classList.add('hidden')); }
         function showHome() { 
             hideAllSections(); document.getElementById('sec-home').classList.remove('hidden'); 
-            if(globalProduk.length === 0) fetchKatalog(); else { populateKategori(); terapkanFilter(); } 
+            fetchKatalog();
         }
         function showFavorites() { 
             hideAllSections(); document.getElementById('sec-favorite').classList.remove('hidden'); 
@@ -743,133 +741,147 @@
         }
         function showPesanan() { 
             hideAllSections(); document.getElementById('sec-pesanan').classList.remove('hidden'); 
-            fetchPesananCustomer(); 
+            renderTabelPesanan(); 
         }
 
-        // [UPDATE] FITUR DETAIL PRODUK
         function bukaDetailProduk(id) {
-            const p = globalProduk.find(x => (x.ID || x.id) == id);
-            if(!p) return;
-            currentDetailId = id;
-            
+            const p = globalProduk.find(x => (x.ID || x.id) == id); if(!p) return; currentDetailId = id;
             const nama = p['Nama Baju'] || p.nama; const harga = p.Harga || p.harga; 
-            const stok = p.Stok || p.stok; const kat = p.Kategori || p.kategori;
-            const deskripsi = p.Deskripsi || "Tidak ada deskripsi dari admin.";
-            const gambarRaw = p['URL Gambar'] || p.gambar || '';
-            const imgs = gambarRaw.split(',').filter(u => u.trim() !== "");
-            const mainImg = imgs[0] || 'https://via.placeholder.com/800';
+            const stok = p.Stok || p.stok; const kat = p.Kategori || p.kategori; const deskripsi = p.Deskripsi || "Tidak ada deskripsi dari admin.";
+            const gambarRaw = p['URL Gambar'] || p.gambar || ''; const imgs = gambarRaw.split(',').filter(u => u.trim() !== ""); const mainImg = imgs[0] || 'https://via.placeholder.com/800';
             
-            document.getElementById('dtl-nama').textContent = nama;
-            document.getElementById('dtl-kategori').textContent = kat;
-            document.getElementById('dtl-harga').textContent = formatRp(harga);
-            document.getElementById('dtl-stok').textContent = stok;
-            document.getElementById('dtl-deskripsi').textContent = deskripsi;
+            document.getElementById('dtl-nama').textContent = nama; document.getElementById('dtl-kategori').textContent = kat;
+            document.getElementById('dtl-harga').textContent = formatRp(harga); document.getElementById('dtl-stok').textContent = stok; document.getElementById('dtl-deskripsi').textContent = deskripsi;
             
-            const imgUtama = document.getElementById('dtl-gambar-utama');
-            imgUtama.src = mainImg;
-            imgUtama.onclick = () => openZoom(gambarRaw, 0);
+            const imgUtama = document.getElementById('dtl-gambar-utama'); imgUtama.src = mainImg; imgUtama.onclick = () => openZoom(gambarRaw, 0);
 
-            // Thumbnail
             const thumbContainer = document.getElementById('dtl-thumbnail-container');
             if(imgs.length > 1) {
                 thumbContainer.innerHTML = imgs.map((u, i) => `
-                    <div onclick="document.getElementById('dtl-gambar-utama').src='${u}'; document.getElementById('dtl-gambar-utama').onclick = () => openZoom('${gambarRaw}', ${i});" 
-                         class="w-16 h-16 rounded-xl overflow-hidden cursor-pointer border-2 border-transparent hover:border-blue-500 shrink-0">
-                        <img src="${u}" class="w-full h-full object-cover">
-                    </div>
-                `).join('');
-                thumbContainer.classList.remove('hidden');
-            } else {
-                thumbContainer.classList.add('hidden');
-            }
+                    <div onclick="document.getElementById('dtl-gambar-utama').src='${u}'; document.getElementById('dtl-gambar-utama').onclick = () => openZoom('${gambarRaw}', ${i});" class="w-16 h-16 rounded-xl overflow-hidden cursor-pointer border-2 border-transparent hover:border-blue-500 shrink-0"><img src="${u}" class="w-full h-full object-cover"></div>
+                `).join(''); thumbContainer.classList.remove('hidden');
+            } else { thumbContainer.classList.add('hidden'); }
 
-            // Tombol Fav & Beli
             const isFav = listFavorit.includes(id);
             document.getElementById('dtl-btn-fav').innerHTML = `<i class="${isFav ? 'fa-solid text-pink-500' : 'fa-regular'} fa-heart text-xl"></i>`;
             document.getElementById('dtl-btn-fav').onclick = (e) => toggleFavorite(id, e);
             
             const btnBeli = document.getElementById('dtl-btn-beli');
-            if(stok > 0) {
-                btnBeli.disabled = false; btnBeli.classList.replace('opacity-50', 'opacity-100');
-                btnBeli.textContent = "Beli Sekarang";
-                btnBeli.onclick = () => bukaModalBeli(id, nama, harga, stok, mainImg);
-            } else {
-                btnBeli.disabled = true; btnBeli.classList.replace('opacity-100', 'opacity-50');
-                btnBeli.textContent = "Stok Habis";
-                btnBeli.onclick = null;
-            }
+            if(stok > 0) { btnBeli.disabled = false; btnBeli.classList.replace('opacity-50', 'opacity-100'); btnBeli.textContent = "Beli Sekarang"; btnBeli.onclick = () => bukaModalBeli(id, nama, harga, stok, mainImg); } 
+            else { btnBeli.disabled = true; btnBeli.classList.replace('opacity-100', 'opacity-50'); btnBeli.textContent = "Stok Habis"; btnBeli.onclick = null; }
 
-            hideAllSections();
-            document.getElementById('sec-detail-produk').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            hideAllSections(); document.getElementById('sec-detail-produk').classList.remove('hidden'); window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-
-        async function fetchKatalog() {
+        async function fetchKatalog(force = false) {
+            if (!force) {
+                const cached = sessionStorage.getItem('tokoBaju_produk');
+                if (cached) {
+                    globalProduk = JSON.parse(cached); initBanner(globalProduk); populateKategori(); terapkanFilter();
+                    fetchKatalogBackground(); return;
+                }
+            }
             const loader = document.getElementById('loading'); if(loader) loader.classList.remove('hidden');
             try {
                 const res = await fetch(`${SCRIPT_URL}?action=getProduk`); const data = await res.json();
                 if(data.status === 'success') {
                     globalProduk = data.data.filter(p => parseInt(p.Stok || p.stok) > 0);
+                    sessionStorage.setItem('tokoBaju_produk', JSON.stringify(globalProduk));
                     initBanner(globalProduk); populateKategori(); terapkanFilter();
                 }
             } catch (err) {}
             if(loader) loader.classList.add('hidden');
         }
 
-        async function fetchPesananCustomer(silent = false) {
-            const container = document.getElementById('list-pesanan-customer'); const badge = document.getElementById('badge-pesanan-count');
-            if(!silent) container.innerHTML = `<div class="text-center py-10 text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Memuat...</div>`;
+        async function fetchKatalogBackground() {
             try {
-                const res = await fetch(`${SCRIPT_URL}?action=getPenjualan`); const data = await res.json();
+                const res = await fetch(`${SCRIPT_URL}?action=getProduk`); 
+                const data = await res.json();
                 if(data.status === 'success') {
-                    const my = data.data.filter(p => p['Username Pembeli'] === currentUser.username).reverse();
-                    badge.textContent = my.length; badge.classList.toggle('hidden', my.length === 0);
-                    if(!silent) {
-                        if(my.length > 0) container.innerHTML = my.map(p => {
-                            const isDP = p['Tipe Pembayaran'] === 'DP';
-                            const noPelunasan = !p['Bukti Pelunasan'] || p['Bukti Pelunasan'] === "Menunggu Pelunasan";
-                            const trId = p['ID Transaksi'];
-                            
-                            // Form mini untuk upload pelunasan khusus DP yang belum lunas
-                            let htmlUploadLunas = "";
-                            if(isDP && noPelunasan && p.Status !== 'Dibatalkan') {
-                                htmlUploadLunas = `
-                                <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-                                    <p class="text-xs font-bold text-slate-500 mb-2">Upload Bukti Pelunasan DP</p>
-                                    <div class="flex items-center gap-2">
-                                        <input type="file" id="file_pelunasan_${trId}" accept="image/*" class="hidden" onchange="prosesUploadPelunasan(event, '${trId}')">
-                                        <button onclick="document.getElementById('file_pelunasan_${trId}').click()" class="bg-[#F2F2F7] dark:bg-slate-800 text-blue-500 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 hover:bg-blue-50 transition-colors">
-                                            <i class="fa-solid fa-upload"></i> Pilih & Upload Foto
-                                        </button>
-                                        <span id="loading_${trId}" class="text-xs text-blue-500 hidden"><i class="fa-solid fa-spinner fa-spin"></i> Mengunggah...</span>
-                                    </div>
-                                </div>`;
-                            }
-
-                            return `
-                            <div class="bg-white dark:bg-[#1C1C1E] p-5 rounded-[24px] shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${p['ID Transaksi']}</span>
-                                        <h4 class="font-bold text-black dark:text-white mt-1">${p['Nama Baju']}</h4>
-                                        <p class="text-xs text-slate-500 mt-1">${p.Tanggal.split(',')[0]} &bull; ${p.Jumlah} Pcs &bull; ${p.Status}</p>
-                                        <p class="text-[10px] text-slate-500 mt-1 font-bold">Metode: ${p['Metode Bayar']||'-'} | Tipe: ${p['Tipe Pembayaran']} ${isDP ? `(${p['Detail DP']})` : ''}</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="text-blue-500 font-extrabold">${formatRp(p['Total Harga'])}</p>
-                                    </div>
-                                </div>
-                                ${htmlUploadLunas}
-                            </div>`;
-                        }).join('');
-                        else container.innerHTML = `<div class="py-20 text-center text-slate-400 font-medium">Belum ada pesanan</div>`;
+                    const newData = data.data.filter(p => parseInt(p.Stok || p.stok) > 0);
+                    if (JSON.stringify(newData) !== JSON.stringify(globalProduk)) {
+                        globalProduk = newData; sessionStorage.setItem('tokoBaju_produk', JSON.stringify(globalProduk));
+                        if(!document.getElementById('sec-home').classList.contains('hidden')) { terapkanFilter(); }
                     }
                 }
             } catch (err) {}
         }
 
-        // [UPDATE] PROSES UPLOAD PELUNASAN DARI RIWAYAT
+        async function fetchPesananCustomer(force = false) {
+            if(!force && dataLoaded.pesanan) { renderTabelPesanan(); return; }
+            try {
+                const res = await fetch(`${SCRIPT_URL}?action=getPenjualan`); const data = await res.json();
+                if(data.status === 'success') {
+                    globalPenjualan = data.data.filter(p => p['Username Pembeli'] === currentUser.username).reverse();
+                    dataLoaded.pesanan = true;
+                    if(!document.getElementById('sec-pesanan').classList.contains('hidden')){ renderTabelPesanan(); }
+                    const badge = document.getElementById('badge-pesanan-count');
+                    badge.textContent = globalPenjualan.length; badge.classList.toggle('hidden', globalPenjualan.length === 0);
+                }
+            } catch (err) {}
+        }
+
+        function renderTabelPesanan() {
+            const container = document.getElementById('list-pesanan-customer'); 
+            const badge = document.getElementById('badge-pesanan-count');
+            badge.textContent = globalPenjualan.length; badge.classList.toggle('hidden', globalPenjualan.length === 0);
+            
+            if(globalPenjualan.length > 0) container.innerHTML = globalPenjualan.map(p => {
+                const isDP = p['Tipe Pembayaran'] === 'DP'; 
+                const noPelunasan = !p['Bukti Pelunasan'] || p['Bukti Pelunasan'] === "Menunggu Pelunasan"; 
+                const trId = p['ID Transaksi'];
+                
+                let htmlUploadLunas = "";
+                let htmlBukti = `<div class="flex gap-2 mt-3 flex-wrap">`;
+
+                // Tampilkan Struk DP / Pembayaran Awal
+                if(p['Bukti Pembayaran'] && p['Bukti Pembayaran'] !== "Bayar Cash") {
+                    htmlBukti += `<button onclick="bukaBuktiModal('${p['Bukti Pembayaran']}')" class="bg-blue-50 dark:bg-blue-500/10 text-blue-500 px-3 py-1.5 rounded-lg text-[10px] font-bold border border-blue-100 dark:border-blue-500/20 active:scale-95 transition-transform"><i class="fa-solid fa-image"></i> Struk DP / Utama</button>`;
+                }
+                
+                if(isDP) {
+                    if(noPelunasan && p.Status !== 'Dibatalkan') {
+                        htmlUploadLunas = `
+                        <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                            <p class="text-xs font-bold text-slate-500 mb-2">Upload Bukti Pelunasan DP</p>
+                            <div class="flex items-center gap-2">
+                                <input type="file" id="file_pelunasan_${trId}" accept="image/*" class="hidden" onchange="prosesUploadPelunasan(event, '${trId}')">
+                                <button onclick="document.getElementById('file_pelunasan_${trId}').click()" class="bg-[#F2F2F7] dark:bg-slate-800 text-blue-500 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 hover:bg-blue-50 transition-colors">
+                                    <i class="fa-solid fa-upload"></i> Pilih & Upload Foto
+                                </button>
+                                <span id="loading_${trId}" class="text-xs text-blue-500 hidden"><i class="fa-solid fa-spinner fa-spin"></i> Mengunggah...</span>
+                            </div>
+                        </div>`;
+                    } else if (!noPelunasan) {
+                        htmlBukti += `<button onclick="bukaBuktiModal('${p['Bukti Pelunasan']}')" class="bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500 px-3 py-1.5 rounded-lg text-[10px] font-bold border border-emerald-100 dark:border-emerald-500/20 active:scale-95 transition-transform"><i class="fa-solid fa-image"></i> Struk Pelunasan</button>`;
+                        htmlUploadLunas = `
+                        <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
+                            <p class="text-xs font-bold text-emerald-500"><i class="fa-solid fa-circle-check"></i> Bukti Pelunasan Telah Dikirim</p>
+                        </div>`;
+                    }
+                }
+                htmlBukti += `</div>`;
+
+                return `
+                <div class="bg-white dark:bg-[#1C1C1E] p-5 rounded-[24px] shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${trId}</span>
+                            <h4 class="font-bold text-black dark:text-white mt-1">${p['Nama Baju']}</h4>
+                            <p class="text-xs text-slate-500 mt-1">${p.Tanggal.split(',')[0]} &bull; ${p.Jumlah} Pcs &bull; <span class="text-blue-500 font-bold">${p.Status}</span></p>
+                            <p class="text-[10px] text-slate-500 mt-1 font-bold">Metode: ${p['Metode Bayar']||'-'} | Tipe: ${p['Tipe Pembayaran']} ${isDP ? `(${p['Detail DP']})` : ''}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-blue-500 font-extrabold">${formatRp(p['Total Harga'])}</p>
+                        </div>
+                    </div>
+                    ${htmlBukti}
+                    ${htmlUploadLunas}
+                </div>`;
+            }).join('');
+            else container.innerHTML = `<div class="py-20 text-center text-slate-400 font-medium">Belum ada pesanan</div>`;
+        }
+
         function prosesUploadPelunasan(event, idTrx) {
             const file = event.target.files[0]; if(!file) return;
             const loader = document.getElementById(`loading_${idTrx}`); loader.classList.remove('hidden');
@@ -886,9 +898,8 @@
                     try {
                         const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: "updateBuktiPelunasan", id_transaksi: idTrx, bukti_pelunasan: b64 }), headers: { 'Content-Type': 'text/plain' } });
                         const data = await res.json();
-                        if(data.status === 'success') { alert('Bukti pelunasan berhasil dikirim!'); fetchPesananCustomer(); } else alert(data.message);
-                    } catch(err){}
-                    loader.classList.add('hidden');
+                        if(data.status === 'success') { alert('Bukti pelunasan berhasil dikirim!'); fetchPesananCustomer(true); } else alert(data.message);
+                    } catch(err){} loader.classList.add('hidden');
                 }
                 img.src = e.target.result;
             }
@@ -912,11 +923,8 @@
             while(bSource.length < 3) { bSource.push(grafisBanners[bSource.length % grafisBanners.length]); }
 
             track.innerHTML = bSource.map((item, i) => {
-                if(typeof item === 'string') {
-                    return `<div class="slide absolute inset-0 transition-opacity duration-700 ${i===0?'opacity-100':'opacity-0'}"><div class="absolute inset-0 bg-black/20 z-10"></div><img src="${item}" class="w-full h-full object-cover"><div class="absolute bottom-16 left-8 z-20 text-white"><h2 class="text-3xl font-extrabold mb-2 drop-shadow-lg">Gaya Masa Kini</h2></div></div>`;
-                } else {
-                    return `<div class="slide absolute inset-0 transition-opacity duration-700 ${i===0?'opacity-100':'opacity-0'} bg-gradient-to-br ${item.bg} flex items-center justify-center text-center p-8"><div><i class="fa-solid ${item.icon} text-white/30 text-8xl mb-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i><div class="relative z-10"><h2 class="text-4xl font-black text-white mb-4">${item.title}</h2><p class="text-white/90 bg-black/10 px-6 py-2 rounded-full inline-block">${item.sub}</p></div></div></div>`;
-                }
+                if(typeof item === 'string') { return `<div class="slide absolute inset-0 transition-opacity duration-700 ${i===0?'opacity-100':'opacity-0'}"><div class="absolute inset-0 bg-black/20 z-10"></div><img src="${item}" class="w-full h-full object-cover"><div class="absolute bottom-16 left-8 z-20 text-white"><h2 class="text-3xl font-extrabold mb-2 drop-shadow-lg">Gaya Masa Kini</h2></div></div>`; } 
+                else { return `<div class="slide absolute inset-0 transition-opacity duration-700 ${i===0?'opacity-100':'opacity-0'} bg-gradient-to-br ${item.bg} flex items-center justify-center text-center p-8"><div><i class="fa-solid ${item.icon} text-white/30 text-8xl mb-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i><div class="relative z-10"><h2 class="text-4xl font-black text-white mb-4">${item.title}</h2><p class="text-white/90 bg-black/10 px-6 py-2 rounded-full inline-block">${item.sub}</p></div></div></div>`; }
             }).join('');
             dots.innerHTML = bSource.map((_, i) => `<div class="w-2 h-2 rounded-full transition-all ${i===0?'bg-white w-6':'bg-white/40'}"></div>`).join('');
             bIdx = 0; clearInterval(bInterval); bInterval = setInterval(() => bNav(1), 4000);
@@ -924,11 +932,9 @@
         function bNav(dir) {
             const slides = document.querySelectorAll('.slide'); if(!slides.length) return;
             const dots = document.getElementById('banner-dots').children;
-            slides[bIdx].classList.replace('opacity-100', 'opacity-0');
-            dots[bIdx].classList.replace('bg-white', 'bg-white/40'); dots[bIdx].classList.replace('w-6', 'w-2');
+            slides[bIdx].classList.replace('opacity-100', 'opacity-0'); dots[bIdx].classList.replace('bg-white', 'bg-white/40'); dots[bIdx].classList.replace('w-6', 'w-2');
             bIdx = (bIdx + dir + slides.length) % slides.length;
-            slides[bIdx].classList.replace('opacity-0', 'opacity-100');
-            dots[bIdx].classList.replace('bg-white/40', 'bg-white'); dots[bIdx].classList.add('w-6');
+            slides[bIdx].classList.replace('opacity-0', 'opacity-100'); dots[bIdx].classList.replace('bg-white/40', 'bg-white'); dots[bIdx].classList.add('w-6');
         }
         function nextSlideManual() { clearInterval(bInterval); bNav(1); bInterval = setInterval(() => bNav(1), 4000); }
         function prevSlide() { clearInterval(bInterval); bNav(-1); bInterval = setInterval(() => bNav(1), 4000); }
@@ -942,175 +948,78 @@
             else { checkoutModal.classList.remove('show'); setTimeout(() => { checkoutModal.classList.add('opacity-0', 'pointer-events-none'); body.classList.remove('modal-active'); }, 300); }
         }
 
-        // --- CHECKOUT LOGIC ---
         function bukaModalBeli(id, nama, harga, stok, gambar) {
             document.getElementById('m-id').value = id; document.getElementById('m-nama').textContent = nama; document.getElementById('m-harga').textContent = formatRp(harga); document.getElementById('m-stok').textContent = stok; document.getElementById('m-gambar').src = gambar; document.getElementById('m-hargasatuan').value = harga; document.getElementById('m-jumlah').value = 1; selectedMaxStok = stok;
             
-            // Reset state
             buktiBase64 = ""; pelunasanBase64 = ""; 
             document.getElementById('m-bukti').value = ""; document.getElementById('m-bukti-preview').classList.add('hidden'); document.getElementById('m-bukti-icon').style.display = 'block';
             document.getElementById('m-pelunasan').value = ""; document.getElementById('m-pelunasan-preview').classList.add('hidden'); document.getElementById('m-pelunasan-icon').style.display = 'block';
             
-            // Default select
             document.querySelector('input[name="metode_bayar"][value="QRIS"]').checked = true;
             document.querySelector('input[name="tipe_bayar"][value="Lunas"]').checked = true;
-            
             document.getElementById('dp-pct').value = "50";
             
-            toggleMetodeUI();
-            toggleDPUI();
-            hitungTotalModal(); 
-            toggleCheckoutModal();
+            toggleMetodeUI(); toggleDPUI(); hitungTotalModal(); toggleCheckoutModal();
         }
 
         function toggleMetodeUI() {
             const isQris = document.querySelector('input[name="metode_bayar"]:checked').value === "QRIS";
-            if(isQris) {
-                document.getElementById('area-qris').classList.remove('hidden');
-                document.getElementById('area-cash-info').classList.add('hidden');
-                // Ganti label total tagihan
-                const isDP = document.querySelector('input[name="tipe_bayar"]:checked').value === "DP";
-                document.getElementById('lbl-total').textContent = isDP ? "DP yang harus di Transfer" : "Total yang harus di Transfer";
-            } else {
-                document.getElementById('area-qris').classList.add('hidden');
-                document.getElementById('area-cash-info').classList.remove('hidden');
-                document.getElementById('lbl-total').textContent = "Total Tagihan";
-            }
+            if(isQris) { document.getElementById('area-qris').classList.remove('hidden'); document.getElementById('area-cash-info').classList.add('hidden'); const isDP = document.querySelector('input[name="tipe_bayar"]:checked').value === "DP"; document.getElementById('lbl-total').textContent = isDP ? "DP yang harus di Transfer" : "Total yang harus di Transfer"; } 
+            else { document.getElementById('area-qris').classList.add('hidden'); document.getElementById('area-cash-info').classList.remove('hidden'); document.getElementById('lbl-total').textContent = "Total Tagihan"; }
         }
 
         function toggleDPUI() {
             const isDP = document.querySelector('input[name="tipe_bayar"]:checked').value === "DP";
-            const customArea = document.getElementById('area-custom-dp');
-            const uploadPelunasan = document.getElementById('area-upload-pelunasan');
-            const lblUpload1 = document.getElementById('lbl-upload-1');
-            const txtUpload1 = document.getElementById('txt-upload-1');
-
-            if(isDP) {
-                customArea.classList.remove('hidden');
-                uploadPelunasan.classList.remove('hidden');
-                lblUpload1.textContent = "Upload Bukti Transfer DP";
-                txtUpload1.textContent = "Pilih Bukti DP";
-            } else {
-                customArea.classList.add('hidden');
-                uploadPelunasan.classList.add('hidden');
-                lblUpload1.textContent = "Upload Bukti Transfer Lunas";
-                txtUpload1.textContent = "Pilih Bukti Foto";
-            }
-            toggleMetodeUI(); // Update label Total Tagihan
-            hitungTotalModal(); // Re-calc DP
+            const customArea = document.getElementById('area-custom-dp'); const uploadPelunasan = document.getElementById('area-upload-pelunasan'); const lblUpload1 = document.getElementById('lbl-upload-1'); const txtUpload1 = document.getElementById('txt-upload-1');
+            if(isDP) { customArea.classList.remove('hidden'); uploadPelunasan.classList.remove('hidden'); lblUpload1.textContent = "Upload Bukti Transfer DP"; txtUpload1.textContent = "Pilih Bukti DP"; } 
+            else { customArea.classList.add('hidden'); uploadPelunasan.classList.add('hidden'); lblUpload1.textContent = "Upload Bukti Transfer Lunas"; txtUpload1.textContent = "Pilih Bukti Foto"; }
+            toggleMetodeUI(); hitungTotalModal(); 
         }
 
         function ubahJumlah(dir) { let v = parseInt(document.getElementById('m-jumlah').value) + dir; if(v<1) v=1; if(v>selectedMaxStok) v=selectedMaxStok; document.getElementById('m-jumlah').value = v; hitungTotalModal(); }
         
-        // Logika saling mengisi % dan Rp untuk DP
         function hitungDP(sumber) {
-            let q = parseInt(document.getElementById('m-jumlah').value) || 1;
-            let h = parseInt(document.getElementById('m-hargasatuan').value);
-            let total = q * h;
-
-            let inpPct = document.getElementById('dp-pct');
-            let inpNom = document.getElementById('dp-nom');
-
-            if(sumber === 'pct') {
-                let p = parseFloat(inpPct.value) || 0;
-                if(p > 100) { p = 100; inpPct.value = 100; }
-                inpNom.value = Math.round(total * (p / 100));
-            } else if (sumber === 'nom') {
-                let n = parseFloat(inpNom.value) || 0;
-                if(n > total) { n = total; inpNom.value = total; }
-                inpPct.value = ((n / total) * 100).toFixed(1);
-            }
-            hitungTotalModal(false); // Update tampilan total harga bawah tanpa reset DP
+            let q = parseInt(document.getElementById('m-jumlah').value) || 1; let h = parseInt(document.getElementById('m-hargasatuan').value); let total = q * h;
+            let inpPct = document.getElementById('dp-pct'); let inpNom = document.getElementById('dp-nom');
+            if(sumber === 'pct') { let p = parseFloat(inpPct.value) || 0; if(p > 100) { p = 100; inpPct.value = 100; } inpNom.value = Math.round(total * (p / 100)); } 
+            else if (sumber === 'nom') { let n = parseFloat(inpNom.value) || 0; if(n > total) { n = total; inpNom.value = total; } inpPct.value = ((n / total) * 100).toFixed(1); }
+            hitungTotalModal(false); 
         }
 
         function hitungTotalModal(resetDP = true) { 
-            let q = parseInt(document.getElementById('m-jumlah').value) || 1;
-            let h = parseInt(document.getElementById('m-hargasatuan').value);
-            let t = q * h; 
-            
-            const tipe = document.querySelector('input[name="tipe_bayar"]:checked').value;
-            const qris = document.getElementById('m-qris');
-            
+            let q = parseInt(document.getElementById('m-jumlah').value) || 1; let h = parseInt(document.getElementById('m-hargasatuan').value); let t = q * h; 
+            const tipe = document.querySelector('input[name="tipe_bayar"]:checked').value; const qris = document.getElementById('m-qris');
             if(tipe === "DP") { 
                 qris.src = appSettings.qris_dp || 'https://via.placeholder.com/250?text=Admin+Belum+Set+QRIS+DP'; 
-                if(resetDP) {
-                    let p = parseFloat(document.getElementById('dp-pct').value) || 50;
-                    document.getElementById('dp-nom').value = Math.round(t * (p/100));
-                }
-                // Tagihan bawah yg ditampilkan = DP
-                let dpNom = parseInt(document.getElementById('dp-nom').value) || 0;
-                document.getElementById('m-totalharga').textContent = formatRp(dpNom);
-            } else { 
-                qris.src = appSettings.qris_lunas || 'https://via.placeholder.com/250?text=Admin+Belum+Set+QRIS+Lunas'; 
-                document.getElementById('m-totalharga').textContent = formatRp(t); 
-            }
+                if(resetDP) { let p = parseFloat(document.getElementById('dp-pct').value) || 50; document.getElementById('dp-nom').value = Math.round(t * (p/100)); }
+                let dpNom = parseInt(document.getElementById('dp-nom').value) || 0; document.getElementById('m-totalharga').textContent = formatRp(dpNom);
+            } else { qris.src = appSettings.qris_lunas || 'https://via.placeholder.com/250?text=Admin+Belum+Set+QRIS+Lunas'; document.getElementById('m-totalharga').textContent = formatRp(t); }
         }
 
-        // --- WA REDIRECT MODAL ---
-        function tutupWaModal() {
-            document.getElementById('modal-wa').classList.add('opacity-0', 'pointer-events-none');
-            showPesanan(); fetchKatalog();
-        }
+        function tutupWaModal() { document.getElementById('modal-wa').classList.add('opacity-0', 'pointer-events-none'); showPesanan(); }
 
         function showWaRedirectModal(idTrx, namaBaju, qty, total, tipe, metode) {
-            // Setup WA numbers
-            const container = document.getElementById('wa-button-container');
-            let numbers = appSettings.admin_wa ? appSettings.admin_wa.split(',') : [];
-            if(numbers.length === 0) numbers = ["6281234567890"]; // Default jika kosong
-
+            const container = document.getElementById('wa-button-container'); let numbers = appSettings.admin_wa ? appSettings.admin_wa.split(',') : []; if(numbers.length === 0) numbers = ["6281234567890"];
             const textPesan = encodeURIComponent(`Halo Admin, saya baru saja membuat pesanan di TokoBaju.\n\nID Transaksi: *${idTrx}*\nProduk: *${namaBaju}* (${qty} Pcs)\nMetode Bayar: *${metode}*\nTipe: *${tipe}*\nTotal Belanja: *${formatRp(total)}*\n\nMohon segera diproses ya. Terima kasih!`);
-
             container.innerHTML = numbers.map((num, idx) => {
-                let cleanNum = num.trim().replace(/^0/, '62'); // Pastikan format 62
+                let cleanNum = num.trim().replace(/^0/, '62'); 
                 return `<a href="https://wa.me/${cleanNum}?text=${textPesan}" target="_blank" onclick="tutupWaModal()" class="flex items-center justify-center gap-2 w-full bg-[#F2F2F7] hover:bg-green-50 text-green-600 font-bold py-3 px-4 rounded-xl transition-colors active:scale-95"><i class="fa-brands fa-whatsapp text-lg"></i> Hubungi Admin ${idx+1}</a>`;
             }).join('');
-
-            const modal = document.getElementById('modal-wa');
-            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('modal-wa').classList.remove('opacity-0', 'pointer-events-none');
         }
 
         async function prosesBeli(e) {
             e.preventDefault(); 
-            const metode = document.querySelector('input[name="metode_bayar"]:checked').value;
-            const tipe = document.querySelector('input[name="tipe_bayar"]:checked').value;
-            
+            const metode = document.querySelector('input[name="metode_bayar"]:checked').value; const tipe = document.querySelector('input[name="tipe_bayar"]:checked').value;
             if(metode === "QRIS" && !buktiBase64) return alert("Upload bukti transfer QRIS wajib diisi.");
-            
-            let dpDetailStr = "-";
-            if(tipe === "DP") {
-                dpDetailStr = `${document.getElementById('dp-pct').value}% (Rp ${document.getElementById('dp-nom').value})`;
-            }
-
+            let dpDetailStr = "-"; if(tipe === "DP") { dpDetailStr = `${document.getElementById('dp-pct').value}% (Rp ${document.getElementById('dp-nom').value})`; }
             const btn = document.getElementById('btn-proses-beli'); btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>'; btn.disabled = true;
-            
-            const q = parseInt(document.getElementById('m-jumlah').value);
-            const h = parseInt(document.getElementById('m-hargasatuan').value);
-            const namaBaju = document.getElementById('m-nama').textContent;
-
-            const payload = { 
-                action: "addPenjualan", 
-                username: currentUser.username, 
-                id_baju: document.getElementById('m-id').value, 
-                nama_baju: namaBaju, 
-                jumlah: q, 
-                total_harga: (q * h), 
-                tipe_pembayaran: tipe, 
-                metode_bayar: metode,
-                detail_dp: dpDetailStr,
-                bukti_pembayaran: buktiBase64,
-                bukti_pelunasan: pelunasanBase64 // Jika diupload
-            };
-            
+            const q = parseInt(document.getElementById('m-jumlah').value); const h = parseInt(document.getElementById('m-hargasatuan').value); const namaBaju = document.getElementById('m-nama').textContent;
+            const payload = { action: "addPenjualan", username: currentUser.username, id_baju: document.getElementById('m-id').value, nama_baju: namaBaju, jumlah: q, total_harga: (q * h), tipe_pembayaran: tipe, metode_bayar: metode, detail_dp: dpDetailStr, bukti_pembayaran: buktiBase64, bukti_pelunasan: pelunasanBase64 };
             try {
-                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } });
-                const data = await res.json();
-                if(data.status === 'success') { 
-                    toggleCheckoutModal(); 
-                    // Tampilkan WA Redirect
-                    showWaRedirectModal(data.id_transaksi, namaBaju, q, (q*h), tipe, metode);
-                } else alert(data.message);
-            } catch (err) {}
-            btn.innerHTML = 'Konfirmasi Pesanan'; btn.disabled = false;
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } }); const data = await res.json();
+                if(data.status === 'success') { toggleCheckoutModal(); fetchKatalog(true); fetchPesananCustomer(true); showWaRedirectModal(data.id_transaksi, namaBaju, q, (q*h), tipe, metode); } else alert(data.message);
+            } catch (err) {} btn.innerHTML = 'Konfirmasi Pesanan'; btn.disabled = false;
         }
 
         window.onload = initApp;
