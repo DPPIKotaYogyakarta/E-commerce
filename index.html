@@ -455,7 +455,7 @@
         <div class="modal-sheet bg-transparent w-full sm:max-w-md mx-auto rounded-[40px] z-[120] flex flex-col items-center relative p-4">
             <div class="bg-white dark:bg-[#1C1C1E] p-2 rounded-[32px] w-full mx-auto shadow-2xl relative border border-slate-100 dark:border-slate-800">
                 <button onclick="tutupBuktiModal()" class="absolute -top-4 -right-4 bg-white dark:bg-zinc-800 text-black dark:text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg border border-slate-200 dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-700 transition"><i class="fa-solid fa-times"></i></button>
-                <img id="img-bukti-customer" src="" class="w-full h-auto max-h-[70vh] object-contain rounded-[24px] bg-slate-100 dark:bg-black">
+                <img id="img-bukti-customer" src="" onerror="this.src='https://via.placeholder.com/400x600?text=Gambar+Rusak'" class="w-full h-auto max-h-[70vh] object-contain rounded-[24px] bg-slate-100 dark:bg-black">
             </div>
         </div>
     </div>
@@ -655,8 +655,10 @@
         function closeZoom() { document.getElementById('modal-zoom').classList.add('opacity-0', 'pointer-events-none'); document.querySelector('body').classList.remove('modal-active'); }
 
         // Muka Modal Bukti untuk Customer
-        function bukaBuktiModal(url) {
-            document.getElementById('img-bukti-customer').src = url;
+        function bukaBuktiModal(url, event) {
+            if(event) event.stopPropagation(); // Mencegah klik menembus ke elemen di bawahnya
+            const img = document.getElementById('img-bukti-customer');
+            img.src = url;
             const body = document.querySelector('body'); const modal = document.getElementById('modal-bukti-customer');
             modal.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => modal.classList.add('show'), 10); body.classList.add('modal-active');
         }
@@ -836,7 +838,7 @@
 
                 // Tampilkan Struk DP / Pembayaran Awal
                 if(p['Bukti Pembayaran'] && p['Bukti Pembayaran'] !== "Bayar Cash") {
-                    htmlBukti += `<button onclick="bukaBuktiModal('${p['Bukti Pembayaran']}')" class="bg-blue-50 dark:bg-blue-500/10 text-blue-500 px-3 py-1.5 rounded-lg text-[10px] font-bold border border-blue-100 dark:border-blue-500/20 active:scale-95 transition-transform"><i class="fa-solid fa-image"></i> Struk DP / Utama</button>`;
+                    htmlBukti += `<button onclick="bukaBuktiModal('${p['Bukti Pembayaran']}', event)" class="bg-blue-50 dark:bg-blue-500/10 text-blue-500 px-3 py-1.5 rounded-lg text-[10px] font-bold border border-blue-100 dark:border-blue-500/20 active:scale-95 transition-transform"><i class="fa-solid fa-image"></i> Struk Utama / DP</button>`;
                 }
                 
                 if(isDP) {
@@ -852,8 +854,8 @@
                                 <span id="loading_${trId}" class="text-xs text-blue-500 hidden"><i class="fa-solid fa-spinner fa-spin"></i> Mengunggah...</span>
                             </div>
                         </div>`;
-                    } else if (!noPelunasan) {
-                        htmlBukti += `<button onclick="bukaBuktiModal('${p['Bukti Pelunasan']}')" class="bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500 px-3 py-1.5 rounded-lg text-[10px] font-bold border border-emerald-100 dark:border-emerald-500/20 active:scale-95 transition-transform"><i class="fa-solid fa-image"></i> Struk Pelunasan</button>`;
+                    } else if (!noPelunasan && p['Bukti Pelunasan']) {
+                        htmlBukti += `<button onclick="bukaBuktiModal('${p['Bukti Pelunasan']}', event)" class="bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500 px-3 py-1.5 rounded-lg text-[10px] font-bold border border-emerald-100 dark:border-emerald-500/20 active:scale-95 transition-transform"><i class="fa-solid fa-image"></i> Struk Pelunasan</button>`;
                         htmlUploadLunas = `
                         <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
                             <p class="text-xs font-bold text-emerald-500"><i class="fa-solid fa-circle-check"></i> Bukti Pelunasan Telah Dikirim</p>
