@@ -52,14 +52,13 @@
         .snap-x-mandatory { scroll-snap-type: x mandatory; }
         .snap-center-item { scroll-snap-align: center; }
 
-        /* Zoom Slider Custom */
         #zoom-track { scroll-behavior: smooth; }
     </style>
 </head>
 <body class="text-[#1C1C1E] dark:text-white min-h-screen selection:bg-blue-200 flex flex-col">
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4A8oLgkoil9VA3E7pywipVKqnxp0mdF23T5kUcsgyWrSfynCN6RhiJJg5s_W3xUqY/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwPHoyf-hGR5_oYdnc3Fz6NIxcGicwV2Q63_6UntL6Xex8WtFv3-wlAZp01zica1keN/exec'; 
     </script>
 
     <!-- LOADING SCREEN -->
@@ -177,6 +176,49 @@
             </main>
         </div>
 
+        <!-- [UPDATE] SECTION DETAIL PRODUK -->
+        <div id="sec-detail-produk" class="flex-1 w-full hidden">
+            <main class="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 safe-mt-content">
+                <button onclick="showHome()" class="mb-6 flex items-center gap-2 text-slate-500 hover:text-black dark:hover:text-white font-bold transition-colors">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Katalog
+                </button>
+                <div class="bg-white dark:bg-[#1C1C1E] rounded-[40px] shadow-sm border border-slate-100 dark:border-slate-800 p-4 md:p-8 flex flex-col md:flex-row gap-8">
+                    <!-- Bagian Foto -->
+                    <div class="w-full md:w-1/2 flex flex-col gap-4">
+                        <div class="relative w-full aspect-[4/5] bg-slate-100 dark:bg-slate-900 rounded-[32px] overflow-hidden group">
+                            <img id="dtl-gambar-utama" src="" class="w-full h-full object-cover cursor-zoom-in group-hover:scale-105 transition-transform duration-500">
+                            <button id="dtl-btn-fav" onclick="" class="absolute top-4 right-4 w-12 h-12 rounded-full glass-panel flex items-center justify-center transition active:scale-90 z-10 shadow-md">
+                                <i class="fa-regular fa-heart text-xl"></i>
+                            </button>
+                        </div>
+                        <!-- Thumbnail -->
+                        <div id="dtl-thumbnail-container" class="flex gap-3 overflow-x-auto hide-scrollbar scroll-touch pb-2">
+                            <!-- Diisi via JS -->
+                        </div>
+                    </div>
+                    <!-- Bagian Info -->
+                    <div class="w-full md:w-1/2 flex flex-col justify-center">
+                        <span id="dtl-kategori" class="inline-block bg-[#F2F2F7] dark:bg-slate-800 text-slate-500 dark:text-slate-300 font-bold px-4 py-1.5 rounded-full text-xs mb-4 w-max">Kategori</span>
+                        <h2 id="dtl-nama" class="text-3xl md:text-4xl font-extrabold text-black dark:text-white tracking-tight mb-2">Nama Baju</h2>
+                        <p id="dtl-harga" class="text-2xl md:text-3xl font-black text-blue-500 mb-6">Rp 0</p>
+                        
+                        <div class="h-px bg-slate-100 dark:bg-slate-800 w-full mb-6"></div>
+                        
+                        <h4 class="font-bold text-black dark:text-white mb-2">Deskripsi Produk</h4>
+                        <p id="dtl-deskripsi" class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-6 whitespace-pre-wrap">Deskripsi produk di sini...</p>
+                        
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold px-4 py-2 rounded-xl text-sm border border-emerald-100 dark:border-emerald-500/20">
+                                Stok Tersedia: <span id="dtl-stok">0</span> Pcs
+                            </div>
+                        </div>
+
+                        <button id="dtl-btn-beli" class="w-full bg-black dark:bg-white text-white dark:text-black py-5 rounded-full font-bold text-lg shadow-xl shadow-black/10 active:scale-[0.98] transition-all">Beli Sekarang</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+
         <!-- SECTION FAVORIT -->
         <div id="sec-favorite" class="flex-1 w-full hidden">
             <main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 safe-mt-content">
@@ -210,11 +252,9 @@
         </footer>
     </div>
 
-    <!-- MODAL ZOOM GAMBAR PRODUK (DENGAN SLIDER) -->
+    <!-- MODAL ZOOM GAMBAR PRODUK -->
     <div id="modal-zoom" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[100] transition-opacity duration-300">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-xl" onclick="closeZoom()"></div>
-        
-        <!-- Header Modal Zoom -->
         <div class="absolute top-0 inset-x-0 p-6 flex justify-between items-center z-20">
             <div class="bg-white/10 px-4 py-1.5 rounded-full backdrop-blur-md">
                 <span id="zoom-counter" class="text-white text-sm font-bold tracking-widest">1 / 1</span>
@@ -223,26 +263,15 @@
                 <i class="fa-solid fa-times text-xl"></i>
             </button>
         </div>
-
-        <!-- Slider Zoom Container -->
         <div class="relative w-full h-full flex items-center justify-center z-10 overflow-hidden">
-            <div id="zoom-track" class="flex w-full h-full overflow-x-auto snap-x-mandatory hide-scrollbar">
-                <!-- Foto-foto besar akan masuk di sini -->
-            </div>
-            
-            <!-- Tombol Navigasi Desktop -->
+            <div id="zoom-track" class="flex w-full h-full overflow-x-auto snap-x-mandatory hide-scrollbar"></div>
             <button onclick="moveZoomSlide(-1)" class="hidden md:flex absolute left-8 bg-white/10 text-white w-14 h-14 rounded-full items-center justify-center hover:bg-white/20 transition"><i class="fa-solid fa-chevron-left text-xl"></i></button>
             <button onclick="moveZoomSlide(1)" class="hidden md:flex absolute right-8 bg-white/10 text-white w-14 h-14 rounded-full items-center justify-center hover:bg-white/20 transition"><i class="fa-solid fa-chevron-right text-xl"></i></button>
-        </div>
-
-        <!-- Hint Geser -->
-        <div class="absolute bottom-10 inset-x-0 text-center z-20 pointer-events-none opacity-50">
-            <p class="text-white text-[10px] font-bold uppercase tracking-[0.2em]"><i class="fa-solid fa-left-right mr-2"></i>Geser Untuk Melihat Foto Lain</p>
         </div>
     </div>
 
     <!-- MODAL PROFIL -->
-    <div id="profile-modal" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-end sm:items-center justify-center z-50 transition-opacity duration-300">
+    <div id="profile-modal" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-end sm:items-center justify-center z-[50] transition-opacity duration-300">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="toggleProfileModal()"></div>
         <div class="modal-sheet bg-white dark:bg-[#1C1C1E] w-full sm:w-11/12 sm:max-w-sm mx-auto rounded-t-[40px] sm:rounded-[40px] shadow-2xl z-50 overflow-hidden relative pb-4 sm:pb-0 safe-pb">
             <div class="w-12 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full mx-auto mt-4 mb-2 sm:hidden"></div>
@@ -275,13 +304,14 @@
     <!-- MODAL CHECKOUT -->
     <div id="checkout-modal" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-end sm:items-center justify-center z-[80] transition-opacity duration-300">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="toggleCheckoutModal()"></div>
-        <div class="modal-sheet bg-white dark:bg-[#1C1C1E] w-full sm:w-11/12 sm:max-w-md mx-auto rounded-t-[40px] sm:rounded-[40px] shadow-2xl z-50 h-[85vh] sm:max-h-[90vh] flex flex-col relative safe-pb">
+        <div class="modal-sheet bg-white dark:bg-[#1C1C1E] w-full sm:w-11/12 sm:max-w-md mx-auto rounded-t-[40px] sm:rounded-[40px] shadow-2xl z-[85] h-[85vh] sm:max-h-[90vh] flex flex-col relative safe-pb">
             <div class="w-12 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full mx-auto mt-4 mb-2 sm:hidden shrink-0"></div>
-            <div class="px-5 sm:px-6 py-3 flex justify-between items-center shrink-0">
-                <p class="text-xl sm:text-2xl font-bold text-black dark:text-white tracking-tight">Checkout</p>
+            <div class="px-5 sm:px-6 py-3 flex justify-between items-center shrink-0 border-b border-slate-100 dark:border-slate-800">
+                <p class="text-xl sm:text-2xl font-bold text-black dark:text-white tracking-tight">Pembayaran</p>
                 <button onclick="toggleCheckoutModal()" class="text-slate-400 dark:text-slate-500 hover:text-black dark:hover:text-white bg-slate-100 dark:bg-[#2C2C2E] w-8 h-8 rounded-full flex items-center justify-center transition-colors"><i class="fa-solid fa-times"></i></button>
             </div>
-            <div class="px-5 sm:px-6 overflow-y-auto hide-scrollbar scroll-touch flex-1">
+            
+            <div class="px-5 sm:px-6 overflow-y-auto hide-scrollbar scroll-touch flex-1 py-4">
                 <div class="flex gap-4 mb-5 pb-5 border-b border-slate-100 dark:border-slate-800">
                     <img id="m-gambar" src="" class="w-20 h-20 object-cover rounded-[16px] shadow-sm bg-slate-100">
                     <div class="flex flex-col justify-center">
@@ -293,6 +323,7 @@
 
                 <form id="form-beli" onsubmit="prosesBeli(event)" class="pb-4">
                     <input type="hidden" id="m-id"><input type="hidden" id="m-hargasatuan">
+                    
                     <div class="bg-[#F2F2F7] dark:bg-[#2C2C2E] p-4 rounded-[24px] space-y-4 mb-5">
                         <div class="flex items-center justify-between">
                             <label class="font-semibold text-black dark:text-white text-sm">Jumlah Beli</label>
@@ -302,50 +333,126 @@
                                 <button type="button" onclick="ubahJumlah(1)" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#2C2C2E] text-black dark:text-white hover:bg-slate-200 active:scale-90 transition-all"><i class="fa-solid fa-plus text-xs"></i></button>
                             </div>
                         </div>
-                        <hr class="border-slate-200 dark:border-slate-700">
-                        <div>
-                            <label class="block font-semibold text-black dark:text-white mb-3 text-sm">Metode Pembayaran</label>
-                            <div class="bg-[#767680]/12 dark:bg-[#767680]/30 p-1 rounded-[14px] flex gap-1 relative">
-                                <label class="flex-1 cursor-pointer">
-                                    <input type="radio" name="tipe_bayar" value="Lunas" class="peer sr-only" checked onchange="hitungTotalModal()">
-                                    <div class="text-center py-2 rounded-[10px] peer-checked:bg-white dark:peer-checked:bg-[#1C1C1E] peer-checked:text-black dark:peer-checked:text-white text-slate-500 font-semibold text-[13px] transition-all">Bayar Lunas</div>
-                                </label>
-                                <label class="flex-1 cursor-pointer">
-                                    <input type="radio" name="tipe_bayar" value="DP" class="peer sr-only" onchange="hitungTotalModal()">
-                                    <div class="text-center py-2 rounded-[10px] peer-checked:bg-white dark:peer-checked:bg-[#1C1C1E] peer-checked:text-black dark:peer-checked:text-white text-slate-500 font-semibold text-[13px] transition-all">DP (50%)</div>
-                                </label>
+                    </div>
+
+                    <!-- [UPDATE] METODE PEMBAYARAN (CASH / QRIS) -->
+                    <div class="mb-5">
+                        <label class="block font-semibold text-black dark:text-white mb-2 text-sm">Pilih Metode Pembayaran</label>
+                        <div class="bg-[#767680]/12 dark:bg-[#767680]/30 p-1 rounded-[14px] flex gap-1 relative">
+                            <label class="flex-1 cursor-pointer">
+                                <input type="radio" name="metode_bayar" value="QRIS" class="peer sr-only" checked onchange="toggleMetodeUI()">
+                                <div class="text-center py-2.5 rounded-[10px] peer-checked:bg-white dark:peer-checked:bg-[#1C1C1E] peer-checked:text-black dark:peer-checked:text-white text-slate-500 font-bold text-[13px] transition-all"><i class="fa-solid fa-qrcode mr-1"></i> QRIS Transfer</div>
+                            </label>
+                            <label class="flex-1 cursor-pointer">
+                                <input type="radio" name="metode_bayar" value="Cash" class="peer sr-only" onchange="toggleMetodeUI()">
+                                <div class="text-center py-2.5 rounded-[10px] peer-checked:bg-white dark:peer-checked:bg-[#1C1C1E] peer-checked:text-black dark:peer-checked:text-white text-slate-500 font-bold text-[13px] transition-all"><i class="fa-solid fa-money-bill-wave mr-1"></i> Cash / Tunai</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- [UPDATE] JENIS PEMBAYARAN (LUNAS / DP) -->
+                    <div class="mb-5">
+                        <label class="block font-semibold text-black dark:text-white mb-2 text-sm">Jenis Pembayaran</label>
+                        <div class="bg-[#767680]/12 dark:bg-[#767680]/30 p-1 rounded-[14px] flex gap-1 relative">
+                            <label class="flex-1 cursor-pointer">
+                                <input type="radio" name="tipe_bayar" value="Lunas" class="peer sr-only" checked onchange="toggleDPUI(); hitungTotalModal()">
+                                <div class="text-center py-2 rounded-[10px] peer-checked:bg-white dark:peer-checked:bg-[#1C1C1E] peer-checked:text-black dark:peer-checked:text-white text-slate-500 font-semibold text-[13px] transition-all">Lunas Full</div>
+                            </label>
+                            <label class="flex-1 cursor-pointer">
+                                <input type="radio" name="tipe_bayar" value="DP" class="peer sr-only" onchange="toggleDPUI(); hitungTotalModal()">
+                                <div class="text-center py-2 rounded-[10px] peer-checked:bg-white dark:peer-checked:bg-[#1C1C1E] peer-checked:text-black dark:peer-checked:text-white text-slate-500 font-semibold text-[13px] transition-all">Bayar DP</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- [UPDATE] INPUT CUSTOM DP (Tampil Jika Pilih DP) -->
+                    <div id="area-custom-dp" class="mb-5 hidden bg-blue-50 dark:bg-blue-500/10 p-4 rounded-[20px] border border-blue-100 dark:border-blue-500/20">
+                        <label class="block font-semibold text-blue-700 dark:text-blue-400 mb-3 text-sm">Tentukan Nilai DP (Persen atau Nominal)</label>
+                        <div class="flex gap-4 items-center">
+                            <div class="flex-1">
+                                <div class="relative">
+                                    <input type="number" id="dp-pct" placeholder="Persen" value="50" oninput="hitungDP('pct')" class="w-full bg-white dark:bg-[#1C1C1E] border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none font-bold text-black dark:text-white pr-8">
+                                    <span class="absolute right-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">%</span>
+                                </div>
+                            </div>
+                            <div class="font-bold text-slate-400">=</div>
+                            <div class="flex-[2]">
+                                <div class="relative">
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">Rp</span>
+                                    <input type="number" id="dp-nom" placeholder="Nominal Rp" oninput="hitungDP('nom')" class="w-full bg-white dark:bg-[#1C1C1E] border border-slate-200 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none font-bold text-black dark:text-white">
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="mb-5 text-center">
+                    <!-- AREA QRIS (Sembunyi jika Cash) -->
+                    <div id="area-qris" class="mb-5 text-center">
                         <label class="block font-semibold text-black dark:text-white mb-3 text-sm">Scan QRIS Untuk Membayar</label>
                         <div class="bg-white p-3 rounded-[24px] inline-block shadow-sm border border-slate-200">
                             <img id="m-qris" src="" class="w-40 h-40 object-contain mx-auto rounded-[12px]">
                         </div>
+                        <p id="qris-nama-label" class="mt-2 text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full inline-block">A/N: -</p>
+                        
+                        <!-- UPLOAD BUKTI -->
+                        <div class="mt-5 text-left">
+                            <label id="lbl-upload-1" class="block font-semibold text-black dark:text-white mb-2 text-sm">Upload Bukti Transfer</label>
+                            <div onclick="document.getElementById('m-bukti').click()" class="relative w-full h-24 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-[20px] bg-[#F2F2F7]/50 dark:bg-[#2C2C2E]/50 hover:bg-[#E5E5EA] transition-colors flex flex-col items-center justify-center cursor-pointer overflow-hidden group">
+                                <input type="file" id="m-bukti" accept="image/*" class="hidden" onchange="previewImage(event, 'm-bukti-preview', 'buktiBase64')">
+                                <div id="m-bukti-icon" class="text-center text-slate-400 group-hover:text-blue-500 transition-colors">
+                                    <i class="fa-solid fa-cloud-arrow-up text-2xl mb-1"></i>
+                                    <p class="text-[10px] font-bold uppercase tracking-wider" id="txt-upload-1">Pilih Bukti Foto</p>
+                                </div>
+                                <img id="m-bukti-preview" src="" class="absolute inset-0 w-full h-full object-cover hidden">
+                            </div>
+                        </div>
+
+                        <!-- UPLOAD BUKTI PELUNASAN (Muncul Jika DP) -->
+                        <div id="area-upload-pelunasan" class="mt-4 text-left hidden">
+                            <label class="block font-semibold text-black dark:text-white mb-2 text-sm">Upload Bukti Pelunasan <span class="text-[10px] text-slate-400 font-normal">(Opsional jika dibayar nanti)</span></label>
+                            <div onclick="document.getElementById('m-pelunasan').click()" class="relative w-full h-24 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-[20px] bg-[#F2F2F7]/50 dark:bg-[#2C2C2E]/50 hover:bg-[#E5E5EA] transition-colors flex flex-col items-center justify-center cursor-pointer overflow-hidden group">
+                                <input type="file" id="m-pelunasan" accept="image/*" class="hidden" onchange="previewImage(event, 'm-pelunasan-preview', 'pelunasanBase64')">
+                                <div id="m-pelunasan-icon" class="text-center text-slate-400 group-hover:text-emerald-500 transition-colors">
+                                    <i class="fa-solid fa-cloud-arrow-up text-2xl mb-1"></i>
+                                    <p class="text-[10px] font-bold uppercase tracking-wider">Pilih Bukti Pelunasan</p>
+                                </div>
+                                <img id="m-pelunasan-preview" src="" class="absolute inset-0 w-full h-full object-cover hidden">
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div class="mb-5">
-                        <label class="block font-semibold text-black dark:text-white mb-2 text-sm">Upload Bukti Transfer</label>
-                        <div onclick="document.getElementById('m-bukti').click()" class="relative w-full h-32 border-0 rounded-[24px] bg-[#F2F2F7] dark:bg-[#2C2C2E] hover:bg-[#E5E5EA] transition-colors flex flex-col items-center justify-center cursor-pointer overflow-hidden group shadow-inner">
-                            <input type="file" id="m-bukti" required accept="image/*" class="hidden" onchange="previewImage(event, 'm-bukti-preview', 'buktiBase64')">
-                            <div id="m-bukti-icon" class="text-center">
-                                <div class="w-12 h-12 rounded-full bg-white dark:bg-[#1C1C1E] shadow-sm flex items-center justify-center mx-auto mb-2 text-blue-500 group-hover:scale-110 transition-transform"><i class="fa-solid fa-arrow-up-from-bracket"></i></div>
-                                <p class="text-xs font-semibold text-slate-500">Pilih Foto Struk</p>
-                            </div>
-                            <img id="m-bukti-preview" src="" class="absolute inset-0 w-full h-full object-cover hidden">
-                        </div>
+                    <!-- AREA INFO CASH -->
+                    <div id="area-cash-info" class="hidden mb-5 bg-emerald-50 dark:bg-emerald-500/10 p-4 rounded-[20px] border border-emerald-100 dark:border-emerald-500/20 text-center">
+                        <i class="fa-solid fa-money-bill-wave text-3xl text-emerald-500 mb-2"></i>
+                        <p class="text-emerald-700 dark:text-emerald-400 font-bold text-sm">Bayar Langsung (Cash)</p>
+                        <p class="text-xs text-emerald-600 dark:text-emerald-500 mt-1">Selesaikan pembayaran saat mengambil barang atau COD. Tidak perlu upload bukti transfer.</p>
                     </div>
 
                     <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between mb-6">
                         <div>
-                            <span class="text-xs font-semibold text-slate-500">Total Tagihan</span>
+                            <span class="text-xs font-semibold text-slate-500" id="lbl-total">Total Tagihan</span>
                             <div id="m-totalharga" class="text-2xl font-bold text-black dark:text-white tracking-tight">Rp 0</div>
                         </div>
                     </div>
-                    <button type="submit" id="btn-proses-beli" class="w-full bg-blue-500 text-white font-bold py-4 rounded-full active:scale-[0.97] transition-all text-[17px] shadow-lg shadow-blue-500/30">Konfirmasi Pembayaran</button>
+                    <button type="submit" id="btn-proses-beli" class="w-full bg-blue-500 text-white font-bold py-4 rounded-full active:scale-[0.97] transition-all text-[17px] shadow-lg shadow-blue-500/30">Konfirmasi Pesanan</button>
                 </form>
             </div>
+        </div>
+    </div>
+
+    <!-- [UPDATE] MODAL WA REDIRECT -->
+    <div id="modal-wa" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[110] transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
+        <div class="modal-sheet bg-white dark:bg-[#1C1C1E] w-11/12 max-w-sm mx-auto rounded-[32px] p-6 text-center shadow-2xl z-10 relative">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-500 shadow-inner">
+                <i class="fa-brands fa-whatsapp text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-black dark:text-white tracking-tight mb-2">Pesanan Berhasil!</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Untuk mempercepat proses, silakan konfirmasi pesanan Anda ke Admin melalui WhatsApp.</p>
+            <div id="wa-button-container" class="space-y-3">
+                <!-- Buttons admin dinamis diisi JS -->
+            </div>
+            <button onclick="tutupWaModal()" class="mt-4 text-slate-400 hover:text-black dark:hover:text-white text-xs font-bold uppercase tracking-wider p-2">Nanti Saja</button>
         </div>
     </div>
 
@@ -356,7 +463,8 @@
         let selectedMaxStok = 0;
         let authFotoBase64 = "";
         let buktiBase64 = "";
-        let appSettings = { logo: '', loginBg: '', banners: [], qris_lunas: '', qris_dp: '' };
+        let pelunasanBase64 = ""; // Untuk DP
+        let appSettings = { logo: '', loginBg: '', banners: [], qris_lunas: '', qris_dp: '', qris_name: '', admin_wa: '' };
         let globalProduk = [];
         let listFavorit = [];
         let activeKategori = 'Semua';
@@ -365,6 +473,7 @@
         // ZOOM STATE
         let zoomImages = [];
         let zoomIdx = 0;
+        let currentDetailId = null; // Menyimpan ID produk yg sedang dibuka detailnya
 
         function initTheme() {
             const savedTheme = localStorage.getItem('tokoBajuTheme');
@@ -377,30 +486,21 @@
                 if(toggle) toggle.checked = false;
             }
         }
-        
         function toggleTheme() {
             const html = document.documentElement;
             const toggle = document.getElementById('theme-toggle');
             if (toggle.checked) {
-                html.classList.add('dark');
-                localStorage.setItem('tokoBajuTheme', 'dark');
+                html.classList.add('dark'); localStorage.setItem('tokoBajuTheme', 'dark');
             } else {
-                html.classList.remove('dark');
-                localStorage.setItem('tokoBajuTheme', 'light');
+                html.classList.remove('dark'); localStorage.setItem('tokoBajuTheme', 'light');
             }
         }
         initTheme();
 
         function togglePassword(inputId, iconId) {
-            const input = document.getElementById(inputId);
-            const icon = document.getElementById(iconId);
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye');
-            }
+            const input = document.getElementById(inputId); const icon = document.getElementById(iconId);
+            if (input.type === 'password') { input.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash'); } 
+            else { input.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye'); }
         }
 
         async function initApp() {
@@ -414,11 +514,16 @@
                         if(item.Key.startsWith('banner_') && item.Value) appSettings.banners.push(item.Value);
                         if(item.Key === 'qris_lunas' && item.Value) appSettings.qris_lunas = item.Value;
                         if(item.Key === 'qris_dp' && item.Value) appSettings.qris_dp = item.Value;
+                        if(item.Key === 'qris_name' && item.Value) appSettings.qris_name = item.Value;
+                        if(item.Key === 'admin_wa' && item.Value) appSettings.admin_wa = item.Value;
                     });
                     if (appSettings.loginBg) document.getElementById('auth-section').style.backgroundImage = `url('${appSettings.loginBg}')`;
                     if (appSettings.logo) {
                         document.getElementById('app-logo-auth').innerHTML = `<img src="${appSettings.logo}" class="h-24 object-contain mx-auto">`;
                         document.getElementById('app-logo-nav').innerHTML = `<img src="${appSettings.logo}" class="h-8 object-contain">`;
+                    }
+                    if (appSettings.qris_name) {
+                        document.getElementById('qris-nama-label').textContent = "A/N: " + appSettings.qris_name;
                     }
                 }
             } catch(err) {}
@@ -428,7 +533,7 @@
             checkAuth();
         }
 
-        function previewImage(event, previewId, targetVariable) {
+        function previewImage(event, previewId, targetVariable, isAuth = false) {
             const file = event.target.files[0];
             const preview = document.getElementById(previewId);
             const icon = preview.previousElementSibling; 
@@ -444,8 +549,11 @@
                     canvas.width = width; canvas.height = height;
                     const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
                     const base64Str = canvas.toDataURL('image/jpeg', 0.8);
+                    
                     if(targetVariable === 'authFotoBase64') authFotoBase64 = base64Str;
                     if(targetVariable === 'buktiBase64') buktiBase64 = base64Str;
+                    if(targetVariable === 'pelunasanBase64') pelunasanBase64 = base64Str;
+                    
                     preview.src = base64Str; preview.classList.remove('hidden'); if(icon) icon.style.display = 'none';
                 }
                 img.src = e.target.result;
@@ -466,8 +574,7 @@
                 loadFavoritesFromLocal(); 
                 document.getElementById('auth-section').classList.add('hidden');
                 document.getElementById('app-section').classList.remove('hidden');
-                showHome();
-                fetchPesananCustomer(true); 
+                showHome(); fetchPesananCustomer(true); 
             } else {
                 document.getElementById('auth-section').classList.remove('hidden');
                 document.getElementById('app-section').classList.add('hidden');
@@ -524,48 +631,30 @@
             else { modal.classList.remove('show'); setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); body.classList.remove('modal-active'); }, 300); }
         }
 
-        // ================= FITUR ZOOM SLIDER BARU =================
         function openZoom(imageString, startIdx = 0) {
             zoomImages = imageString.split(',').filter(url => url.trim() !== "");
             zoomIdx = startIdx;
-            
             const track = document.getElementById('zoom-track');
-            track.innerHTML = zoomImages.map((url, i) => `
+            track.innerHTML = zoomImages.map((url) => `
                 <div class="w-full h-full flex-shrink-0 snap-center-item flex items-center justify-center p-4">
                     <img src="${url}" class="max-w-full max-h-full object-contain rounded-2xl shadow-2xl" onerror="this.src='https://via.placeholder.com/800x800?text=Gambar+Rusak'">
                 </div>
             `).join('');
-
             document.getElementById('modal-zoom').classList.remove('opacity-0', 'pointer-events-none');
             document.querySelector('body').classList.add('modal-active');
             updateZoomUI();
-
-            // Atur posisi awal slider
-            setTimeout(() => {
-                track.scrollLeft = track.offsetWidth * startIdx;
-            }, 50);
-
-            // Listener Geser (Swipe)
+            setTimeout(() => { track.scrollLeft = track.offsetWidth * startIdx; }, 50);
             track.onscroll = () => {
                 const newIdx = Math.round(track.scrollLeft / track.offsetWidth);
-                if(newIdx !== zoomIdx) {
-                    zoomIdx = newIdx;
-                    updateZoomUI();
-                }
+                if(newIdx !== zoomIdx) { zoomIdx = newIdx; updateZoomUI(); }
             };
         }
-
         function moveZoomSlide(dir) {
             const track = document.getElementById('zoom-track');
             zoomIdx = Math.max(0, Math.min(zoomIdx + dir, zoomImages.length - 1));
-            track.scrollTo({ left: track.offsetWidth * zoomIdx, behavior: 'smooth' });
-            updateZoomUI();
+            track.scrollTo({ left: track.offsetWidth * zoomIdx, behavior: 'smooth' }); updateZoomUI();
         }
-
-        function updateZoomUI() {
-            document.getElementById('zoom-counter').textContent = `${zoomIdx + 1} / ${zoomImages.length}`;
-        }
-
+        function updateZoomUI() { document.getElementById('zoom-counter').textContent = `${zoomIdx + 1} / ${zoomImages.length}`; }
         function closeZoom() {
             document.getElementById('modal-zoom').classList.add('opacity-0', 'pointer-events-none');
             document.querySelector('body').classList.remove('modal-active');
@@ -575,10 +664,15 @@
         function saveFavoritesToLocal() { if(!currentUser) return; localStorage.setItem(`tokoBajuFavs_${currentUser.username}`, JSON.stringify(listFavorit)); }
         
         function toggleFavorite(id, event) {
-            event.stopPropagation(); 
+            if(event) event.stopPropagation(); 
             const idx = listFavorit.indexOf(id); if(idx > -1) listFavorit.splice(idx, 1); else listFavorit.push(id); saveFavoritesToLocal();
             terapkanFilter();
             if(!document.getElementById('sec-favorite').classList.contains('hidden')) showFavorites();
+            if(!document.getElementById('sec-detail-produk').classList.contains('hidden')) {
+               // Update tombol fav di halaman detail
+               const isFav = listFavorit.includes(id);
+               document.getElementById('dtl-btn-fav').innerHTML = `<i class="${isFav ? 'fa-solid text-pink-500' : 'fa-regular'} fa-heart text-xl"></i>`;
+            }
         }
 
         function populateKategori() {
@@ -590,13 +684,12 @@
                 return `<button onclick="setKategori('${k}')" class="shrink-0 px-5 py-2.5 rounded-full text-xs font-bold transition-all ${activeClass}">${k}</button>`;
             }).join('');
         }
-
         function setKategori(kat) { activeKategori = kat; populateKategori(); terapkanFilter(); }
         function setSortFilter(tipe) {
             activeSort = tipe;
             const btnT = document.getElementById('btn-sort-terbaru'); const btnL = document.getElementById('btn-sort-terlaris');
-            if(tipe === 'terbaru') { btnT.className = "bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold"; btnL.className = "text-slate-500 px-5 py-2 text-xs font-bold"; }
-            else { btnL.className = "bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold"; btnT.className = "text-slate-500 px-5 py-2 text-xs font-bold"; }
+            if(tipe === 'terbaru') { btnT.className = "bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold shadow-sm"; btnL.className = "text-slate-500 px-5 py-2 text-xs font-bold"; }
+            else { btnL.className = "bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold shadow-sm"; btnT.className = "text-slate-500 px-5 py-2 text-xs font-bold"; }
             terapkanFilter();
         }
 
@@ -614,13 +707,13 @@
             if(data.length > 0) grid.innerHTML = data.map(p => {
                 const id = p.ID || p.id; const nama = p['Nama Baju'] || p.nama; const harga = p.Harga || p.harga; const stok = p.Stok || p.stok;
                 const gambarRaw = p['URL Gambar'] || p.gambar || '';
-                const imgs = gambarRaw.split(',').filter(u => u.trim() !== "");
-                const mainImg = imgs[0] || 'https://via.placeholder.com/400';
+                const mainImg = gambarRaw.split(',')[0] || 'https://via.placeholder.com/400';
                 const isFav = listFavorit.includes(id);
+                // [UPDATE] onClick bukaDetailProduk
                 return `
-                <div class="bg-white dark:bg-[#1C1C1E] rounded-[32px] p-2 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col group">
+                <div class="bg-white dark:bg-[#1C1C1E] rounded-[32px] p-2 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col group cursor-pointer" onclick="bukaDetailProduk('${id}')">
                     <div class="relative h-48 sm:h-64 rounded-[24px] overflow-hidden bg-slate-50 dark:bg-slate-900">
-                        <img src="${mainImg}" class="w-full h-full object-cover cursor-zoom-in group-hover:scale-110 transition duration-700" onclick="openZoom('${gambarRaw}', 0)">
+                        <img src="${mainImg}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         <button onclick="toggleFavorite('${id}', event)" class="absolute top-3 right-3 w-9 h-9 rounded-full glass-panel flex items-center justify-center transition active:scale-90 z-10">
                             <i class="${isFav ? 'fa-solid fa-heart text-pink-500' : 'fa-regular fa-heart text-slate-400'} text-lg"></i>
                         </button>
@@ -628,30 +721,99 @@
                     <div class="p-3 flex-1 flex flex-col">
                         <h3 class="font-bold text-black dark:text-white text-sm line-clamp-2 mb-1">${nama}</h3>
                         <p class="text-blue-500 font-extrabold text-lg mt-auto">${formatRp(harga)}</p>
-                        <div class="flex items-center justify-between mt-3">
-                            <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded">Stok: ${stok}</span>
-                            <button onclick="bukaModalBeli('${id}', '${nama.replace(/'/g,"\\'")}', ${harga}, ${stok}, '${mainImg}')" class="bg-black dark:bg-white text-white dark:text-black px-4 py-1.5 rounded-full text-xs font-bold active:scale-95 transition">Beli</button>
-                        </div>
                     </div>
                 </div>`;
             }).join('');
             else grid.innerHTML = `<div class="col-span-full py-20 text-center text-slate-400">Produk tidak ditemukan</div>`;
         }
 
-        function showHome() { document.getElementById('sec-home').classList.remove('hidden'); document.getElementById('sec-favorite').classList.add('hidden'); document.getElementById('sec-pesanan').classList.add('hidden'); if(globalProduk.length === 0) fetchKatalog(); else { populateKategori(); terapkanFilter(); } }
-        function showFavorites() { document.getElementById('sec-home').classList.add('hidden'); document.getElementById('sec-favorite').classList.remove('hidden'); document.getElementById('sec-pesanan').classList.add('hidden'); renderKatalogToDOM(globalProduk.filter(p => listFavorit.includes(p.ID || p.id)), 'favorite-grid'); }
-        function showPesanan() { document.getElementById('sec-home').classList.add('hidden'); document.getElementById('sec-favorite').classList.add('hidden'); document.getElementById('sec-pesanan').classList.remove('hidden'); fetchPesananCustomer(); }
+        // [UPDATE] NAVIGASI HALAMAN
+        function hideAllSections() {
+            ['sec-home', 'sec-favorite', 'sec-pesanan', 'sec-detail-produk'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+        }
+        function showHome() { 
+            hideAllSections(); document.getElementById('sec-home').classList.remove('hidden'); 
+            if(globalProduk.length === 0) fetchKatalog(); else { populateKategori(); terapkanFilter(); } 
+        }
+        function showFavorites() { 
+            hideAllSections(); document.getElementById('sec-favorite').classList.remove('hidden'); 
+            renderKatalogToDOM(globalProduk.filter(p => listFavorit.includes(p.ID || p.id)), 'favorite-grid'); 
+        }
+        function showPesanan() { 
+            hideAllSections(); document.getElementById('sec-pesanan').classList.remove('hidden'); 
+            fetchPesananCustomer(); 
+        }
+
+        // [UPDATE] FITUR DETAIL PRODUK
+        function bukaDetailProduk(id) {
+            const p = globalProduk.find(x => (x.ID || x.id) == id);
+            if(!p) return;
+            currentDetailId = id;
+            
+            const nama = p['Nama Baju'] || p.nama; const harga = p.Harga || p.harga; 
+            const stok = p.Stok || p.stok; const kat = p.Kategori || p.kategori;
+            const deskripsi = p.Deskripsi || "Tidak ada deskripsi dari admin.";
+            const gambarRaw = p['URL Gambar'] || p.gambar || '';
+            const imgs = gambarRaw.split(',').filter(u => u.trim() !== "");
+            const mainImg = imgs[0] || 'https://via.placeholder.com/800';
+            
+            document.getElementById('dtl-nama').textContent = nama;
+            document.getElementById('dtl-kategori').textContent = kat;
+            document.getElementById('dtl-harga').textContent = formatRp(harga);
+            document.getElementById('dtl-stok').textContent = stok;
+            document.getElementById('dtl-deskripsi').textContent = deskripsi;
+            
+            const imgUtama = document.getElementById('dtl-gambar-utama');
+            imgUtama.src = mainImg;
+            imgUtama.onclick = () => openZoom(gambarRaw, 0);
+
+            // Thumbnail
+            const thumbContainer = document.getElementById('dtl-thumbnail-container');
+            if(imgs.length > 1) {
+                thumbContainer.innerHTML = imgs.map((u, i) => `
+                    <div onclick="document.getElementById('dtl-gambar-utama').src='${u}'; document.getElementById('dtl-gambar-utama').onclick = () => openZoom('${gambarRaw}', ${i});" 
+                         class="w-16 h-16 rounded-xl overflow-hidden cursor-pointer border-2 border-transparent hover:border-blue-500 shrink-0">
+                        <img src="${u}" class="w-full h-full object-cover">
+                    </div>
+                `).join('');
+                thumbContainer.classList.remove('hidden');
+            } else {
+                thumbContainer.classList.add('hidden');
+            }
+
+            // Tombol Fav & Beli
+            const isFav = listFavorit.includes(id);
+            document.getElementById('dtl-btn-fav').innerHTML = `<i class="${isFav ? 'fa-solid text-pink-500' : 'fa-regular'} fa-heart text-xl"></i>`;
+            document.getElementById('dtl-btn-fav').onclick = (e) => toggleFavorite(id, e);
+            
+            const btnBeli = document.getElementById('dtl-btn-beli');
+            if(stok > 0) {
+                btnBeli.disabled = false; btnBeli.classList.replace('opacity-50', 'opacity-100');
+                btnBeli.textContent = "Beli Sekarang";
+                btnBeli.onclick = () => bukaModalBeli(id, nama, harga, stok, mainImg);
+            } else {
+                btnBeli.disabled = true; btnBeli.classList.replace('opacity-100', 'opacity-50');
+                btnBeli.textContent = "Stok Habis";
+                btnBeli.onclick = null;
+            }
+
+            hideAllSections();
+            document.getElementById('sec-detail-produk').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
 
         async function fetchKatalog() {
             const loader = document.getElementById('loading'); if(loader) loader.classList.remove('hidden');
             try {
-                const res = await fetch(`${SCRIPT_URL}?action=getProduk`);
-                const data = await res.json();
+                const res = await fetch(`${SCRIPT_URL}?action=getProduk`); const data = await res.json();
                 if(data.status === 'success') {
                     globalProduk = data.data.filter(p => parseInt(p.Stok || p.stok) > 0);
                     initBanner(globalProduk); populateKategori(); terapkanFilter();
                 }
-            } catch (err) { document.getElementById('product-grid').innerHTML = `<p class="col-span-full text-center py-10 text-red-400">Katalog Gagal Dimuat</p>`; }
+            } catch (err) {}
             if(loader) loader.classList.add('hidden');
         }
 
@@ -659,86 +821,106 @@
             const container = document.getElementById('list-pesanan-customer'); const badge = document.getElementById('badge-pesanan-count');
             if(!silent) container.innerHTML = `<div class="text-center py-10 text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Memuat...</div>`;
             try {
-                const res = await fetch(`${SCRIPT_URL}?action=getPenjualan`);
-                const data = await res.json();
+                const res = await fetch(`${SCRIPT_URL}?action=getPenjualan`); const data = await res.json();
                 if(data.status === 'success') {
                     const my = data.data.filter(p => p['Username Pembeli'] === currentUser.username).reverse();
                     badge.textContent = my.length; badge.classList.toggle('hidden', my.length === 0);
                     if(!silent) {
-                        if(my.length > 0) container.innerHTML = my.map(p => `
-                            <div class="bg-white dark:bg-[#1C1C1E] p-5 rounded-[24px] shadow-sm border border-slate-100 dark:border-slate-800 flex justify-between items-center">
-                                <div>
-                                    <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${p['ID Transaksi']}</span>
-                                    <h4 class="font-bold text-black dark:text-white mt-1">${p['Nama Baju']}</h4>
-                                    <p class="text-xs text-slate-500 mt-1">${p.Tanggal.split(',')[0]} &bull; ${p.Jumlah} Pcs &bull; ${p.Status}</p>
+                        if(my.length > 0) container.innerHTML = my.map(p => {
+                            const isDP = p['Tipe Pembayaran'] === 'DP';
+                            const noPelunasan = !p['Bukti Pelunasan'] || p['Bukti Pelunasan'] === "Menunggu Pelunasan";
+                            const trId = p['ID Transaksi'];
+                            
+                            // Form mini untuk upload pelunasan khusus DP yang belum lunas
+                            let htmlUploadLunas = "";
+                            if(isDP && noPelunasan && p.Status !== 'Dibatalkan') {
+                                htmlUploadLunas = `
+                                <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                                    <p class="text-xs font-bold text-slate-500 mb-2">Upload Bukti Pelunasan DP</p>
+                                    <div class="flex items-center gap-2">
+                                        <input type="file" id="file_pelunasan_${trId}" accept="image/*" class="hidden" onchange="prosesUploadPelunasan(event, '${trId}')">
+                                        <button onclick="document.getElementById('file_pelunasan_${trId}').click()" class="bg-[#F2F2F7] dark:bg-slate-800 text-blue-500 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 hover:bg-blue-50 transition-colors">
+                                            <i class="fa-solid fa-upload"></i> Pilih & Upload Foto
+                                        </button>
+                                        <span id="loading_${trId}" class="text-xs text-blue-500 hidden"><i class="fa-solid fa-spinner fa-spin"></i> Mengunggah...</span>
+                                    </div>
+                                </div>`;
+                            }
+
+                            return `
+                            <div class="bg-white dark:bg-[#1C1C1E] p-5 rounded-[24px] shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${p['ID Transaksi']}</span>
+                                        <h4 class="font-bold text-black dark:text-white mt-1">${p['Nama Baju']}</h4>
+                                        <p class="text-xs text-slate-500 mt-1">${p.Tanggal.split(',')[0]} &bull; ${p.Jumlah} Pcs &bull; ${p.Status}</p>
+                                        <p class="text-[10px] text-slate-500 mt-1 font-bold">Metode: ${p['Metode Bayar']||'-'} | Tipe: ${p['Tipe Pembayaran']} ${isDP ? `(${p['Detail DP']})` : ''}</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-blue-500 font-extrabold">${formatRp(p['Total Harga'])}</p>
+                                    </div>
                                 </div>
-                                <div class="text-right">
-                                    <p class="text-blue-500 font-extrabold">${formatRp(p['Total Harga'])}</p>
-                                    <span class="text-[10px] font-bold bg-blue-50 dark:bg-blue-500/10 text-blue-500 px-2 py-0.5 rounded mt-2 inline-block">${p['Tipe Pembayaran']}</span>
-                                </div>
-                            </div>`).join('');
+                                ${htmlUploadLunas}
+                            </div>`;
+                        }).join('');
                         else container.innerHTML = `<div class="py-20 text-center text-slate-400 font-medium">Belum ada pesanan</div>`;
                     }
                 }
             } catch (err) {}
         }
 
-        // ================= FITUR BANNER OTOMATIS BARU =================
-        let bIdx = 0; let bInterval;
-        let bStart = 0;
+        // [UPDATE] PROSES UPLOAD PELUNASAN DARI RIWAYAT
+        function prosesUploadPelunasan(event, idTrx) {
+            const file = event.target.files[0]; if(!file) return;
+            const loader = document.getElementById(`loading_${idTrx}`); loader.classList.remove('hidden');
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = async function() {
+                    const canvas = document.createElement('canvas'); const MAX_SIZE = 800; 
+                    let w = img.width; let h = img.height;
+                    if (w > h && w > MAX_SIZE) { h *= MAX_SIZE / w; w = MAX_SIZE; } else if (h > MAX_SIZE) { w *= MAX_SIZE / h; h = MAX_SIZE; }
+                    canvas.width = w; canvas.height = h; canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                    const b64 = canvas.toDataURL('image/jpeg', 0.8);
+                    
+                    try {
+                        const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: "updateBuktiPelunasan", id_transaksi: idTrx, bukti_pelunasan: b64 }), headers: { 'Content-Type': 'text/plain' } });
+                        const data = await res.json();
+                        if(data.status === 'success') { alert('Bukti pelunasan berhasil dikirim!'); fetchPesananCustomer(); } else alert(data.message);
+                    } catch(err){}
+                    loader.classList.add('hidden');
+                }
+                img.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
 
+        // --- BANNER ---
+        let bIdx = 0; let bInterval; let bStart = 0;
         function initBanner(products) {
-            const track = document.getElementById('banner-track');
-            const dots = document.getElementById('banner-dots');
-            
-            // Mengambil banner dari setingan admin
+            const track = document.getElementById('banner-track'); const dots = document.getElementById('banner-dots');
             let bSource = [...appSettings.banners.filter(b => b.trim() !== "")];
-            
-            // Jika banner admin kurang dari 3, tambahkan banner dari produk
             if(bSource.length < 3) {
                 const prodImgs = products.filter(p => (p['URL Gambar']||p.gambar)).map(p => (p['URL Gambar']||p.gambar).split(',')[0]);
                 bSource = [...bSource, ...prodImgs.slice(0, 3 - bSource.length)];
             }
-
-            // Fallback: Jika masih kurang dari 3 (misal produk dikit), buat BANNER GRAFIS (Non-Foto)
             const grafisBanners = [
                 { type: 'grafis', bg: 'from-blue-600 to-indigo-800', icon: 'fa-shirt', title: 'Koleksi Terbaru 2026', sub: 'Temukan gaya paling modern tahun ini' },
                 { type: 'grafis', bg: 'from-purple-600 to-pink-700', icon: 'fa-tag', title: 'Promo Akhir Pekan', sub: 'Dapatkan harga spesial terbatas' },
                 { type: 'grafis', bg: 'from-emerald-500 to-teal-700', icon: 'fa-star', title: 'Kualitas Premium', sub: 'Bahan pilihan untuk kenyamanan Anda' }
             ];
-
-            while(bSource.length < 3) {
-                bSource.push(grafisBanners[bSource.length % grafisBanners.length]);
-            }
+            while(bSource.length < 3) { bSource.push(grafisBanners[bSource.length % grafisBanners.length]); }
 
             track.innerHTML = bSource.map((item, i) => {
                 if(typeof item === 'string') {
-                    return `<div class="slide absolute inset-0 transition-opacity duration-700 ${i===0?'opacity-100':'opacity-0'}">
-                        <div class="absolute inset-0 bg-black/20 z-10"></div>
-                        <img src="${item}" class="w-full h-full object-cover">
-                        <div class="absolute bottom-16 left-8 z-20 text-white">
-                            <h2 class="text-3xl font-extrabold mb-2 drop-shadow-lg">Gaya Masa Kini</h2>
-                            <p class="text-white/80 font-medium drop-shadow-md">Koleksi pilihan terbaik minggu ini</p>
-                        </div>
-                    </div>`;
+                    return `<div class="slide absolute inset-0 transition-opacity duration-700 ${i===0?'opacity-100':'opacity-0'}"><div class="absolute inset-0 bg-black/20 z-10"></div><img src="${item}" class="w-full h-full object-cover"><div class="absolute bottom-16 left-8 z-20 text-white"><h2 class="text-3xl font-extrabold mb-2 drop-shadow-lg">Gaya Masa Kini</h2></div></div>`;
                 } else {
-                    return `<div class="slide absolute inset-0 transition-opacity duration-700 ${i===0?'opacity-100':'opacity-0'} bg-gradient-to-br ${item.bg} flex items-center justify-center text-center p-8">
-                        <div>
-                            <i class="fa-solid ${item.icon} text-white/30 text-8xl mb-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i>
-                            <div class="relative z-10">
-                                <h2 class="text-4xl font-black text-white mb-4 tracking-tight">${item.title}</h2>
-                                <p class="text-white/90 text-lg font-medium bg-black/10 backdrop-blur-md px-6 py-2 rounded-full inline-block">${item.sub}</p>
-                            </div>
-                        </div>
-                    </div>`;
+                    return `<div class="slide absolute inset-0 transition-opacity duration-700 ${i===0?'opacity-100':'opacity-0'} bg-gradient-to-br ${item.bg} flex items-center justify-center text-center p-8"><div><i class="fa-solid ${item.icon} text-white/30 text-8xl mb-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i><div class="relative z-10"><h2 class="text-4xl font-black text-white mb-4">${item.title}</h2><p class="text-white/90 bg-black/10 px-6 py-2 rounded-full inline-block">${item.sub}</p></div></div></div>`;
                 }
             }).join('');
-
             dots.innerHTML = bSource.map((_, i) => `<div class="w-2 h-2 rounded-full transition-all ${i===0?'bg-white w-6':'bg-white/40'}"></div>`).join('');
-            
             bIdx = 0; clearInterval(bInterval); bInterval = setInterval(() => bNav(1), 4000);
         }
-
         function bNav(dir) {
             const slides = document.querySelectorAll('.slide'); if(!slides.length) return;
             const dots = document.getElementById('banner-dots').children;
@@ -748,7 +930,6 @@
             slides[bIdx].classList.replace('opacity-0', 'opacity-100');
             dots[bIdx].classList.replace('bg-white/40', 'bg-white'); dots[bIdx].classList.add('w-6');
         }
-
         function nextSlideManual() { clearInterval(bInterval); bNav(1); bInterval = setInterval(() => bNav(1), 4000); }
         function prevSlide() { clearInterval(bInterval); bNav(-1); bInterval = setInterval(() => bNav(1), 4000); }
         function handleBannerTouchStart(e) { bStart = e.changedTouches[0].screenX; }
@@ -761,36 +942,175 @@
             else { checkoutModal.classList.remove('show'); setTimeout(() => { checkoutModal.classList.add('opacity-0', 'pointer-events-none'); body.classList.remove('modal-active'); }, 300); }
         }
 
+        // --- CHECKOUT LOGIC ---
         function bukaModalBeli(id, nama, harga, stok, gambar) {
             document.getElementById('m-id').value = id; document.getElementById('m-nama').textContent = nama; document.getElementById('m-harga').textContent = formatRp(harga); document.getElementById('m-stok').textContent = stok; document.getElementById('m-gambar').src = gambar; document.getElementById('m-hargasatuan').value = harga; document.getElementById('m-jumlah').value = 1; selectedMaxStok = stok;
-            buktiBase64 = ""; document.getElementById('m-bukti').value = ""; document.getElementById('m-bukti-preview').classList.add('hidden'); document.getElementById('m-bukti-icon').style.display = 'block'; document.querySelector('input[name="tipe_bayar"][value="Lunas"]').checked = true;
-            hitungTotalModal(); toggleCheckoutModal();
+            
+            // Reset state
+            buktiBase64 = ""; pelunasanBase64 = ""; 
+            document.getElementById('m-bukti').value = ""; document.getElementById('m-bukti-preview').classList.add('hidden'); document.getElementById('m-bukti-icon').style.display = 'block';
+            document.getElementById('m-pelunasan').value = ""; document.getElementById('m-pelunasan-preview').classList.add('hidden'); document.getElementById('m-pelunasan-icon').style.display = 'block';
+            
+            // Default select
+            document.querySelector('input[name="metode_bayar"][value="QRIS"]').checked = true;
+            document.querySelector('input[name="tipe_bayar"][value="Lunas"]').checked = true;
+            
+            document.getElementById('dp-pct').value = "50";
+            
+            toggleMetodeUI();
+            toggleDPUI();
+            hitungTotalModal(); 
+            toggleCheckoutModal();
+        }
+
+        function toggleMetodeUI() {
+            const isQris = document.querySelector('input[name="metode_bayar"]:checked').value === "QRIS";
+            if(isQris) {
+                document.getElementById('area-qris').classList.remove('hidden');
+                document.getElementById('area-cash-info').classList.add('hidden');
+                // Ganti label total tagihan
+                const isDP = document.querySelector('input[name="tipe_bayar"]:checked').value === "DP";
+                document.getElementById('lbl-total').textContent = isDP ? "DP yang harus di Transfer" : "Total yang harus di Transfer";
+            } else {
+                document.getElementById('area-qris').classList.add('hidden');
+                document.getElementById('area-cash-info').classList.remove('hidden');
+                document.getElementById('lbl-total').textContent = "Total Tagihan";
+            }
+        }
+
+        function toggleDPUI() {
+            const isDP = document.querySelector('input[name="tipe_bayar"]:checked').value === "DP";
+            const customArea = document.getElementById('area-custom-dp');
+            const uploadPelunasan = document.getElementById('area-upload-pelunasan');
+            const lblUpload1 = document.getElementById('lbl-upload-1');
+            const txtUpload1 = document.getElementById('txt-upload-1');
+
+            if(isDP) {
+                customArea.classList.remove('hidden');
+                uploadPelunasan.classList.remove('hidden');
+                lblUpload1.textContent = "Upload Bukti Transfer DP";
+                txtUpload1.textContent = "Pilih Bukti DP";
+            } else {
+                customArea.classList.add('hidden');
+                uploadPelunasan.classList.add('hidden');
+                lblUpload1.textContent = "Upload Bukti Transfer Lunas";
+                txtUpload1.textContent = "Pilih Bukti Foto";
+            }
+            toggleMetodeUI(); // Update label Total Tagihan
+            hitungTotalModal(); // Re-calc DP
         }
 
         function ubahJumlah(dir) { let v = parseInt(document.getElementById('m-jumlah').value) + dir; if(v<1) v=1; if(v>selectedMaxStok) v=selectedMaxStok; document.getElementById('m-jumlah').value = v; hitungTotalModal(); }
         
-        function hitungTotalModal() { 
+        // Logika saling mengisi % dan Rp untuk DP
+        function hitungDP(sumber) {
+            let q = parseInt(document.getElementById('m-jumlah').value) || 1;
+            let h = parseInt(document.getElementById('m-hargasatuan').value);
+            let total = q * h;
+
+            let inpPct = document.getElementById('dp-pct');
+            let inpNom = document.getElementById('dp-nom');
+
+            if(sumber === 'pct') {
+                let p = parseFloat(inpPct.value) || 0;
+                if(p > 100) { p = 100; inpPct.value = 100; }
+                inpNom.value = Math.round(total * (p / 100));
+            } else if (sumber === 'nom') {
+                let n = parseFloat(inpNom.value) || 0;
+                if(n > total) { n = total; inpNom.value = total; }
+                inpPct.value = ((n / total) * 100).toFixed(1);
+            }
+            hitungTotalModal(false); // Update tampilan total harga bawah tanpa reset DP
+        }
+
+        function hitungTotalModal(resetDP = true) { 
             let q = parseInt(document.getElementById('m-jumlah').value) || 1;
             let h = parseInt(document.getElementById('m-hargasatuan').value);
             let t = q * h; 
+            
             const tipe = document.querySelector('input[name="tipe_bayar"]:checked').value;
             const qris = document.getElementById('m-qris');
-            if(tipe === "DP") { t = t/2; qris.src = appSettings.qris_dp || 'https://via.placeholder.com/250?text=Admin+Belum+Set+QRIS+DP'; }
-            else { qris.src = appSettings.qris_lunas || 'https://via.placeholder.com/250?text=Admin+Belum+Set+QRIS+Lunas'; }
-            document.getElementById('m-totalharga').textContent = formatRp(t); 
+            
+            if(tipe === "DP") { 
+                qris.src = appSettings.qris_dp || 'https://via.placeholder.com/250?text=Admin+Belum+Set+QRIS+DP'; 
+                if(resetDP) {
+                    let p = parseFloat(document.getElementById('dp-pct').value) || 50;
+                    document.getElementById('dp-nom').value = Math.round(t * (p/100));
+                }
+                // Tagihan bawah yg ditampilkan = DP
+                let dpNom = parseInt(document.getElementById('dp-nom').value) || 0;
+                document.getElementById('m-totalharga').textContent = formatRp(dpNom);
+            } else { 
+                qris.src = appSettings.qris_lunas || 'https://via.placeholder.com/250?text=Admin+Belum+Set+QRIS+Lunas'; 
+                document.getElementById('m-totalharga').textContent = formatRp(t); 
+            }
+        }
+
+        // --- WA REDIRECT MODAL ---
+        function tutupWaModal() {
+            document.getElementById('modal-wa').classList.add('opacity-0', 'pointer-events-none');
+            showPesanan(); fetchKatalog();
+        }
+
+        function showWaRedirectModal(idTrx, namaBaju, qty, total, tipe, metode) {
+            // Setup WA numbers
+            const container = document.getElementById('wa-button-container');
+            let numbers = appSettings.admin_wa ? appSettings.admin_wa.split(',') : [];
+            if(numbers.length === 0) numbers = ["6281234567890"]; // Default jika kosong
+
+            const textPesan = encodeURIComponent(`Halo Admin, saya baru saja membuat pesanan di TokoBaju.\n\nID Transaksi: *${idTrx}*\nProduk: *${namaBaju}* (${qty} Pcs)\nMetode Bayar: *${metode}*\nTipe: *${tipe}*\nTotal Belanja: *${formatRp(total)}*\n\nMohon segera diproses ya. Terima kasih!`);
+
+            container.innerHTML = numbers.map((num, idx) => {
+                let cleanNum = num.trim().replace(/^0/, '62'); // Pastikan format 62
+                return `<a href="https://wa.me/${cleanNum}?text=${textPesan}" target="_blank" onclick="tutupWaModal()" class="flex items-center justify-center gap-2 w-full bg-[#F2F2F7] hover:bg-green-50 text-green-600 font-bold py-3 px-4 rounded-xl transition-colors active:scale-95"><i class="fa-brands fa-whatsapp text-lg"></i> Hubungi Admin ${idx+1}</a>`;
+            }).join('');
+
+            const modal = document.getElementById('modal-wa');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
         }
 
         async function prosesBeli(e) {
-            e.preventDefault(); if(!buktiBase64) return alert("Upload bukti transfer");
+            e.preventDefault(); 
+            const metode = document.querySelector('input[name="metode_bayar"]:checked').value;
+            const tipe = document.querySelector('input[name="tipe_bayar"]:checked').value;
+            
+            if(metode === "QRIS" && !buktiBase64) return alert("Upload bukti transfer QRIS wajib diisi.");
+            
+            let dpDetailStr = "-";
+            if(tipe === "DP") {
+                dpDetailStr = `${document.getElementById('dp-pct').value}% (Rp ${document.getElementById('dp-nom').value})`;
+            }
+
             const btn = document.getElementById('btn-proses-beli'); btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>'; btn.disabled = true;
-            const p = { action: "addPenjualan", username: currentUser.username, id_baju: document.getElementById('m-id').value, nama_baju: document.getElementById('m-nama').textContent, jumlah: parseInt(document.getElementById('m-jumlah').value), total_harga: (parseInt(document.getElementById('m-jumlah').value) * parseInt(document.getElementById('m-hargasatuan').value)), tipe_pembayaran: document.querySelector('input[name="tipe_bayar"]:checked').value, bukti_pembayaran: buktiBase64 };
+            
+            const q = parseInt(document.getElementById('m-jumlah').value);
+            const h = parseInt(document.getElementById('m-hargasatuan').value);
+            const namaBaju = document.getElementById('m-nama').textContent;
+
+            const payload = { 
+                action: "addPenjualan", 
+                username: currentUser.username, 
+                id_baju: document.getElementById('m-id').value, 
+                nama_baju: namaBaju, 
+                jumlah: q, 
+                total_harga: (q * h), 
+                tipe_pembayaran: tipe, 
+                metode_bayar: metode,
+                detail_dp: dpDetailStr,
+                bukti_pembayaran: buktiBase64,
+                bukti_pelunasan: pelunasanBase64 // Jika diupload
+            };
+            
             try {
-                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(p), headers: { 'Content-Type': 'text/plain' } });
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } });
                 const data = await res.json();
-                if(data.status === 'success') { alert('Pesanan Berhasil!'); toggleCheckoutModal(); showPesanan(); fetchKatalog(); } 
-                else alert(data.message);
+                if(data.status === 'success') { 
+                    toggleCheckoutModal(); 
+                    // Tampilkan WA Redirect
+                    showWaRedirectModal(data.id_transaksi, namaBaju, q, (q*h), tipe, metode);
+                } else alert(data.message);
             } catch (err) {}
-            btn.innerHTML = 'Konfirmasi Pembayaran'; btn.disabled = false;
+            btn.innerHTML = 'Konfirmasi Pesanan'; btn.disabled = false;
         }
 
         window.onload = initApp;
