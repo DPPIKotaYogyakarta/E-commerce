@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="light">
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -61,42 +61,45 @@
 <body class="text-[#1C1C1E] dark:text-white min-h-dvh selection:bg-blue-200 flex flex-col relative overflow-x-hidden">
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5g_TeVjTLA1o9g0vW350IKwE9FcUpmitHyLtOegYWgpU8sYRPcQSAwMZt6cBFqRs6/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBmHwiEWYM1Z46dOPX4SQF7ER9IcrWcwP6A40vXij5vGQToSAXirO7PZZR6Xu4tgSj/exec'; 
     </script>
 
-    <!-- LOADING SCREEN -->
-    <div id="init-loading" class="fixed inset-0 bg-[#F2F2F7] dark:bg-black z-[100] flex flex-col items-center justify-center transition-opacity duration-300">
-        <div class="relative">
-            <i class="fa-solid fa-shirt text-4xl text-blue-500 animate-bounce"></i>
-            <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-8 h-1 bg-blue-500/20 rounded-full blur-sm"></div>
+    <!-- LOADING SCREEN ANIMASI OTOMATIS (Berganti Terang/Gelap) -->
+    <div id="init-loading" class="fixed inset-0 z-[100] flex flex-col items-center justify-center transition-all duration-[1200ms] ease-in-out" style="background-color: #000000;">
+        <div class="relative w-28 h-28 flex items-center justify-center mb-2">
+            <i id="loader-default-icon" class="fa-solid fa-shirt text-5xl text-blue-500 animate-bounce"></i>
+            <img id="loader-logo-img" src="" class="w-full h-full object-contain drop-shadow-xl hidden animate-pulse transition-opacity duration-500">
+            <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-10 h-1 bg-blue-500/30 rounded-full blur-md"></div>
         </div>
         
         <!-- PROGRESS BAR -->
-        <div class="w-48 sm:w-64 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full mt-8 overflow-hidden shadow-inner">
+        <div id="progress-container" class="w-48 sm:w-64 h-1.5 rounded-full mt-8 overflow-hidden shadow-inner transition-colors duration-700" style="background-color: #1e293b;">
             <div id="loading-progress" class="h-full bg-blue-500 rounded-full transition-all duration-500 ease-out" style="width: 10%"></div>
         </div>
         
-        <p id="loading-text" class="text-slate-500 dark:text-slate-400 font-bold mt-3 tracking-wider text-[10px] sm:text-[11px] uppercase">Menyiapkan antarmuka...</p>
+        <p id="loading-text" class="font-bold mt-4 tracking-wider text-[10px] sm:text-[11px] uppercase transition-colors duration-700" style="color: #94a3b8;">Menyiapkan antarmuka...</p>
     </div>
 
     <!-- AREA LOGIN (RAPID & OPTIMIZED) -->
-    <div id="auth-section" class="min-h-dvh flex hidden relative bg-[#F2F2F7] dark:bg-black overflow-hidden w-full">
+    <div id="auth-section" class="min-h-dvh flex hidden relative bg-[#F2F2F7] dark:bg-black overflow-hidden w-full transition-colors duration-500">
         
-        <!-- Mobile Background (No Extreme Zoom & Gradient Fade) -->
-        <div id="dynamic-login-bg-mobile" class="absolute inset-0 lg:hidden bg-[length:100%_auto] sm:bg-cover bg-no-repeat bg-top opacity-70 dark:opacity-60 z-0" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');"></div>
-        <div class="absolute inset-0 lg:hidden bg-gradient-to-b from-transparent via-[#F2F2F7]/95 to-[#F2F2F7] dark:from-transparent dark:via-black/95 dark:to-black z-0"></div>
+        <!-- Mobile Background -->
+        <div id="dynamic-login-bg-mobile" class="absolute inset-0 lg:hidden bg-[length:100%_auto] sm:bg-cover bg-no-repeat bg-top opacity-70 dark:opacity-60 z-0 transition-opacity duration-500" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');"></div>
+        <div class="absolute inset-0 lg:hidden bg-gradient-to-b from-transparent via-[#F2F2F7]/95 to-[#F2F2F7] dark:from-transparent dark:via-black/95 dark:to-black z-0 transition-colors duration-500"></div>
 
-        <!-- Background Ornamen Blur (Glow Biru & Ungu) -->
+        <!-- Background Ornamen Blur -->
         <div class="absolute top-[-5%] left-[-10%] w-72 h-72 sm:w-[500px] sm:h-[500px] bg-blue-500/30 dark:bg-blue-500/40 blur-[80px] sm:blur-[100px] rounded-full pointer-events-none z-0"></div>
         <div class="absolute bottom-[-5%] right-[-10%] w-72 h-72 sm:w-[500px] sm:h-[500px] bg-purple-500/30 dark:bg-purple-500/40 blur-[80px] sm:blur-[100px] rounded-full pointer-events-none z-0"></div>
         
         <div class="w-full flex flex-col lg:flex-row max-w-7xl mx-auto z-10 min-h-dvh relative">
             <!-- Left Branding (Desktop) -->
             <div class="hidden lg:flex w-1/2 flex-col justify-center p-8 relative min-h-dvh">
-                <div id="dynamic-login-bg" class="absolute inset-8 rounded-[40px] bg-cover bg-center overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.3)]" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');">
+                <div id="dynamic-login-bg" class="absolute inset-8 rounded-[40px] bg-cover bg-center overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.3)] transition-all duration-500" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');">
                     <div class="absolute inset-0 bg-gradient-to-br from-black/90 via-black/40 to-transparent"></div>
                     <div class="absolute bottom-20 left-16 right-16">
-                        <div id="app-logo-auth" class="text-blue-400 mb-6 drop-shadow-md"><i class="fa-solid fa-shirt text-6xl"></i></div>
+                        <div id="app-logo-auth" class="text-blue-400 mb-6 drop-shadow-md transition-all duration-300">
+                            <i class="fa-solid fa-shirt text-6xl"></i>
+                        </div>
                         <h1 class="text-5xl lg:text-6xl font-black text-white mb-6 leading-tight tracking-tight">Elegansi dalam <br><span class="text-blue-400">Setiap Jahitan.</span></h1>
                         <p class="text-lg text-slate-300 font-medium max-w-md leading-relaxed">Bergabung sekarang dan temukan koleksi fashion eksklusif yang dirancang khusus untuk gaya Anda.</p>
                     </div>
@@ -105,11 +108,13 @@
 
             <!-- Right Form Area (Mobile & Desktop) -->
             <div class="w-full lg:w-1/2 flex items-center justify-center px-5 py-8 sm:p-12 min-h-dvh relative">
-                <div class="w-full max-w-[420px] relative z-10 bg-white/70 dark:bg-[#1C1C1E]/70 backdrop-blur-2xl p-7 sm:p-10 rounded-[32px] sm:rounded-[40px] shadow-2xl border border-white/60 dark:border-slate-700/50 flex flex-col">
+                <div class="w-full max-w-[420px] relative z-10 bg-white/70 dark:bg-[#1C1C1E]/70 backdrop-blur-2xl p-7 sm:p-10 rounded-[32px] sm:rounded-[40px] shadow-2xl border border-white/60 dark:border-slate-700/50 flex flex-col transition-colors duration-500">
                     
                     <div class="shrink-0 mb-6">
                         <div class="text-center pt-2 lg:hidden mb-5">
-                            <div id="app-logo-auth-mobile" class="text-blue-500 flex justify-center drop-shadow-md"><i class="fa-solid fa-shirt text-5xl"></i></div>
+                            <div id="app-logo-auth-mobile" class="text-blue-500 flex justify-center drop-shadow-md transition-all duration-300">
+                                <i class="fa-solid fa-shirt text-5xl"></i>
+                            </div>
                         </div>
                         
                         <div class="text-center">
@@ -180,7 +185,7 @@
     </div>
 
     <!-- AREA APLIKASI UTAMA / KATALOG -->
-    <div id="app-section" class="hidden flex-1 flex flex-col relative w-full min-h-dvh overflow-x-hidden">
+    <div id="app-section" class="hidden flex-1 flex flex-col relative w-full min-h-dvh overflow-x-hidden transition-colors duration-500">
         
         <!-- ORNAMEN CAHAYA BACKGROUND APLIKASI (Katalog) -->
         <div class="fixed top-[0%] left-[-10%] w-72 h-72 md:w-[32rem] md:h-[32rem] bg-blue-500/20 dark:bg-blue-500/30 blur-[80px] md:blur-[120px] rounded-full pointer-events-none z-0"></div>
@@ -192,8 +197,8 @@
             
             <nav class="fixed inset-x-4 md:inset-x-auto md:w-[800px] md:left-1/2 md:-translate-x-1/2 z-40 glass-panel rounded-full px-5 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.08)] transition-all safe-pt-nav">
                 <div class="flex justify-between items-center h-10">
-                    <div id="app-logo-nav" class="flex items-center gap-2 text-blue-500 pl-2 cursor-pointer active:scale-95 transition-transform" onclick="showHome()">
-                        <i class="fa-solid fa-shirt text-2xl drop-shadow-sm"></i>
+                    <div class="flex items-center gap-2 text-blue-500 pl-2 cursor-pointer active:scale-95 transition-transform" onclick="showHome()">
+                        <span id="app-logo-nav-icon"><i class="fa-solid fa-shirt text-2xl drop-shadow-sm"></i></span>
                         <span class="font-bold text-lg tracking-tight hidden sm:block text-black dark:text-white">TokoBaju</span>
                     </div>
                     <div class="flex items-center gap-4 sm:gap-5 pr-1">
@@ -623,7 +628,7 @@
         let authFotoBase64 = "";
         let buktiBase64 = "";
         let pelunasanBase64 = ""; 
-        let appSettings = { logo: '', loginBg: '', banners: [], qris_lunas: '', qris_dp: '', qris_name: '', admin_wa: '' };
+        let appSettings = { logo_light: '', logo_dark: '', loginBg: '', banners: [], qris_lunas: '', qris_dp: '', qris_name: '', admin_wa: '' };
         let globalProduk = [];
         let listFavorit = [];
         let activeKategori = 'Semua';
@@ -645,23 +650,98 @@
             }
         });
 
+        // TEMA DAN LOGO DINAMIS
         function initTheme() {
             const savedTheme = localStorage.getItem('tokoBajuTheme');
             const toggle = document.getElementById('theme-toggle');
-            if (savedTheme === 'dark') {
-                document.documentElement.classList.add('dark');
-                if(toggle) toggle.checked = true;
-            } else {
+            // Mode gelap sebagai default (kecuali user set explicitly ke light)
+            if (savedTheme === 'light') {
                 document.documentElement.classList.remove('dark');
                 if(toggle) toggle.checked = false;
+            } else {
+                document.documentElement.classList.add('dark');
+                if(toggle) toggle.checked = true;
             }
+            updateAppLogos();
         }
+
         function toggleTheme() {
             const html = document.documentElement; const toggle = document.getElementById('theme-toggle');
             if (toggle.checked) { html.classList.add('dark'); localStorage.setItem('tokoBajuTheme', 'dark'); } 
             else { html.classList.remove('dark'); localStorage.setItem('tokoBajuTheme', 'light'); }
+            updateAppLogos(); // Update logo langsung saat ganti mode
         }
-        initTheme();
+
+        function updateAppLogos() {
+            const isDark = document.documentElement.classList.contains('dark');
+            // Ambil logo sesuai mode (fallback ke yang ada jika salah satu kosong)
+            const activeLogo = isDark ? (appSettings.logo_dark || appSettings.logo_light) : (appSettings.logo_light || appSettings.logo_dark);
+            
+            let logoHtml = `<div class="text-blue-500 flex justify-center drop-shadow-md transition-all duration-300"><i class="fa-solid fa-shirt text-5xl lg:text-6xl"></i></div>`;
+            let navLogoHtml = `<i class="fa-solid fa-shirt text-2xl drop-shadow-sm transition-all duration-300"></i>`;
+            
+            if (activeLogo) {
+                logoHtml = `<img src="${activeLogo}" class="h-16 sm:h-24 object-contain mx-auto drop-shadow-md transition-opacity duration-300">`;
+                navLogoHtml = `<img src="${activeLogo}" class="h-8 object-contain transition-opacity duration-300">`;
+            }
+            
+            const authLogo = document.getElementById('app-logo-auth');
+            const authLogoMobile = document.getElementById('app-logo-auth-mobile');
+            const navLogo = document.getElementById('app-logo-nav-icon');
+            
+            if(authLogo) authLogo.innerHTML = logoHtml;
+            if(authLogoMobile) authLogoMobile.innerHTML = logoHtml;
+            if(navLogo) navLogo.innerHTML = navLogoHtml;
+        }
+
+        // ANIMASI LOADING AWAL (GELAP-TERANG BERGANTIAN)
+        let loadingAnimInterval = null;
+        let isLoadingDark = true;
+        
+        function startLoadingAnimation() {
+            const loaderBg = document.getElementById('init-loading');
+            const logoImg = document.getElementById('loader-logo-img');
+            const defaultIcon = document.getElementById('loader-default-icon');
+            const progContainer = document.getElementById('progress-container');
+            const textLoad = document.getElementById('loading-text');
+            
+            loadingAnimInterval = setInterval(() => {
+                isLoadingDark = !isLoadingDark;
+                
+                if (isLoadingDark) {
+                    loaderBg.style.backgroundColor = '#000000';
+                    progContainer.style.backgroundColor = '#1e293b';
+                    textLoad.style.color = '#94a3b8';
+                    
+                    if (appSettings.logo_dark || appSettings.logo_light) {
+                        logoImg.src = appSettings.logo_dark || appSettings.logo_light;
+                        logoImg.classList.remove('hidden');
+                        defaultIcon.classList.add('hidden');
+                    } else {
+                        defaultIcon.style.color = '#ffffff';
+                    }
+                } else {
+                    loaderBg.style.backgroundColor = '#F2F2F7';
+                    progContainer.style.backgroundColor = '#e2e8f0';
+                    textLoad.style.color = '#64748b';
+                    
+                    if (appSettings.logo_light || appSettings.logo_dark) {
+                        logoImg.src = appSettings.logo_light || appSettings.logo_dark;
+                        logoImg.classList.remove('hidden');
+                        defaultIcon.classList.add('hidden');
+                    } else {
+                        defaultIcon.style.color = '#3b82f6';
+                    }
+                }
+            }, 1200); // Ganti mode setiap 1.2 detik
+        }
+
+        function stopLoadingAnimation() {
+            if(loadingAnimInterval) clearInterval(loadingAnimInterval);
+        }
+
+        // Mulai animasi loading seketika skrip berjalan
+        startLoadingAnimation();
 
         function togglePassword(inputId, iconId) {
             const input = document.getElementById(inputId); const icon = document.getElementById(iconId);
@@ -670,6 +750,7 @@
         }
 
         async function initApp() {
+            initTheme();
             updateProgress(20, 'Menyiapkan antarmuka...');
             const cachedSettings = sessionStorage.getItem('tokoBaju_settings');
             
@@ -678,7 +759,9 @@
                 applySettings(JSON.parse(cachedSettings));
                 setTimeout(() => {
                     updateProgress(100, 'Memulai aplikasi...');
-                    document.getElementById('init-loading').classList.add('hidden');
+                    const loader = document.getElementById('init-loading');
+                    loader.style.opacity = '0';
+                    setTimeout(() => { stopLoadingAnimation(); loader.classList.add('hidden'); }, 300);
                     checkAuth();
                 }, 400);
             } else {
@@ -704,14 +787,8 @@
                 if(dynamicBg) dynamicBg.style.backgroundImage = `url('${appSettings.loginBg}')`;
                 if(dynamicBgMobile) dynamicBgMobile.style.backgroundImage = `url('${appSettings.loginBg}')`;
             }
-            if (appSettings.logo) {
-                const logoHtml = `<img src="${appSettings.logo}" class="h-16 sm:h-24 object-contain mx-auto">`;
-                const authLogo = document.getElementById('app-logo-auth');
-                const authLogoMobile = document.getElementById('app-logo-auth-mobile');
-                if(authLogo) authLogo.innerHTML = logoHtml;
-                if(authLogoMobile) authLogoMobile.innerHTML = logoHtml;
-                document.getElementById('app-logo-nav').innerHTML = `<img src="${appSettings.logo}" class="h-8 object-contain">`;
-            }
+            updateAppLogos(); // Update logo UI setelah settings masuk
+
             if (appSettings.qris_name) document.getElementById('qris-nama-label').textContent = "A/N: " + appSettings.qris_name;
             
             // Konfigurasi Floating Button WA dengan Pop-up
@@ -737,7 +814,8 @@
                     if (isFirstLoad) updateProgress(80, 'Menerapkan pengaturan...');
                     let newSettings = { banners: [] };
                     data.data.forEach(item => {
-                        if(item.Key === 'logo' && item.Value) newSettings.logo = item.Value;
+                        if(item.Key === 'logo_light' && item.Value) newSettings.logo_light = item.Value;
+                        if(item.Key === 'logo_dark' && item.Value) newSettings.logo_dark = item.Value;
                         if(item.Key === 'login_bg' && item.Value) newSettings.loginBg = item.Value;
                         if(item.Key.startsWith('banner_') && item.Value) newSettings.banners.push(item.Value);
                         if(item.Key === 'qris_lunas' && item.Value) newSettings.qris_lunas = item.Value;
@@ -757,7 +835,7 @@
                     setTimeout(() => {
                         const loader = document.getElementById('init-loading');
                         loader.style.opacity = '0';
-                        setTimeout(() => { loader.classList.add('hidden'); }, 300);
+                        setTimeout(() => { stopLoadingAnimation(); loader.classList.add('hidden'); }, 300);
                         checkAuth();
                     }, 600);
                 }
@@ -935,8 +1013,8 @@
         function setSortFilter(tipe) {
             activeSort = tipe;
             const btnT = document.getElementById('btn-sort-terbaru'); const btnL = document.getElementById('btn-sort-terlaris');
-            if(tipe === 'terbaru') { btnT.className = "bg-blue-500 text-white px-4 sm:px-5 py-2 rounded-full text-[11px] sm:text-xs font-bold shadow-sm transition-colors"; btnL.className = "text-slate-500 px-4 sm:px-5 py-2 text-[11px] sm:text-xs font-bold"; }
-            else { btnL.className = "bg-blue-500 text-white px-4 sm:px-5 py-2 rounded-full text-[11px] sm:text-xs font-bold shadow-sm transition-colors"; btnT.className = "text-slate-500 px-4 sm:px-5 py-2 text-[11px] sm:text-xs font-bold"; }
+            if(tipe === 'terbaru') { btnT.className = "bg-blue-500 text-white px-4 sm:px-5 py-2 rounded-full text-[11px] sm:text-xs font-bold shadow-sm transition-colors"; btnL.className = "text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white px-4 sm:px-5 py-2 text-[11px] sm:text-xs font-bold transition-colors"; }
+            else { btnL.className = "bg-blue-500 text-white px-4 sm:px-5 py-2 rounded-full text-[11px] sm:text-xs font-bold shadow-sm transition-colors"; btnT.className = "text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white px-4 sm:px-5 py-2 text-[11px] sm:text-xs font-bold transition-colors"; }
             terapkanFilter();
         }
 
@@ -1506,20 +1584,17 @@
         function animateToCart() {
             const card = document.getElementById('success-card');
             const cartIcon = document.getElementById('nav-cart-icon'); 
-            const sourceImg = document.getElementById('succ-img'); // Ambil foto produk dari modal success
+            const sourceImg = document.getElementById('succ-img');
             
             if (!cartIcon || !sourceImg) {
-                // Fallback jika tidak ditemukan
                 document.getElementById('modal-success').classList.add('opacity-0', 'pointer-events-none');
                 showPesanan();
                 return;
             }
 
-            // Dapatkan posisi foto produk
             const sourceRect = sourceImg.getBoundingClientRect();
             const iconRect = cartIcon.getBoundingClientRect();
             
-            // Buat tiruan elemen (gambar yang akan terbang)
             const ghost = document.createElement('img');
             ghost.src = sourceImg.src;
             ghost.className = 'fixed z-[9999] rounded-full object-cover shadow-2xl border-2 border-blue-500';
@@ -1527,19 +1602,16 @@
             ghost.style.top = sourceRect.top + 'px';
             ghost.style.width = sourceRect.width + 'px';
             ghost.style.height = sourceRect.height + 'px';
-            ghost.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)'; // Timing function melengkung
+            ghost.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
             ghost.style.pointerEvents = 'none';
             
             document.body.appendChild(ghost);
             
-            // Sembunyikan modal aslinya
             document.getElementById('modal-success').classList.add('opacity-0', 'pointer-events-none');
             
-            // Menghitung target titik tujuan (tengah keranjang)
             const deltaX = iconRect.left + (iconRect.width/2) - (sourceRect.width/2);
             const deltaY = iconRect.top + (iconRect.height/2) - (sourceRect.height/2);
             
-            // Memulai animasi frame berikutnya
             requestAnimationFrame(() => {
                 ghost.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.05)`;
                 ghost.style.opacity = '0.3';
@@ -1547,12 +1619,8 @@
             
             setTimeout(() => {
                 ghost.remove();
-                
-                // Efek denyut pada keranjang
                 cartIcon.classList.add('scale-125', 'text-blue-500', 'animate-pulse');
                 setTimeout(() => cartIcon.classList.remove('scale-125', 'text-blue-500', 'animate-pulse'), 400);
-                
-                // Pindah halaman
                 showPesanan(); 
             }, 800);
         }
@@ -1564,7 +1632,6 @@
             document.getElementById('succ-tipe').textContent = tipe;
             document.getElementById('succ-total').textContent = formatRp(total);
             
-            // Atur gambar produk di kartu sukses
             if (imgUrl) document.getElementById('succ-img').src = imgUrl;
 
             const waContainer = document.getElementById('succ-wa-container');
@@ -1588,7 +1655,7 @@
             let dpDetailStr = "-"; if(tipe === "DP") { dpDetailStr = `${document.getElementById('dp-pct').value}% (Rp ${document.getElementById('dp-nom').value})`; }
             const btn = document.getElementById('btn-proses-beli'); btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Memproses...'; btn.disabled = true;
             const q = parseInt(document.getElementById('m-jumlah').value); const h = parseInt(document.getElementById('m-hargasatuan').value); const namaBaju = document.getElementById('m-nama').textContent;
-            const gambarUrl = document.getElementById('m-gambar').src; // Ambil gambar yang di checkout
+            const gambarUrl = document.getElementById('m-gambar').src;
 
             const payload = { action: "addPenjualan", username: currentUser.username, id_baju: document.getElementById('m-id').value, nama_baju: namaBaju, jumlah: q, total_harga: (q * h), tipe_pembayaran: tipe, metode_bayar: metode, detail_dp: dpDetailStr, bukti_pembayaran: buktiBase64, bukti_pelunasan: pelunasanBase64 };
             
@@ -1601,7 +1668,6 @@
                     fetchKatalog(true); 
                     fetchPesananCustomer(true); 
                     
-                    // Tampilkan Modal Animasi Sukses setelah modal checkout tertutup
                     setTimeout(() => {
                         showSuccessModal(data.id_transaksi, namaBaju, q, (q*h), tipe, metode, gambarUrl);
                     }, 400);
