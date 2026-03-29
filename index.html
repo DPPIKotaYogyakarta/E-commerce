@@ -74,12 +74,17 @@
     </div>
 
     <!-- AREA LOGIN (RAPID & OPTIMIZED) -->
-    <div id="auth-section" class="min-h-dvh flex hidden relative bg-white dark:bg-black overflow-hidden w-full">
-        <!-- Background Ornamen Blur -->
-        <div class="absolute top-[-15%] left-[-15%] w-80 h-80 sm:w-[500px] sm:h-[500px] bg-blue-500/20 dark:bg-blue-500/30 blur-[100px] rounded-full pointer-events-none"></div>
-        <div class="absolute bottom-[-15%] right-[-15%] w-80 h-80 sm:w-[500px] sm:h-[500px] bg-purple-500/20 dark:bg-purple-500/30 blur-[100px] rounded-full pointer-events-none"></div>
+    <div id="auth-section" class="min-h-dvh flex hidden relative bg-[#F2F2F7] dark:bg-black overflow-hidden w-full">
         
-        <div class="w-full flex flex-col lg:flex-row max-w-7xl mx-auto z-10 min-h-dvh">
+        <!-- Mobile Background (No Extreme Zoom & Gradient Fade) -->
+        <div id="dynamic-login-bg-mobile" class="absolute inset-0 lg:hidden bg-[length:100%_auto] sm:bg-cover bg-no-repeat bg-top opacity-70 dark:opacity-60 z-0" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');"></div>
+        <div class="absolute inset-0 lg:hidden bg-gradient-to-b from-transparent via-[#F2F2F7]/95 to-[#F2F2F7] dark:from-transparent dark:via-black/95 dark:to-black z-0"></div>
+
+        <!-- Background Ornamen Blur (Glow Biru & Ungu) -->
+        <div class="absolute top-[-5%] left-[-10%] w-72 h-72 sm:w-[500px] sm:h-[500px] bg-blue-500/30 dark:bg-blue-500/40 blur-[80px] sm:blur-[100px] rounded-full pointer-events-none z-0"></div>
+        <div class="absolute bottom-[-5%] right-[-10%] w-72 h-72 sm:w-[500px] sm:h-[500px] bg-purple-500/30 dark:bg-purple-500/40 blur-[80px] sm:blur-[100px] rounded-full pointer-events-none z-0"></div>
+        
+        <div class="w-full flex flex-col lg:flex-row max-w-7xl mx-auto z-10 min-h-dvh relative">
             <!-- Left Branding (Desktop) -->
             <div class="hidden lg:flex w-1/2 flex-col justify-center p-8 relative min-h-dvh">
                 <div id="dynamic-login-bg" class="absolute inset-8 rounded-[40px] bg-cover bg-center overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.3)]" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');">
@@ -94,11 +99,7 @@
 
             <!-- Right Form Area (Mobile & Desktop) -->
             <div class="w-full lg:w-1/2 flex items-center justify-center px-5 py-8 sm:p-12 min-h-dvh relative">
-                <!-- Mobile Background Fallback -->
-                <div id="dynamic-login-bg-mobile" class="absolute inset-0 lg:hidden bg-cover bg-center opacity-40 dark:opacity-30" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');"></div>
-                <div class="absolute inset-0 lg:hidden bg-gradient-to-t from-white via-white/95 to-white/60 dark:from-black dark:via-black/95 dark:to-black/60"></div>
-
-                <div class="w-full max-w-[420px] relative z-10 bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl p-7 sm:p-10 rounded-[32px] sm:rounded-[40px] shadow-2xl border border-white/60 dark:border-slate-700/50 flex flex-col">
+                <div class="w-full max-w-[420px] relative z-10 bg-white/70 dark:bg-[#1C1C1E]/70 backdrop-blur-2xl p-7 sm:p-10 rounded-[32px] sm:rounded-[40px] shadow-2xl border border-white/60 dark:border-slate-700/50 flex flex-col">
                     
                     <div class="shrink-0 mb-6">
                         <div class="text-center pt-2 lg:hidden mb-5">
@@ -110,7 +111,7 @@
                             <p class="mt-2 text-sm text-slate-500 dark:text-slate-400 font-medium" id="auth-subtitle">Masuk ke akun Anda untuk melanjutkan</p>
                         </div>
 
-                        <div class="bg-slate-100 dark:bg-black/50 p-1.5 rounded-[16px] flex gap-1 relative mt-7">
+                        <div class="bg-slate-100/50 dark:bg-black/50 p-1.5 rounded-[16px] flex gap-1 relative mt-7">
                             <button onclick="switchAuthTab('login')" id="tab-login" class="flex-1 py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-sm transition-all duration-300">Masuk</button>
                             <button onclick="switchAuthTab('register')" id="tab-register" class="flex-1 py-2.5 rounded-[12px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-bold text-sm transition-all duration-300">Daftar</button>
                         </div>
@@ -123,11 +124,11 @@
                         <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4 pb-2">
                             <div class="relative group">
                                 <i class="fa-solid fa-user absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-sm"></i>
-                                <input id="l-user" required type="text" placeholder="Username" class="w-full bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-slate-800 rounded-[20px] pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base">
+                                <input id="l-user" required type="text" placeholder="Username" class="w-full bg-white dark:bg-black/40 border border-slate-200 dark:border-slate-800 rounded-[20px] pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base">
                             </div>
                             <div class="relative group">
                                 <i class="fa-solid fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-sm"></i>
-                                <input id="l-pass" required type="password" placeholder="Password" class="w-full bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-slate-800 rounded-[20px] pl-12 pr-12 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base">
+                                <input id="l-pass" required type="password" placeholder="Password" class="w-full bg-white dark:bg-black/40 border border-slate-200 dark:border-slate-800 rounded-[20px] pl-12 pr-12 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base">
                                 <button type="button" onclick="togglePassword('l-pass', 'l-eye')" class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-black dark:hover:text-white focus:outline-none transition-colors"><i id="l-eye" class="fa-solid fa-eye"></i></button>
                             </div>
                             <button type="submit" id="btn-login" class="w-full flex justify-center py-4 px-4 rounded-[20px] shadow-lg shadow-blue-500/30 text-[16px] font-bold text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.98] transition-all mt-2">Masuk Sekarang</button>
@@ -136,7 +137,7 @@
                         <!-- REGISTER FORM -->
                         <form id="form-register" onsubmit="handleRegister(event)" class="space-y-4 hidden pb-6">
                             <div class="flex flex-col items-center justify-center mb-2">
-                                <div onclick="document.getElementById('r-foto').click()" class="relative w-24 h-24 rounded-full bg-slate-50 dark:bg-black/40 flex items-center justify-center cursor-pointer overflow-hidden border border-slate-200 dark:border-slate-800 group transition-all hover:ring-4 ring-blue-500/20 shrink-0">
+                                <div onclick="document.getElementById('r-foto').click()" class="relative w-24 h-24 rounded-full bg-white dark:bg-black/40 flex items-center justify-center cursor-pointer overflow-hidden border border-slate-200 dark:border-slate-800 group transition-all hover:ring-4 ring-blue-500/20 shrink-0">
                                     <input type="file" id="r-foto" accept="image/*" class="hidden" onchange="previewImage(event, 'r-foto-preview', 'authFotoBase64', true)">
                                     <div id="r-foto-icon" class="text-center group-hover:scale-110 transition-transform">
                                         <i class="fa-solid fa-camera text-slate-400 dark:text-slate-500 text-xl mb-1"></i>
@@ -148,19 +149,19 @@
                             
                             <div class="relative group">
                                 <i class="fa-solid fa-address-card absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-sm"></i>
-                                <input id="r-nama" required type="text" placeholder="Nama Lengkap" class="w-full bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-slate-800 rounded-[20px] pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base">
+                                <input id="r-nama" required type="text" placeholder="Nama Lengkap" class="w-full bg-white dark:bg-black/40 border border-slate-200 dark:border-slate-800 rounded-[20px] pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base">
                             </div>
                             <div class="relative group">
                                 <i class="fa-solid fa-phone absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-sm"></i>
-                                <input id="r-hp" required type="tel" placeholder="No. Handphone (10-15 digit)" class="w-full bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-slate-800 rounded-[20px] pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base">
+                                <input id="r-hp" required type="tel" placeholder="No. Handphone (10-15 digit)" class="w-full bg-white dark:bg-black/40 border border-slate-200 dark:border-slate-800 rounded-[20px] pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base">
                             </div>
                             <div class="relative group">
                                 <i class="fa-solid fa-user absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-sm"></i>
-                                <input id="r-user" required type="text" placeholder="Username Baru" class="w-full bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-slate-800 rounded-[20px] pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base">
+                                <input id="r-user" required type="text" placeholder="Username Baru" class="w-full bg-white dark:bg-black/40 border border-slate-200 dark:border-slate-800 rounded-[20px] pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base">
                             </div>
                             <div class="relative group">
                                 <i class="fa-solid fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-sm"></i>
-                                <input id="r-pass" required type="password" placeholder="Buat Password" class="w-full bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-slate-800 rounded-[20px] pl-12 pr-12 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base">
+                                <input id="r-pass" required type="password" placeholder="Buat Password" class="w-full bg-white dark:bg-black/40 border border-slate-200 dark:border-slate-800 rounded-[20px] pl-12 pr-12 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base">
                                 <button type="button" onclick="togglePassword('r-pass', 'r-eye')" class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-black dark:hover:text-white focus:outline-none transition-colors"><i id="r-eye" class="fa-solid fa-eye"></i></button>
                             </div>
                             <button type="submit" id="btn-register" class="w-full flex justify-center py-4 px-4 rounded-[20px] shadow-lg shadow-blue-500/30 text-[16px] font-bold text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.98] transition-all mt-4">Daftar Akun</button>
@@ -172,13 +173,13 @@
         </div>
     </div>
 
-    <!-- AREA APLIKASI UTAMA -->
+    <!-- AREA APLIKASI UTAMA / KATALOG -->
     <div id="app-section" class="hidden flex-1 flex flex-col relative w-full min-h-dvh overflow-x-hidden">
         
-        <!-- ORNAMEN CAHAYA BACKGROUND APLIKASI -->
-        <div class="fixed top-[-10%] left-[-10%] w-72 h-72 md:w-[32rem] md:h-[32rem] bg-blue-500/10 dark:bg-blue-500/20 blur-[80px] md:blur-[120px] rounded-full pointer-events-none z-0"></div>
-        <div class="fixed bottom-[-10%] right-[-10%] w-72 h-72 md:w-[32rem] md:h-[32rem] bg-purple-500/10 dark:bg-purple-500/20 blur-[80px] md:blur-[120px] rounded-full pointer-events-none z-0"></div>
-        <div class="fixed top-[40%] left-[60%] w-64 h-64 bg-pink-500/5 dark:bg-pink-500/10 blur-[80px] rounded-full pointer-events-none z-0"></div>
+        <!-- ORNAMEN CAHAYA BACKGROUND APLIKASI (Katalog) -->
+        <div class="fixed top-[0%] left-[-10%] w-72 h-72 md:w-[32rem] md:h-[32rem] bg-blue-500/20 dark:bg-blue-500/30 blur-[80px] md:blur-[120px] rounded-full pointer-events-none z-0"></div>
+        <div class="fixed bottom-[-10%] right-[-10%] w-72 h-72 md:w-[32rem] md:h-[32rem] bg-purple-500/20 dark:bg-purple-500/30 blur-[80px] md:blur-[120px] rounded-full pointer-events-none z-0"></div>
+        <div class="fixed top-[40%] left-[60%] w-64 h-64 bg-pink-500/10 dark:bg-pink-500/20 blur-[80px] md:blur-[100px] rounded-full pointer-events-none z-0"></div>
 
         <!-- Wrapper Konten Utama -->
         <div class="relative z-10 flex-1 flex flex-col w-full">
