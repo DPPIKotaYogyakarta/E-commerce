@@ -641,6 +641,7 @@
         }
 
         async function fetchSettingsBg() {
+            let isFirstLoad = !document.getElementById('init-loading').classList.contains('hidden');
             try {
                 const res = await fetch(`${SCRIPT_URL}?action=getPengaturan`);
                 const data = await res.json();
@@ -657,34 +658,51 @@
                     });
                     sessionStorage.setItem('tokoBaju_settings', JSON.stringify(newSettings));
                     applySettings(newSettings);
-                    
-                    if(!document.getElementById('init-loading').classList.contains('hidden')) {
-                        document.getElementById('init-loading').style.opacity = '0';
-                        setTimeout(() => { document.getElementById('init-loading').classList.add('hidden'); }, 300);
-                        checkAuth();
-                    }
                 }
-            } catch(err) {}
+            } catch(err) {
+                console.error("Gagal mengambil pengaturan:", err);
+            } finally {
+                if (isFirstLoad) {
+                    const loader = document.getElementById('init-loading');
+                    loader.style.opacity = '0';
+                    setTimeout(() => { loader.classList.add('hidden'); }, 300);
+                    checkAuth();
+                }
+            }
         }
 
         function previewImage(event, previewId, targetVariable, isAuth = false) {
-            const file = event.target.files[0]; const preview = document.getElementById(previewId); const icon = preview.previousElementSibling; 
+            const file = event.target.files[0]; 
+            const preview = document.getElementById(previewId); 
+            const icon = preview.previousElementSibling; 
             if (!file) return;
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = new Image();
                 img.onload = function() {
-                    const canvas = document.createElement('canvas'); const MAX_SIZE = 800; 
+                    const canvas = document.createElement('canvas'); 
+                    const MAX_SIZE = 1200; // Ditingkatkan ke 1200px agar jernih saat di-zoom
                     let w = img.width; let h = img.height;
-                    if (w > h && w > MAX_SIZE) { h *= MAX_SIZE / w; w = MAX_SIZE; } else if (h > MAX_SIZE) { w *= MAX_SIZE / h; h = MAX_SIZE; }
-                    canvas.width = w; canvas.height = h; canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-                    const base64Str = canvas.toDataURL('image/jpeg', 0.8);
+                    
+                    if (w > h && w > MAX_SIZE) { h *= MAX_SIZE / w; w = MAX_SIZE; } 
+                    else if (h > MAX_SIZE) { w *= MAX_SIZE / h; h = MAX_SIZE; }
+                    
+                    canvas.width = w; canvas.height = h; 
+                    const ctx = canvas.getContext('2d');
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high'; // Mengutamakan resolusi yang jernih
+                    ctx.drawImage(img, 0, 0, w, h);
+                    
+                    // Menggunakan WEBP agar size kecil namun kualitas tetap bagus (tidak burik)
+                    const base64Str = canvas.toDataURL('image/webp', 0.85); 
                     
                     if(targetVariable === 'authFotoBase64') authFotoBase64 = base64Str;
                     if(targetVariable === 'buktiBase64') buktiBase64 = base64Str;
                     if(targetVariable === 'pelunasanBase64') pelunasanBase64 = base64Str;
                     
-                    preview.src = base64Str; preview.classList.remove('hidden'); if(icon) icon.style.display = 'none';
+                    preview.src = base64Str; 
+                    preview.classList.remove('hidden'); 
+                    if(icon) icon.style.display = 'none';
                 }
                 img.src = e.target.result;
             }
@@ -733,7 +751,7 @@
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'login', username: document.getElementById('l-user').value, password: document.getElementById('l-pass').value }), headers: { 'Content-Type': 'text/plain' } });
                 const data = await res.json();
                 if(data.status === 'success') { localStorage.setItem('tokoBajuUser', JSON.stringify(data.data)); checkAuth(); } else { alert(data.message); }
-            } catch (err) {} btn.innerHTML = 'Masuk Sekarang'; btn.disabled = false;
+            } catch (err) { console.error(err); } btn.innerHTML = 'Masuk Sekarang'; btn.disabled = false;
         }
 
         async function handleRegister(e) {
@@ -951,7 +969,9 @@
                     const badge = document.getElementById('badge-pesanan-count');
                     badge.textContent = globalPenjualan.length; badge.classList.toggle('hidden', globalPenjualan.length === 0);
                 }
-            } catch (err) {}
+            } catch (err) {
+                console.error("Gagal memuat pesanan: ", err);
+            }
         }
 
         function renderTabelPesanan() {
