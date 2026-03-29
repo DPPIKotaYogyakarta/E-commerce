@@ -20,6 +20,8 @@
         }
         .dark body { background-color: #000000; }
         
+        .dvh-screen { min-height: 100vh; min-height: 100dvh; }
+
         .modal { transition: all 0.3s ease; }
         .modal-sheet { transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .modal.show .modal-sheet { transform: translateY(0); }
@@ -55,7 +57,7 @@
         #zoom-track { scroll-behavior: smooth; }
     </style>
 </head>
-<body class="text-[#1C1C1E] dark:text-white min-h-screen selection:bg-blue-200 flex flex-col">
+<body class="text-[#1C1C1E] dark:text-white dvh-screen selection:bg-blue-200 flex flex-col relative overflow-x-hidden">
 
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwPHoyf-hGR5_oYdnc3Fz6NIxcGicwV2Q63_6UntL6Xex8WtFv3-wlAZp01zica1keN/exec'; 
@@ -70,15 +72,15 @@
         <p class="text-slate-500 dark:text-slate-400 font-medium mt-8">Menyiapkan butik...</p>
     </div>
 
-    <!-- AREA LOGIN (REVAMPED) -->
-    <div id="auth-section" class="min-h-screen flex hidden relative bg-[#F2F2F7] dark:bg-black overflow-hidden">
+    <!-- AREA LOGIN (REVAMPED & MOBILE OPTIMIZED) -->
+    <div id="auth-section" class="dvh-screen flex hidden relative bg-[#F2F2F7] dark:bg-black overflow-hidden w-full">
         <!-- Background Ornamen Blur -->
-        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-500/20 dark:bg-blue-500/30 blur-[100px] rounded-full pointer-events-none"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-500/20 dark:bg-purple-500/30 blur-[100px] rounded-full pointer-events-none"></div>
+        <div class="absolute top-[-10%] left-[-10%] w-72 h-72 sm:w-96 sm:h-96 bg-blue-500/20 dark:bg-blue-500/30 blur-[80px] sm:blur-[100px] rounded-full pointer-events-none"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-72 h-72 sm:w-96 sm:h-96 bg-purple-500/20 dark:bg-purple-500/30 blur-[80px] sm:blur-[100px] rounded-full pointer-events-none"></div>
         
-        <div class="w-full flex flex-col lg:flex-row max-w-7xl mx-auto z-10">
+        <div class="w-full flex flex-col lg:flex-row max-w-7xl mx-auto z-10 h-full">
             <!-- Left Branding (Desktop) -->
-            <div class="hidden lg:flex w-1/2 flex-col justify-center p-8 lg:p-12 relative">
+            <div class="hidden lg:flex w-1/2 flex-col justify-center p-8 lg:p-12 relative h-full">
                 <div id="dynamic-login-bg" class="absolute inset-4 rounded-[40px] bg-cover bg-center overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.3)]" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');">
                     <div class="absolute inset-0 bg-gradient-to-br from-black/90 via-black/50 to-transparent"></div>
                     <div class="absolute bottom-16 left-12 right-12">
@@ -89,216 +91,233 @@
                 </div>
             </div>
 
-            <!-- Right Form Area -->
-            <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 min-h-screen lg:min-h-0 relative">
+            <!-- Right Form Area (Mobile & Desktop) -->
+            <div class="w-full lg:w-1/2 flex items-center justify-center px-4 py-6 sm:p-12 h-full relative">
                 <!-- Mobile Background Fallback -->
                 <div id="dynamic-login-bg-mobile" class="absolute inset-0 lg:hidden bg-cover bg-center opacity-30 dark:opacity-20" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');"></div>
                 <div class="absolute inset-0 lg:hidden bg-gradient-to-t from-[#F2F2F7] via-[#F2F2F7]/95 to-[#F2F2F7]/80 dark:from-black dark:via-black/95 dark:to-black/80"></div>
 
-                <div class="w-full max-w-md relative z-10 bg-white/70 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl p-8 rounded-[40px] shadow-[0_32px_64px_rgba(0,0,0,0.05)] border border-white dark:border-slate-800">
-                    <div class="text-center pt-2 lg:hidden">
-                        <div id="app-logo-auth-mobile" class="text-blue-500 mb-4 flex justify-center drop-shadow-md"><i class="fa-solid fa-shirt text-5xl"></i></div>
-                    </div>
+                <div class="w-full max-w-md relative z-10 bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-3xl p-6 sm:p-8 rounded-[32px] sm:rounded-[40px] shadow-2xl border border-white dark:border-slate-800 flex flex-col max-h-full overflow-hidden">
                     
-                    <div class="text-center">
-                        <h2 class="text-3xl font-bold text-black dark:text-white tracking-tight">Selamat Datang</h2>
-                        <p class="mt-2 text-sm text-slate-500 dark:text-slate-400 font-medium" id="auth-subtitle">Masuk ke akun Anda untuk melanjutkan</p>
-                    </div>
-
-                    <div class="bg-[#767680]/10 dark:bg-[#767680]/30 p-1.5 rounded-[16px] flex gap-1 relative mt-8">
-                        <button onclick="switchAuthTab('login')" id="tab-login" class="flex-1 py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-sm transition-all duration-300">Masuk</button>
-                        <button onclick="switchAuthTab('register')" id="tab-register" class="flex-1 py-2.5 rounded-[12px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-bold text-sm transition-all duration-300">Daftar</button>
-                    </div>
-
-                    <!-- LOGIN FORM -->
-                    <form id="form-login" onsubmit="handleLogin(event)" class="mt-8 space-y-5">
-                        <div class="space-y-4">
-                            <div class="relative group">
-                                <i class="fa-solid fa-user absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
-                                <input id="l-user" required type="text" placeholder="Username" class="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all">
-                            </div>
-                            <div class="relative group">
-                                <i class="fa-solid fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
-                                <input id="l-pass" required type="password" placeholder="Password" class="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-12 pr-12 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all">
-                                <button type="button" onclick="togglePassword('l-pass', 'l-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-black dark:hover:text-white focus:outline-none"><i id="l-eye" class="fa-solid fa-eye"></i></button>
-                            </div>
-                        </div>
-                        <button type="submit" id="btn-login" class="w-full flex justify-center py-4 px-4 rounded-2xl shadow-lg shadow-blue-500/30 text-[17px] font-bold text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.98] transition-all mt-2">Masuk Sekarang</button>
-                    </form>
-
-                    <!-- REGISTER FORM -->
-                    <form id="form-register" onsubmit="handleRegister(event)" class="mt-8 space-y-4 hidden max-h-[60vh] overflow-y-auto hide-scrollbar scroll-touch pb-4 px-1">
-                        <div class="flex flex-col items-center justify-center mb-6">
-                            <div onclick="document.getElementById('r-foto').click()" class="relative w-28 h-28 rounded-full bg-slate-100 dark:bg-black/50 flex items-center justify-center cursor-pointer overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 group transition-all hover:ring-4 ring-blue-500/20">
-                                <input type="file" id="r-foto" accept="image/*" class="hidden" onchange="previewImage(event, 'r-foto-preview', 'authFotoBase64', true)">
-                                <div id="r-foto-icon" class="text-center group-hover:scale-110 transition-transform">
-                                    <i class="fa-solid fa-camera text-slate-400 dark:text-slate-500 text-2xl mb-1"></i>
-                                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Pasang Foto</p>
-                                </div>
-                                <img id="r-foto-preview" src="" class="absolute inset-0 w-full h-full object-cover hidden">
-                            </div>
+                    <div class="shrink-0">
+                        <div class="text-center pt-1 lg:hidden">
+                            <div id="app-logo-auth-mobile" class="text-blue-500 mb-3 flex justify-center drop-shadow-md"><i class="fa-solid fa-shirt text-4xl"></i></div>
                         </div>
                         
-                        <div class="relative group">
-                            <i class="fa-solid fa-address-card absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
-                            <input id="r-nama" required type="text" placeholder="Nama Lengkap" class="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all">
+                        <div class="text-center">
+                            <h2 class="text-2xl sm:text-3xl font-bold text-black dark:text-white tracking-tight">Selamat Datang</h2>
+                            <p class="mt-1.5 text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium" id="auth-subtitle">Masuk ke akun Anda untuk melanjutkan</p>
                         </div>
-                        <div class="relative group">
-                            <i class="fa-solid fa-phone absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
-                            <input id="r-hp" required type="tel" placeholder="Nomor Handphone (10-15 digit)" class="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all">
+
+                        <div class="bg-[#767680]/10 dark:bg-[#767680]/30 p-1.5 rounded-[16px] flex gap-1 relative mt-6 mb-2">
+                            <button onclick="switchAuthTab('login')" id="tab-login" class="flex-1 py-2 sm:py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-xs sm:text-sm transition-all duration-300">Masuk</button>
+                            <button onclick="switchAuthTab('register')" id="tab-register" class="flex-1 py-2 sm:py-2.5 rounded-[12px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-bold text-xs sm:text-sm transition-all duration-300">Daftar</button>
                         </div>
-                        <div class="relative group">
-                            <i class="fa-solid fa-user absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
-                            <input id="r-user" required type="text" placeholder="Username" class="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all">
-                        </div>
-                        <div class="relative group">
-                            <i class="fa-solid fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
-                            <input id="r-pass" required type="password" placeholder="Buat Password" class="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-12 pr-12 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all">
-                            <button type="button" onclick="togglePassword('r-pass', 'r-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-black dark:hover:text-white focus:outline-none"><i id="r-eye" class="fa-solid fa-eye"></i></button>
-                        </div>
-                        <button type="submit" id="btn-register" class="w-full flex justify-center py-4 px-4 rounded-2xl shadow-lg shadow-blue-500/30 text-[17px] font-bold text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.98] transition-all mt-6">Buat Akun Baru</button>
-                    </form>
+                    </div>
+
+                    <!-- PENGGULUNG FORM -->
+                    <div class="overflow-y-auto hide-scrollbar scroll-touch flex-1 w-full px-1">
+                        <!-- LOGIN FORM -->
+                        <form id="form-login" onsubmit="handleLogin(event)" class="mt-4 sm:mt-6 space-y-4 pb-2">
+                            <div class="space-y-3 sm:space-y-4">
+                                <div class="relative group">
+                                    <i class="fa-solid fa-user absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-sm sm:text-base"></i>
+                                    <input id="l-user" required type="text" placeholder="Username" class="w-full bg-white dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-10 sm:pl-12 pr-5 py-3 sm:py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base shadow-sm inset-0">
+                                </div>
+                                <div class="relative group">
+                                    <i class="fa-solid fa-lock absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-sm sm:text-base"></i>
+                                    <input id="l-pass" required type="password" placeholder="Password" class="w-full bg-white dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-10 sm:pl-12 pr-12 py-3 sm:py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base shadow-sm inset-0">
+                                    <button type="button" onclick="togglePassword('l-pass', 'l-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-black dark:hover:text-white focus:outline-none"><i id="l-eye" class="fa-solid fa-eye"></i></button>
+                                </div>
+                            </div>
+                            <button type="submit" id="btn-login" class="w-full flex justify-center py-3.5 sm:py-4 px-4 rounded-2xl shadow-lg shadow-blue-500/30 text-[15px] sm:text-[17px] font-bold text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.98] transition-all mt-4">Masuk Sekarang</button>
+                        </form>
+
+                        <!-- REGISTER FORM -->
+                        <form id="form-register" onsubmit="handleRegister(event)" class="mt-4 sm:mt-6 space-y-3 sm:space-y-4 hidden pb-4">
+                            <div class="flex flex-col items-center justify-center mb-4 sm:mb-6">
+                                <div onclick="document.getElementById('r-foto').click()" class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white dark:bg-black/50 flex items-center justify-center cursor-pointer overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 group transition-all hover:ring-4 ring-blue-500/20 shrink-0">
+                                    <input type="file" id="r-foto" accept="image/*" class="hidden" onchange="previewImage(event, 'r-foto-preview', 'authFotoBase64', true)">
+                                    <div id="r-foto-icon" class="text-center group-hover:scale-110 transition-transform">
+                                        <i class="fa-solid fa-camera text-slate-400 dark:text-slate-500 text-lg sm:text-xl mb-1"></i>
+                                        <p class="text-[8px] sm:text-[9px] font-bold text-slate-400 uppercase tracking-wider">Pasang Foto</p>
+                                    </div>
+                                    <img id="r-foto-preview" src="" class="absolute inset-0 w-full h-full object-cover hidden">
+                                </div>
+                            </div>
+                            
+                            <div class="relative group">
+                                <i class="fa-solid fa-address-card absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-sm sm:text-base"></i>
+                                <input id="r-nama" required type="text" placeholder="Nama Lengkap" class="w-full bg-white dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-10 sm:pl-12 pr-5 py-3 sm:py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base shadow-sm inset-0">
+                            </div>
+                            <div class="relative group">
+                                <i class="fa-solid fa-phone absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-sm sm:text-base"></i>
+                                <input id="r-hp" required type="tel" placeholder="No Handphone (10-15 digit)" class="w-full bg-white dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-10 sm:pl-12 pr-5 py-3 sm:py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base shadow-sm inset-0">
+                            </div>
+                            <div class="relative group">
+                                <i class="fa-solid fa-user absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-sm sm:text-base"></i>
+                                <input id="r-user" required type="text" placeholder="Username" class="w-full bg-white dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-10 sm:pl-12 pr-5 py-3 sm:py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base shadow-sm inset-0">
+                            </div>
+                            <div class="relative group">
+                                <i class="fa-solid fa-lock absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-sm sm:text-base"></i>
+                                <input id="r-pass" required type="password" placeholder="Buat Password" class="w-full bg-white dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-10 sm:pl-12 pr-12 py-3 sm:py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base shadow-sm inset-0">
+                                <button type="button" onclick="togglePassword('r-pass', 'r-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-black dark:hover:text-white focus:outline-none"><i id="r-eye" class="fa-solid fa-eye"></i></button>
+                            </div>
+                            <button type="submit" id="btn-register" class="w-full flex justify-center py-3.5 sm:py-4 px-4 rounded-2xl shadow-lg shadow-blue-500/30 text-[15px] sm:text-[17px] font-bold text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.98] transition-all mt-4">Buat Akun Baru</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- AREA APLIKASI UTAMA -->
-    <div id="app-section" class="hidden flex-1 flex flex-col relative w-full">
-        <nav class="fixed inset-x-4 md:inset-x-auto md:w-[800px] md:left-1/2 md:-translate-x-1/2 z-40 glass-panel rounded-full px-5 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.08)] transition-all safe-pt-nav">
-            <div class="flex justify-between items-center h-10">
-                <div id="app-logo-nav" class="flex items-center gap-2 text-blue-500 pl-2 cursor-pointer active:scale-95 transition-transform" onclick="showHome()">
-                    <i class="fa-solid fa-shirt text-2xl drop-shadow-sm"></i>
-                    <span class="font-bold text-lg tracking-tight hidden sm:block text-black dark:text-white">TokoBaju</span>
-                </div>
-                <div class="flex items-center gap-4 sm:gap-5 pr-1">
-                    <button onclick="showFavorites()" class="text-slate-500 hover:text-pink-500 active:scale-90 transition-all" title="Favorit Saya">
-                        <i class="fa-solid fa-heart text-[20px] sm:text-[22px]"></i>
-                    </button>
-                    <button onclick="showPesanan()" class="text-slate-500 hover:text-blue-500 active:scale-90 transition-all relative" title="Pesanan Saya">
-                        <i class="fa-solid fa-cart-shopping text-[20px] sm:text-[22px]"></i>
-                        <span id="badge-pesanan-count" class="absolute -top-1.5 -right-2 bg-red-500 text-white text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white dark:border-[#2C2C2E] shadow-sm hidden">0</span>
-                    </button>
-                    <div class="h-6 w-px bg-slate-300 dark:bg-slate-700 mx-1"></div>
-                    <div class="flex items-center gap-3 cursor-pointer active:scale-95 transition-all" onclick="toggleProfileModal()">
-                        <div class="text-right hidden md:block"><p id="nav-nama" class="text-sm font-bold text-black dark:text-white leading-none">User</p></div>
-                        <img id="nav-foto" src="" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover shadow-sm ring-2 ring-white dark:ring-slate-800">
-                    </div>
-                </div>
-            </div>
-        </nav>
+    <div id="app-section" class="hidden flex-1 flex flex-col relative w-full dvh-screen overflow-x-hidden">
+        
+        <!-- ORNAMEN CAHAYA BACKGROUND APLIKASI -->
+        <div class="fixed top-[-10%] left-[-10%] w-72 h-72 md:w-[32rem] md:h-[32rem] bg-blue-500/10 dark:bg-blue-500/20 blur-[80px] md:blur-[120px] rounded-full pointer-events-none z-0"></div>
+        <div class="fixed bottom-[-10%] right-[-10%] w-72 h-72 md:w-[32rem] md:h-[32rem] bg-purple-500/10 dark:bg-purple-500/20 blur-[80px] md:blur-[120px] rounded-full pointer-events-none z-0"></div>
+        <div class="fixed top-[40%] left-[60%] w-64 h-64 bg-pink-500/5 dark:bg-pink-500/10 blur-[80px] rounded-full pointer-events-none z-0"></div>
 
-        <div id="sec-home" class="flex-1 w-full">
-            <div id="banner-container" class="relative max-w-7xl mx-4 lg:mx-auto h-[300px] sm:h-[350px] md:h-[480px] bg-black rounded-[32px] md:rounded-[48px] overflow-hidden group shadow-[0_24px_48px_rgba(0,0,0,0.12)] safe-mt-content border border-slate-200/20"
-                 ontouchstart="handleBannerTouchStart(event)" ontouchend="handleBannerTouchEnd(event)">
-                <div id="banner-track" class="w-full h-full relative z-10">
-                    <!-- Slides akan dirender JS -->
-                </div>
-                <div class="absolute bottom-6 left-0 right-0 flex justify-center gap-2 z-30" id="banner-dots"></div>
-                <button onclick="prevSlide()" class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-30 glass-panel hover:bg-white dark:hover:bg-[#2C2C2E] text-black dark:text-white w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg active:scale-90"><i class="fa-solid fa-chevron-left text-sm sm:text-base"></i></button>
-                <button onclick="nextSlideManual()" class="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-30 glass-panel hover:bg-white dark:hover:bg-[#2C2C2E] text-black dark:text-white w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg active:scale-90"><i class="fa-solid fa-chevron-right text-sm sm:text-base"></i></button>
-            </div>
-
-            <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-                <div class="mb-6 md:mb-8 px-2 flex flex-col md:flex-row md:items-end justify-between gap-5">
-                    <div>
-                        <h2 class="text-2xl sm:text-3xl font-bold text-black dark:text-white tracking-tight mb-2">Katalog Produk</h2>
-                        <div class="relative w-full md:w-80 mt-3">
-                            <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" id="search-produk" onkeyup="terapkanFilter()" placeholder="Cari gaya favoritmu..." class="w-full bg-white dark:bg-[#1C1C1E] border border-slate-100 dark:border-slate-800 shadow-[0_4px_16px_rgba(0,0,0,0.04)] rounded-full py-3.5 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium text-sm text-black dark:text-white placeholder-slate-400">
-                        </div>
+        <!-- Wrapper Konten Utama -->
+        <div class="relative z-10 flex-1 flex flex-col w-full">
+            
+            <nav class="fixed inset-x-4 md:inset-x-auto md:w-[800px] md:left-1/2 md:-translate-x-1/2 z-40 glass-panel rounded-full px-5 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.08)] transition-all safe-pt-nav">
+                <div class="flex justify-between items-center h-10">
+                    <div id="app-logo-nav" class="flex items-center gap-2 text-blue-500 pl-2 cursor-pointer active:scale-95 transition-transform" onclick="showHome()">
+                        <i class="fa-solid fa-shirt text-2xl drop-shadow-sm"></i>
+                        <span class="font-bold text-lg tracking-tight hidden sm:block text-black dark:text-white">TokoBaju</span>
                     </div>
-                    <div class="flex flex-col items-end gap-3 w-full md:w-auto">
-                        <div id="loading" class="text-xs sm:text-sm text-blue-500 hidden font-medium"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Menyinkronkan...</div>
-                        <div class="flex bg-white dark:bg-[#1C1C1E] p-1 rounded-full shadow-sm border border-slate-100 dark:border-slate-800">
-                            <button onclick="setSortFilter('terbaru')" id="btn-sort-terbaru" class="bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold shadow-sm transition-colors">Produk Baru</button>
-                            <button onclick="setSortFilter('terlaris')" id="btn-sort-terlaris" class="text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white px-5 py-2 rounded-full text-xs font-bold transition-colors">Terlaris</button>
+                    <div class="flex items-center gap-4 sm:gap-5 pr-1">
+                        <button onclick="showFavorites()" class="text-slate-500 hover:text-pink-500 active:scale-90 transition-all" title="Favorit Saya">
+                            <i class="fa-solid fa-heart text-[20px] sm:text-[22px]"></i>
+                        </button>
+                        <button onclick="showPesanan()" class="text-slate-500 hover:text-blue-500 active:scale-90 transition-all relative" title="Pesanan Saya">
+                            <i class="fa-solid fa-cart-shopping text-[20px] sm:text-[22px]"></i>
+                            <span id="badge-pesanan-count" class="absolute -top-1.5 -right-2 bg-red-500 text-white text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white dark:border-[#2C2C2E] shadow-sm hidden">0</span>
+                        </button>
+                        <div class="h-6 w-px bg-slate-300 dark:bg-slate-700 mx-1"></div>
+                        <div class="flex items-center gap-3 cursor-pointer active:scale-95 transition-all" onclick="toggleProfileModal()">
+                            <div class="text-right hidden md:block"><p id="nav-nama" class="text-sm font-bold text-black dark:text-white leading-none">User</p></div>
+                            <img id="nav-foto" src="" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover shadow-sm ring-2 ring-white dark:ring-slate-800">
                         </div>
                     </div>
                 </div>
+            </nav>
 
-                <div class="mb-6 px-2">
-                    <div id="kategori-container" class="flex gap-2 overflow-x-auto hide-scrollbar scroll-touch pb-2"></div>
-                </div>
-                <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"></div>
-            </main>
-        </div>
-
-        <!-- SECTION DETAIL PRODUK -->
-        <div id="sec-detail-produk" class="flex-1 w-full hidden">
-            <main class="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 safe-mt-content">
-                <button onclick="showHome()" class="mb-6 flex items-center gap-2 text-slate-500 hover:text-black dark:hover:text-white font-bold transition-colors">
-                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Katalog
-                </button>
-                <div class="bg-white dark:bg-[#1C1C1E] rounded-[40px] shadow-sm border border-slate-100 dark:border-slate-800 p-4 md:p-8 flex flex-col md:flex-row gap-8">
-                    <!-- Bagian Foto -->
-                    <div class="w-full md:w-1/2 flex flex-col gap-4">
-                        <div class="relative w-full aspect-[4/5] bg-slate-100 dark:bg-slate-900 rounded-[32px] overflow-hidden group">
-                            <img id="dtl-gambar-utama" src="" class="w-full h-full object-cover cursor-zoom-in group-hover:scale-105 transition-transform duration-500">
-                            <button id="dtl-btn-fav" onclick="" class="absolute top-4 right-4 w-12 h-12 rounded-full glass-panel flex items-center justify-center transition active:scale-90 z-10 shadow-md">
-                                <i class="fa-regular fa-heart text-xl"></i>
-                            </button>
-                        </div>
-                        <!-- Thumbnail -->
-                        <div id="dtl-thumbnail-container" class="flex gap-3 overflow-x-auto hide-scrollbar scroll-touch pb-2">
-                            <!-- Diisi via JS -->
-                        </div>
+            <div id="sec-home" class="flex-1 w-full">
+                <div id="banner-container" class="relative max-w-7xl mx-4 lg:mx-auto h-[240px] sm:h-[350px] md:h-[480px] bg-black rounded-[28px] md:rounded-[48px] overflow-hidden group shadow-[0_24px_48px_rgba(0,0,0,0.12)] safe-mt-content border border-slate-200/20"
+                     ontouchstart="handleBannerTouchStart(event)" ontouchend="handleBannerTouchEnd(event)">
+                    <div id="banner-track" class="w-full h-full relative z-10">
+                        <!-- Slides akan dirender JS -->
                     </div>
-                    <!-- Bagian Info -->
-                    <div class="w-full md:w-1/2 flex flex-col justify-center">
-                        <span id="dtl-kategori" class="inline-block bg-[#F2F2F7] dark:bg-slate-800 text-slate-500 dark:text-slate-300 font-bold px-4 py-1.5 rounded-full text-xs mb-4 w-max">Kategori</span>
-                        <h2 id="dtl-nama" class="text-3xl md:text-4xl font-extrabold text-black dark:text-white tracking-tight mb-2">Nama Baju</h2>
-                        <p id="dtl-harga" class="text-2xl md:text-3xl font-black text-blue-500 mb-6">Rp 0</p>
-                        
-                        <div class="h-px bg-slate-100 dark:bg-slate-800 w-full mb-6"></div>
-                        
-                        <h4 class="font-bold text-black dark:text-white mb-2">Deskripsi Produk</h4>
-                        <p id="dtl-deskripsi" class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-6 whitespace-pre-wrap">Deskripsi produk di sini...</p>
-                        
-                        <div class="flex items-center gap-4 mb-8">
-                            <div class="bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold px-4 py-2 rounded-xl text-sm border border-emerald-100 dark:border-emerald-500/20">
-                                Stok Tersedia: <span id="dtl-stok">0</span> Pcs
+                    <div class="absolute bottom-4 sm:bottom-6 left-0 right-0 flex justify-center gap-2 z-30" id="banner-dots"></div>
+                    <button onclick="prevSlide()" class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-30 glass-panel hover:bg-white dark:hover:bg-[#2C2C2E] text-black dark:text-white w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg active:scale-90"><i class="fa-solid fa-chevron-left text-xs sm:text-base"></i></button>
+                    <button onclick="nextSlideManual()" class="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-30 glass-panel hover:bg-white dark:hover:bg-[#2C2C2E] text-black dark:text-white w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg active:scale-90"><i class="fa-solid fa-chevron-right text-xs sm:text-base"></i></button>
+                </div>
+
+                <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+                    <div class="mb-6 md:mb-8 px-2 flex flex-col md:flex-row md:items-end justify-between gap-5">
+                        <div>
+                            <h2 class="text-2xl sm:text-3xl font-bold text-black dark:text-white tracking-tight mb-2">Katalog Produk</h2>
+                            <div class="relative w-full md:w-80 mt-3">
+                                <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input type="text" id="search-produk" onkeyup="terapkanFilter()" placeholder="Cari gaya favoritmu..." class="w-full bg-white dark:bg-[#1C1C1E] border border-slate-100 dark:border-slate-800 shadow-[0_4px_16px_rgba(0,0,0,0.04)] rounded-full py-3.5 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium text-sm text-black dark:text-white placeholder-slate-400">
                             </div>
                         </div>
-
-                        <button id="dtl-btn-beli" class="w-full bg-black dark:bg-white text-white dark:text-black py-5 rounded-full font-bold text-lg shadow-xl shadow-black/10 active:scale-[0.98] transition-all">Beli Sekarang</button>
+                        <div class="flex flex-col items-end gap-3 w-full md:w-auto">
+                            <div id="loading" class="text-xs sm:text-sm text-blue-500 hidden font-medium"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Menyinkronkan...</div>
+                            <div class="flex bg-white dark:bg-[#1C1C1E] p-1 rounded-full shadow-sm border border-slate-100 dark:border-slate-800">
+                                <button onclick="setSortFilter('terbaru')" id="btn-sort-terbaru" class="bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold shadow-sm transition-colors">Produk Baru</button>
+                                <button onclick="setSortFilter('terlaris')" id="btn-sort-terlaris" class="text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white px-5 py-2 rounded-full text-xs font-bold transition-colors">Terlaris</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </main>
-        </div>
 
-        <!-- SECTION FAVORIT -->
-        <div id="sec-favorite" class="flex-1 w-full hidden">
-            <main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 safe-mt-content">
-                <div class="mb-8 px-2 flex items-center gap-4">
-                    <button onclick="showHome()" class="w-10 h-10 rounded-full bg-white dark:bg-[#1C1C1E] shadow-sm flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white active:scale-90 transition-all"><i class="fa-solid fa-chevron-left"></i></button>
-                    <div>
-                        <h2 class="text-2xl sm:text-3xl font-bold text-black dark:text-white tracking-tight text-pink-500"><i class="fa-solid fa-heart mr-2"></i>Koleksi Favorit</h2>
-                        <p class="text-slate-500 dark:text-slate-400 font-medium mt-1 text-xs sm:text-sm">Produk yang Anda simpan.</p>
+                    <div class="mb-6 px-2">
+                        <div id="kategori-container" class="flex gap-2 overflow-x-auto hide-scrollbar scroll-touch pb-2"></div>
                     </div>
-                </div>
-                <div id="favorite-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"></div>
-            </main>
-        </div>
+                    <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"></div>
+                </main>
+            </div>
 
-        <!-- SECTION PESANAN -->
-        <div id="sec-pesanan" class="flex-1 w-full hidden">
-            <main class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 safe-mt-content">
-                <div class="mb-8 px-2 flex items-center gap-4">
-                    <button onclick="showHome()" class="w-10 h-10 rounded-full bg-white dark:bg-[#1C1C1E] shadow-sm flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white active:scale-90 transition-all"><i class="fa-solid fa-chevron-left"></i></button>
-                    <div>
-                        <h2 class="text-2xl sm:text-3xl font-bold text-black dark:text-white tracking-tight text-blue-500"><i class="fa-solid fa-cart-shopping mr-2"></i>Pesanan Saya</h2>
-                        <p class="text-slate-500 dark:text-slate-400 font-medium mt-1 text-xs sm:text-sm">Pantau status pembelian Anda di sini.</p>
+            <!-- SECTION DETAIL PRODUK -->
+            <div id="sec-detail-produk" class="flex-1 w-full hidden">
+                <main class="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 safe-mt-content">
+                    <button onclick="showHome()" class="mb-6 flex items-center gap-2 text-slate-500 hover:text-black dark:hover:text-white font-bold transition-colors">
+                        <i class="fa-solid fa-arrow-left"></i> Kembali ke Katalog
+                    </button>
+                    <div class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-xl rounded-[32px] sm:rounded-[40px] shadow-sm border border-slate-100 dark:border-slate-800 p-4 md:p-8 flex flex-col md:flex-row gap-8">
+                        <!-- Bagian Foto -->
+                        <div class="w-full md:w-1/2 flex flex-col gap-4">
+                            <div class="relative w-full aspect-[4/5] bg-slate-100 dark:bg-slate-900 rounded-[28px] overflow-hidden group">
+                                <img id="dtl-gambar-utama" src="" class="w-full h-full object-cover cursor-zoom-in group-hover:scale-105 transition-transform duration-500">
+                                <button id="dtl-btn-fav" onclick="" class="absolute top-4 right-4 w-10 h-10 sm:w-12 sm:h-12 rounded-full glass-panel flex items-center justify-center transition active:scale-90 z-10 shadow-md">
+                                    <i class="fa-regular fa-heart text-lg sm:text-xl"></i>
+                                </button>
+                            </div>
+                            <!-- Thumbnail -->
+                            <div id="dtl-thumbnail-container" class="flex gap-3 overflow-x-auto hide-scrollbar scroll-touch pb-2">
+                                <!-- Diisi via JS -->
+                            </div>
+                        </div>
+                        <!-- Bagian Info -->
+                        <div class="w-full md:w-1/2 flex flex-col justify-center">
+                            <span id="dtl-kategori" class="inline-block bg-[#F2F2F7] dark:bg-slate-800 text-slate-500 dark:text-slate-300 font-bold px-4 py-1.5 rounded-full text-xs mb-4 w-max">Kategori</span>
+                            <h2 id="dtl-nama" class="text-3xl md:text-4xl font-extrabold text-black dark:text-white tracking-tight mb-2">Nama Baju</h2>
+                            <p id="dtl-harga" class="text-2xl md:text-3xl font-black text-blue-500 mb-6">Rp 0</p>
+                            
+                            <div class="h-px bg-slate-100 dark:bg-slate-800 w-full mb-6"></div>
+                            
+                            <h4 class="font-bold text-black dark:text-white mb-2">Deskripsi Produk</h4>
+                            <p id="dtl-deskripsi" class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-6 whitespace-pre-wrap">Deskripsi produk di sini...</p>
+                            
+                            <div class="flex items-center gap-4 mb-8">
+                                <div class="bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold px-4 py-2 rounded-xl text-sm border border-emerald-100 dark:border-emerald-500/20">
+                                    Stok Tersedia: <span id="dtl-stok">0</span> Pcs
+                                </div>
+                            </div>
+
+                            <button id="dtl-btn-beli" class="w-full bg-black dark:bg-white text-white dark:text-black py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg shadow-xl shadow-black/10 active:scale-[0.98] transition-all">Beli Sekarang</button>
+                        </div>
                     </div>
-                </div>
-                <div id="list-pesanan-customer" class="space-y-4"></div>
-            </main>
-        </div>
-        
-        <footer class="text-slate-400 dark:text-slate-600 py-8 text-center mt-auto font-medium text-xs sm:text-sm safe-pb">
-            <p>&copy; 2026 TokoBaju Fashion. Didesain secara eksklusif.</p>
-        </footer>
-    </div>
+                </main>
+            </div>
+
+            <!-- SECTION FAVORIT -->
+            <div id="sec-favorite" class="flex-1 w-full hidden">
+                <main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 safe-mt-content">
+                    <div class="mb-8 px-2 flex items-center gap-4">
+                        <button onclick="showHome()" class="w-10 h-10 rounded-full bg-white dark:bg-[#1C1C1E] shadow-sm flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white active:scale-90 transition-all"><i class="fa-solid fa-chevron-left"></i></button>
+                        <div>
+                            <h2 class="text-2xl sm:text-3xl font-bold text-black dark:text-white tracking-tight text-pink-500"><i class="fa-solid fa-heart mr-2"></i>Koleksi Favorit</h2>
+                            <p class="text-slate-500 dark:text-slate-400 font-medium mt-1 text-xs sm:text-sm">Produk yang Anda simpan.</p>
+                        </div>
+                    </div>
+                    <div id="favorite-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"></div>
+                </main>
+            </div>
+
+            <!-- SECTION PESANAN -->
+            <div id="sec-pesanan" class="flex-1 w-full hidden">
+                <main class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 safe-mt-content">
+                    <div class="mb-8 px-2 flex items-center gap-4">
+                        <button onclick="showHome()" class="w-10 h-10 rounded-full bg-white dark:bg-[#1C1C1E] shadow-sm flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white active:scale-90 transition-all"><i class="fa-solid fa-chevron-left"></i></button>
+                        <div>
+                            <h2 class="text-2xl sm:text-3xl font-bold text-black dark:text-white tracking-tight text-blue-500"><i class="fa-solid fa-cart-shopping mr-2"></i>Pesanan Saya</h2>
+                            <p class="text-slate-500 dark:text-slate-400 font-medium mt-1 text-xs sm:text-sm">Pantau status pembelian Anda di sini.</p>
+                        </div>
+                    </div>
+                    <div id="list-pesanan-customer" class="space-y-4"></div>
+                </main>
+            </div>
+            
+            <footer class="text-slate-400 dark:text-slate-600 py-8 text-center mt-auto font-medium text-xs sm:text-sm safe-pb">
+                <p>&copy; 2026 TokoBaju Fashion. Didesain secara eksklusif.</p>
+            </footer>
+
+        </div> <!-- End of Wrapper Content -->
+    </div> <!-- End of App Section -->
 
     <!-- MODAL ZOOM GAMBAR PRODUK -->
     <div id="modal-zoom" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[100] transition-opacity duration-300">
@@ -321,17 +340,17 @@
     <!-- MODAL PROFIL -->
     <div id="profile-modal" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-end sm:items-center justify-center z-[50] transition-opacity duration-300">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="toggleProfileModal()"></div>
-        <div class="modal-sheet bg-white dark:bg-[#1C1C1E] w-full sm:w-11/12 sm:max-w-sm mx-auto rounded-t-[40px] sm:rounded-[40px] shadow-2xl z-50 overflow-hidden relative pb-4 sm:pb-0 safe-pb">
+        <div class="modal-sheet bg-white dark:bg-[#1C1C1E] w-full sm:w-11/12 sm:max-w-sm mx-auto rounded-t-[32px] sm:rounded-[40px] shadow-2xl z-50 overflow-hidden relative pb-4 sm:pb-0 safe-pb">
             <div class="w-12 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full mx-auto mt-4 mb-2 sm:hidden"></div>
             <div class="px-6 pb-6 pt-2 sm:pt-4 text-center">
                 <button onclick="toggleProfileModal()" class="absolute top-4 right-5 text-slate-400 dark:text-slate-500 hover:text-black dark:hover:text-white bg-slate-100 dark:bg-[#2C2C2E] w-8 h-8 rounded-full flex items-center justify-center transition-colors hidden sm:flex"><i class="fa-solid fa-times"></i></button>
-                <img id="prof-foto" src="" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-4 border-white dark:border-[#2C2C2E] shadow-lg mx-auto mt-2 bg-slate-100">
+                <img id="prof-foto" src="" class="w-20 h-20 sm:w-28 sm:h-28 rounded-full object-cover border-4 border-white dark:border-[#2C2C2E] shadow-lg mx-auto mt-2 bg-slate-100">
                 <h3 id="prof-nama" class="text-xl sm:text-2xl font-bold text-black dark:text-white mt-4 tracking-tight">Nama Pengguna</h3>
                 <p id="prof-user" class="text-slate-500 dark:text-slate-400 font-medium text-sm sm:text-base">@username</p>
                 <div class="mt-6 bg-[#F2F2F7] dark:bg-[#2C2C2E] rounded-[24px] p-4 text-left">
                     <div class="flex items-center gap-4">
                         <div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center shadow-md"><i class="fa-solid fa-phone text-lg"></i></div>
-                        <div><p class="text-slate-500 dark:text-slate-400 text-[10px] font-semibold uppercase tracking-wider">No Handphone</p><p id="prof-hp" class="font-bold text-black dark:text-white text-base">-</p></div>
+                        <div><p class="text-slate-500 dark:text-slate-400 text-[10px] font-semibold uppercase tracking-wider">No Handphone</p><p id="prof-hp" class="font-bold text-black dark:text-white text-sm sm:text-base">-</p></div>
                     </div>
                 </div>
                 <div class="flex items-center justify-between bg-[#F2F2F7] dark:bg-[#2C2C2E] p-4 rounded-[24px] mt-4">
@@ -344,7 +363,7 @@
                       <div class="w-11 h-6 bg-slate-300 dark:bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
                     </label>
                 </div>
-                <button onclick="handleLogout()" class="w-full mt-6 bg-[#FFE5E5] dark:bg-red-500/10 text-red-600 dark:text-red-400 font-bold py-4 rounded-full active:scale-95 transition-all text-[16px] sm:text-[17px]">Keluar dari Akun</button>
+                <button onclick="handleLogout()" class="w-full mt-6 bg-[#FFE5E5] dark:bg-red-500/10 text-red-600 dark:text-red-400 font-bold py-3.5 sm:py-4 rounded-full active:scale-95 transition-all text-[15px] sm:text-[17px]">Keluar dari Akun</button>
             </div>
         </div>
     </div>
@@ -352,79 +371,79 @@
     <!-- MODAL CHECKOUT -->
     <div id="checkout-modal" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-end sm:items-center justify-center z-[80] transition-opacity duration-300">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="toggleCheckoutModal()"></div>
-        <div class="modal-sheet bg-white dark:bg-[#1C1C1E] w-full sm:w-11/12 sm:max-w-md mx-auto rounded-t-[40px] sm:rounded-[40px] shadow-2xl z-[85] h-[85vh] sm:max-h-[90vh] flex flex-col relative safe-pb">
+        <div class="modal-sheet bg-white dark:bg-[#1C1C1E] w-full sm:w-11/12 sm:max-w-md mx-auto rounded-t-[32px] sm:rounded-[40px] shadow-2xl z-[85] h-[85vh] sm:max-h-[90vh] flex flex-col relative safe-pb">
             <div class="w-12 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full mx-auto mt-4 mb-2 sm:hidden shrink-0"></div>
             <div class="px-5 sm:px-6 py-3 flex justify-between items-center shrink-0 border-b border-slate-100 dark:border-slate-800">
-                <p class="text-xl sm:text-2xl font-bold text-black dark:text-white tracking-tight">Pembayaran</p>
+                <p class="text-lg sm:text-2xl font-bold text-black dark:text-white tracking-tight">Pembayaran</p>
                 <button onclick="toggleCheckoutModal()" class="text-slate-400 dark:text-slate-500 hover:text-black dark:hover:text-white bg-slate-100 dark:bg-[#2C2C2E] w-8 h-8 rounded-full flex items-center justify-center transition-colors"><i class="fa-solid fa-times"></i></button>
             </div>
             
             <div class="px-5 sm:px-6 overflow-y-auto hide-scrollbar scroll-touch flex-1 py-4">
                 <div class="flex gap-4 mb-5 pb-5 border-b border-slate-100 dark:border-slate-800">
-                    <img id="m-gambar" src="" class="w-20 h-20 object-cover rounded-[16px] shadow-sm bg-slate-100">
+                    <img id="m-gambar" src="" class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-[16px] shadow-sm bg-slate-100 shrink-0">
                     <div class="flex flex-col justify-center">
-                        <h3 id="m-nama" class="font-bold text-base text-black dark:text-white leading-tight line-clamp-2">Nama Baju</h3>
-                        <p id="m-harga" class="text-blue-500 font-extrabold mt-1 text-lg">Rp 0</p>
-                        <p class="text-xs text-emerald-600 dark:text-emerald-400 mt-1 font-bold">Sisa Stok: <span id="m-stok">0</span></p>
+                        <h3 id="m-nama" class="font-bold text-sm sm:text-base text-black dark:text-white leading-tight line-clamp-2">Nama Baju</h3>
+                        <p id="m-harga" class="text-blue-500 font-extrabold mt-1 text-base sm:text-lg">Rp 0</p>
+                        <p class="text-[10px] sm:text-xs text-emerald-600 dark:text-emerald-400 mt-1 font-bold">Sisa Stok: <span id="m-stok">0</span></p>
                     </div>
                 </div>
 
                 <form id="form-beli" onsubmit="prosesBeli(event)" class="pb-4">
                     <input type="hidden" id="m-id"><input type="hidden" id="m-hargasatuan">
                     
-                    <div class="bg-[#F2F2F7] dark:bg-[#2C2C2E] p-4 rounded-[24px] space-y-4 mb-5">
+                    <div class="bg-[#F2F2F7] dark:bg-[#2C2C2E] p-3 sm:p-4 rounded-[20px] sm:rounded-[24px] space-y-4 mb-5">
                         <div class="flex items-center justify-between">
                             <label class="font-semibold text-black dark:text-white text-sm">Jumlah Beli</label>
                             <div class="flex items-center bg-white dark:bg-[#1C1C1E] rounded-full shadow-sm p-1">
-                                <button type="button" onclick="ubahJumlah(-1)" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#2C2C2E] text-black dark:text-white hover:bg-slate-200 active:scale-90 transition-all"><i class="fa-solid fa-minus text-xs"></i></button>
+                                <button type="button" onclick="ubahJumlah(-1)" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 dark:bg-[#2C2C2E] text-black dark:text-white hover:bg-slate-200 active:scale-90 transition-all"><i class="fa-solid fa-minus text-xs"></i></button>
                                 <input type="number" id="m-jumlah" required min="1" value="1" oninput="hitungTotalModal()" class="w-10 text-center bg-transparent font-bold outline-none border-0 p-0 text-black dark:text-white">
-                                <button type="button" onclick="ubahJumlah(1)" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#2C2C2E] text-black dark:text-white hover:bg-slate-200 active:scale-90 transition-all"><i class="fa-solid fa-plus text-xs"></i></button>
+                                <button type="button" onclick="ubahJumlah(1)" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 dark:bg-[#2C2C2E] text-black dark:text-white hover:bg-slate-200 active:scale-90 transition-all"><i class="fa-solid fa-plus text-xs"></i></button>
                             </div>
                         </div>
                     </div>
 
                     <div class="mb-5">
                         <label class="block font-semibold text-black dark:text-white mb-2 text-sm">Pilih Metode Pembayaran</label>
-                        <div class="bg-[#767680]/12 dark:bg-[#767680]/30 p-1 rounded-[14px] flex gap-1 relative">
+                        <div class="bg-[#767680]/12 dark:bg-[#767680]/30 p-1 rounded-[12px] sm:rounded-[14px] flex gap-1 relative">
                             <label class="flex-1 cursor-pointer">
                                 <input type="radio" name="metode_bayar" value="QRIS" class="peer sr-only" checked onchange="toggleMetodeUI()">
-                                <div class="text-center py-2.5 rounded-[10px] peer-checked:bg-white dark:peer-checked:bg-[#1C1C1E] peer-checked:text-black dark:peer-checked:text-white text-slate-500 font-bold text-[13px] transition-all"><i class="fa-solid fa-qrcode mr-1"></i> QRIS Transfer</div>
+                                <div class="text-center py-2 sm:py-2.5 rounded-[10px] peer-checked:bg-white dark:peer-checked:bg-[#1C1C1E] peer-checked:text-black dark:peer-checked:text-white text-slate-500 font-bold text-[12px] sm:text-[13px] transition-all"><i class="fa-solid fa-qrcode mr-1"></i> QRIS Transfer</div>
                             </label>
                             <label class="flex-1 cursor-pointer">
                                 <input type="radio" name="metode_bayar" value="Cash" class="peer sr-only" onchange="toggleMetodeUI()">
-                                <div class="text-center py-2.5 rounded-[10px] peer-checked:bg-white dark:peer-checked:bg-[#1C1C1E] peer-checked:text-black dark:peer-checked:text-white text-slate-500 font-bold text-[13px] transition-all"><i class="fa-solid fa-money-bill-wave mr-1"></i> Cash / Tunai</div>
+                                <div class="text-center py-2 sm:py-2.5 rounded-[10px] peer-checked:bg-white dark:peer-checked:bg-[#1C1C1E] peer-checked:text-black dark:peer-checked:text-white text-slate-500 font-bold text-[12px] sm:text-[13px] transition-all"><i class="fa-solid fa-money-bill-wave mr-1"></i> Cash / Tunai</div>
                             </label>
                         </div>
                     </div>
 
                     <div class="mb-5">
                         <label class="block font-semibold text-black dark:text-white mb-2 text-sm">Jenis Pembayaran</label>
-                        <div class="bg-[#767680]/12 dark:bg-[#767680]/30 p-1 rounded-[14px] flex gap-1 relative">
+                        <div class="bg-[#767680]/12 dark:bg-[#767680]/30 p-1 rounded-[12px] sm:rounded-[14px] flex gap-1 relative">
                             <label class="flex-1 cursor-pointer">
                                 <input type="radio" name="tipe_bayar" value="Lunas" class="peer sr-only" checked onchange="toggleDPUI(); hitungTotalModal()">
-                                <div class="text-center py-2 rounded-[10px] peer-checked:bg-white dark:peer-checked:bg-[#1C1C1E] peer-checked:text-black dark:peer-checked:text-white text-slate-500 font-semibold text-[13px] transition-all">Lunas Full</div>
+                                <div class="text-center py-2 rounded-[10px] peer-checked:bg-white dark:peer-checked:bg-[#1C1C1E] peer-checked:text-black dark:peer-checked:text-white text-slate-500 font-semibold text-[12px] sm:text-[13px] transition-all">Lunas Full</div>
                             </label>
                             <label class="flex-1 cursor-pointer">
                                 <input type="radio" name="tipe_bayar" value="DP" class="peer sr-only" onchange="toggleDPUI(); hitungTotalModal()">
-                                <div class="text-center py-2 rounded-[10px] peer-checked:bg-white dark:peer-checked:bg-[#1C1C1E] peer-checked:text-black dark:peer-checked:text-white text-slate-500 font-semibold text-[13px] transition-all">Bayar DP</div>
+                                <div class="text-center py-2 rounded-[10px] peer-checked:bg-white dark:peer-checked:bg-[#1C1C1E] peer-checked:text-black dark:peer-checked:text-white text-slate-500 font-semibold text-[12px] sm:text-[13px] transition-all">Bayar DP</div>
                             </label>
                         </div>
                     </div>
 
                     <div id="area-custom-dp" class="mb-5 hidden bg-blue-50 dark:bg-blue-500/10 p-4 rounded-[20px] border border-blue-100 dark:border-blue-500/20">
-                        <label class="block font-semibold text-blue-700 dark:text-blue-400 mb-3 text-sm">Tentukan Nilai DP (Persen atau Nominal)</label>
-                        <div class="flex gap-4 items-center">
+                        <label class="block font-semibold text-blue-700 dark:text-blue-400 mb-3 text-[13px] sm:text-sm">Tentukan Nilai DP</label>
+                        <div class="flex gap-2 sm:gap-4 items-center">
                             <div class="flex-1">
                                 <div class="relative">
-                                    <input type="number" id="dp-pct" placeholder="Persen" value="50" oninput="hitungDP('pct')" class="w-full bg-white dark:bg-[#1C1C1E] border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none font-bold text-black dark:text-white pr-8">
-                                    <span class="absolute right-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">%</span>
+                                    <input type="number" id="dp-pct" placeholder="Persen" value="50" oninput="hitungDP('pct')" class="w-full bg-white dark:bg-[#1C1C1E] border border-slate-200 dark:border-slate-700 rounded-xl px-2 sm:px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none font-bold text-black dark:text-white pr-6 text-sm">
+                                    <span class="absolute right-2 top-1/2 -translate-y-1/2 font-bold text-slate-400 text-sm">%</span>
                                 </div>
                             </div>
-                            <div class="font-bold text-slate-400">=</div>
+                            <div class="font-bold text-slate-400 text-sm">=</div>
                             <div class="flex-[2]">
                                 <div class="relative">
-                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">Rp</span>
-                                    <input type="number" id="dp-nom" placeholder="Nominal Rp" oninput="hitungDP('nom')" class="w-full bg-white dark:bg-[#1C1C1E] border border-slate-200 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none font-bold text-black dark:text-white">
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400 text-sm">Rp</span>
+                                    <input type="number" id="dp-nom" placeholder="Nominal Rp" oninput="hitungDP('nom')" class="w-full bg-white dark:bg-[#1C1C1E] border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none font-bold text-black dark:text-white text-sm">
                                 </div>
                             </div>
                         </div>
@@ -433,29 +452,29 @@
                     <div id="area-qris" class="mb-5 text-center">
                         <label class="block font-semibold text-black dark:text-white mb-3 text-sm">Scan QRIS Untuk Membayar</label>
                         <div class="bg-white p-3 rounded-[24px] inline-block shadow-sm border border-slate-200">
-                            <img id="m-qris" src="" class="w-40 h-40 object-contain mx-auto rounded-[12px]">
+                            <img id="m-qris" src="" class="w-32 h-32 sm:w-40 sm:h-40 object-contain mx-auto rounded-[12px]">
                         </div>
-                        <p id="qris-nama-label" class="mt-2 text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full inline-block">A/N: -</p>
+                        <p id="qris-nama-label" class="mt-2 text-[11px] sm:text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full inline-block">A/N: -</p>
                         
-                        <div class="mt-5 text-left">
+                        <div class="mt-4 sm:mt-5 text-left">
                             <label id="lbl-upload-1" class="block font-semibold text-black dark:text-white mb-2 text-sm">Upload Bukti Transfer</label>
-                            <div onclick="document.getElementById('m-bukti').click()" class="relative w-full h-24 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-[20px] bg-[#F2F2F7]/50 dark:bg-[#2C2C2E]/50 hover:bg-[#E5E5EA] transition-colors flex flex-col items-center justify-center cursor-pointer overflow-hidden group">
+                            <div onclick="document.getElementById('m-bukti').click()" class="relative w-full h-20 sm:h-24 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-[16px] sm:rounded-[20px] bg-[#F2F2F7]/50 dark:bg-[#2C2C2E]/50 hover:bg-[#E5E5EA] transition-colors flex flex-col items-center justify-center cursor-pointer overflow-hidden group">
                                 <input type="file" id="m-bukti" accept="image/*" class="hidden" onchange="previewImage(event, 'm-bukti-preview', 'buktiBase64')">
                                 <div id="m-bukti-icon" class="text-center text-slate-400 group-hover:text-blue-500 transition-colors">
-                                    <i class="fa-solid fa-cloud-arrow-up text-2xl mb-1"></i>
-                                    <p class="text-[10px] font-bold uppercase tracking-wider" id="txt-upload-1">Pilih Bukti Foto</p>
+                                    <i class="fa-solid fa-cloud-arrow-up text-xl sm:text-2xl mb-1"></i>
+                                    <p class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider" id="txt-upload-1">Pilih Bukti Foto</p>
                                 </div>
                                 <img id="m-bukti-preview" src="" class="absolute inset-0 w-full h-full object-cover hidden">
                             </div>
                         </div>
 
                         <div id="area-upload-pelunasan" class="mt-4 text-left hidden">
-                            <label class="block font-semibold text-black dark:text-white mb-2 text-sm">Upload Bukti Pelunasan <span class="text-[10px] text-slate-400 font-normal">(Opsional jika dibayar nanti)</span></label>
-                            <div onclick="document.getElementById('m-pelunasan').click()" class="relative w-full h-24 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-[20px] bg-[#F2F2F7]/50 dark:bg-[#2C2C2E]/50 hover:bg-[#E5E5EA] transition-colors flex flex-col items-center justify-center cursor-pointer overflow-hidden group">
+                            <label class="block font-semibold text-black dark:text-white mb-2 text-sm">Upload Bukti Pelunasan <span class="text-[9px] sm:text-[10px] text-slate-400 font-normal">(Opsional)</span></label>
+                            <div onclick="document.getElementById('m-pelunasan').click()" class="relative w-full h-20 sm:h-24 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-[16px] sm:rounded-[20px] bg-[#F2F2F7]/50 dark:bg-[#2C2C2E]/50 hover:bg-[#E5E5EA] transition-colors flex flex-col items-center justify-center cursor-pointer overflow-hidden group">
                                 <input type="file" id="m-pelunasan" accept="image/*" class="hidden" onchange="previewImage(event, 'm-pelunasan-preview', 'pelunasanBase64')">
                                 <div id="m-pelunasan-icon" class="text-center text-slate-400 group-hover:text-emerald-500 transition-colors">
-                                    <i class="fa-solid fa-cloud-arrow-up text-2xl mb-1"></i>
-                                    <p class="text-[10px] font-bold uppercase tracking-wider">Pilih Bukti Pelunasan</p>
+                                    <i class="fa-solid fa-cloud-arrow-up text-xl sm:text-2xl mb-1"></i>
+                                    <p class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider">Pilih Bukti Pelunasan</p>
                                 </div>
                                 <img id="m-pelunasan-preview" src="" class="absolute inset-0 w-full h-full object-cover hidden">
                             </div>
@@ -464,18 +483,18 @@
                     </div>
 
                     <div id="area-cash-info" class="hidden mb-5 bg-emerald-50 dark:bg-emerald-500/10 p-4 rounded-[20px] border border-emerald-100 dark:border-emerald-500/20 text-center">
-                        <i class="fa-solid fa-money-bill-wave text-3xl text-emerald-500 mb-2"></i>
+                        <i class="fa-solid fa-money-bill-wave text-2xl sm:text-3xl text-emerald-500 mb-2"></i>
                         <p class="text-emerald-700 dark:text-emerald-400 font-bold text-sm">Bayar Langsung (Cash)</p>
-                        <p class="text-xs text-emerald-600 dark:text-emerald-500 mt-1">Selesaikan pembayaran saat mengambil barang atau COD. Tidak perlu upload bukti transfer.</p>
+                        <p class="text-[11px] sm:text-xs text-emerald-600 dark:text-emerald-500 mt-1">Selesaikan pembayaran saat mengambil barang atau COD. Tidak perlu upload bukti transfer.</p>
                     </div>
 
-                    <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between mb-6">
+                    <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between mb-4 sm:mb-6">
                         <div>
                             <span class="text-xs font-semibold text-slate-500" id="lbl-total">Total Tagihan</span>
-                            <div id="m-totalharga" class="text-2xl font-bold text-black dark:text-white tracking-tight">Rp 0</div>
+                            <div id="m-totalharga" class="text-xl sm:text-2xl font-bold text-black dark:text-white tracking-tight">Rp 0</div>
                         </div>
                     </div>
-                    <button type="submit" id="btn-proses-beli" class="w-full bg-blue-500 text-white font-bold py-4 rounded-full active:scale-[0.97] transition-all text-[17px] shadow-lg shadow-blue-500/30">Konfirmasi Pesanan</button>
+                    <button type="submit" id="btn-proses-beli" class="w-full bg-blue-500 text-white font-bold py-3.5 sm:py-4 rounded-full active:scale-[0.97] transition-all text-[15px] sm:text-[17px] shadow-lg shadow-blue-500/30">Konfirmasi Pesanan</button>
                 </form>
             </div>
         </div>
@@ -500,10 +519,10 @@
     <!-- MODAL BUKTI TRANSAKSI CUSTOMER -->
     <div id="modal-bukti-customer" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[120] transition-opacity duration-300">
         <div class="absolute w-full h-full bg-black/90 backdrop-blur-md" onclick="tutupBuktiModal()"></div>
-        <div class="modal-sheet bg-transparent w-full sm:max-w-md mx-auto rounded-[40px] z-[120] flex flex-col items-center relative p-4">
-            <div class="bg-white dark:bg-[#1C1C1E] p-2 rounded-[32px] w-full mx-auto shadow-2xl relative border border-slate-100 dark:border-slate-800">
+        <div class="modal-sheet bg-transparent w-full sm:max-w-md mx-auto rounded-[32px] sm:rounded-[40px] z-[120] flex flex-col items-center relative p-4">
+            <div class="bg-white dark:bg-[#1C1C1E] p-2 rounded-[24px] sm:rounded-[32px] w-full mx-auto shadow-2xl relative border border-slate-100 dark:border-slate-800">
                 <button onclick="tutupBuktiModal()" class="absolute -top-4 -right-4 bg-white dark:bg-zinc-800 text-black dark:text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg border border-slate-200 dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-700 transition"><i class="fa-solid fa-times"></i></button>
-                <img id="img-bukti-customer" src="" onerror="this.src='https://via.placeholder.com/400x600?text=Gambar+Rusak'" class="w-full h-auto max-h-[70vh] object-contain rounded-[24px] bg-slate-100 dark:bg-black">
+                <img id="img-bukti-customer" src="" onerror="this.src='https://via.placeholder.com/400x600?text=Gambar+Rusak'" class="w-full h-auto max-h-[70vh] object-contain rounded-[16px] sm:rounded-[24px] bg-slate-100 dark:bg-black">
             </div>
         </div>
     </div>
@@ -511,10 +530,10 @@
     <!-- MODAL DETAIL PESANAN -->
     <div id="modal-detail-pesanan" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-end sm:items-center justify-center z-[90] transition-opacity duration-300">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="tutupDetailPesanan()"></div>
-        <div class="modal-sheet bg-white dark:bg-[#1C1C1E] w-full sm:w-11/12 sm:max-w-md mx-auto rounded-t-[40px] sm:rounded-[40px] shadow-2xl z-[95] max-h-[90vh] flex flex-col relative safe-pb">
+        <div class="modal-sheet bg-white dark:bg-[#1C1C1E] w-full sm:w-11/12 sm:max-w-md mx-auto rounded-t-[32px] sm:rounded-[40px] shadow-2xl z-[95] max-h-[90vh] flex flex-col relative safe-pb">
             <div class="w-12 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full mx-auto mt-4 mb-2 sm:hidden shrink-0"></div>
             <div class="px-5 sm:px-6 py-4 flex justify-between items-center shrink-0 border-b border-slate-100 dark:border-slate-800">
-                <p class="text-xl font-bold text-black dark:text-white tracking-tight">Detail Transaksi</p>
+                <p class="text-lg sm:text-xl font-bold text-black dark:text-white tracking-tight">Detail Transaksi</p>
                 <div class="flex items-center gap-2">
                     <button onclick="cetakStruk()" class="text-blue-500 hover:text-blue-700 bg-blue-50 dark:bg-blue-500/10 w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm"><i class="fa-solid fa-print"></i></button>
                     <button onclick="tutupDetailPesanan()" class="text-slate-400 hover:text-black dark:hover:text-white bg-slate-100 dark:bg-[#2C2C2E] w-8 h-8 rounded-full flex items-center justify-center transition-colors"><i class="fa-solid fa-times"></i></button>
@@ -592,7 +611,7 @@
                 if(dynamicBgMobile) dynamicBgMobile.style.backgroundImage = `url('${appSettings.loginBg}')`;
             }
             if (appSettings.logo) {
-                const logoHtml = `<img src="${appSettings.logo}" class="h-24 object-contain mx-auto">`;
+                const logoHtml = `<img src="${appSettings.logo}" class="h-16 sm:h-24 object-contain mx-auto">`;
                 const authLogo = document.getElementById('app-logo-auth');
                 const authLogoMobile = document.getElementById('app-logo-auth-mobile');
                 if(authLogo) authLogo.innerHTML = logoHtml;
@@ -678,12 +697,12 @@
             document.getElementById('form-login').classList.toggle('hidden', !isLogin); document.getElementById('form-register').classList.toggle('hidden', isLogin);
             const tabLogin = document.getElementById('tab-login'); const tabReg = document.getElementById('tab-register');
             if(isLogin) {
-                tabLogin.className = "flex-1 py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-sm transition-all duration-300";
-                tabReg.className = "flex-1 py-2.5 rounded-[12px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-bold text-sm transition-all duration-300";
+                tabLogin.className = "flex-1 py-2 sm:py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-xs sm:text-sm transition-all duration-300";
+                tabReg.className = "flex-1 py-2 sm:py-2.5 rounded-[12px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-bold text-xs sm:text-sm transition-all duration-300";
                 document.getElementById('auth-subtitle').textContent = "Masuk ke akun Anda untuk melanjutkan";
             } else {
-                tabLogin.className = "flex-1 py-2.5 rounded-[12px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-bold text-sm transition-all duration-300";
-                tabReg.className = "flex-1 py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-sm transition-all duration-300";
+                tabLogin.className = "flex-1 py-2 sm:py-2.5 rounded-[12px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-bold text-xs sm:text-sm transition-all duration-300";
+                tabReg.className = "flex-1 py-2 sm:py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-xs sm:text-sm transition-all duration-300";
                 document.getElementById('auth-subtitle').textContent = "Lengkapi form untuk bergabung";
             }
         }
@@ -778,15 +797,15 @@
             katContainer.innerHTML = kats.map(k => {
                 const isActive = activeKategori === k;
                 const activeClass = isActive ? "bg-black dark:bg-white text-white dark:text-black shadow-md" : "bg-white dark:bg-[#1C1C1E] text-slate-500 border border-slate-200 dark:border-slate-800";
-                return `<button onclick="setKategori('${k}')" class="shrink-0 px-5 py-2.5 rounded-full text-xs font-bold transition-all ${activeClass}">${k}</button>`;
+                return `<button onclick="setKategori('${k}')" class="shrink-0 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-bold transition-all ${activeClass}">${k}</button>`;
             }).join('');
         }
         function setKategori(kat) { activeKategori = kat; populateKategori(); terapkanFilter(); }
         function setSortFilter(tipe) {
             activeSort = tipe;
             const btnT = document.getElementById('btn-sort-terbaru'); const btnL = document.getElementById('btn-sort-terlaris');
-            if(tipe === 'terbaru') { btnT.className = "bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold shadow-sm transition-colors"; btnL.className = "text-slate-500 px-5 py-2 text-xs font-bold"; }
-            else { btnL.className = "bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold shadow-sm transition-colors"; btnT.className = "text-slate-500 px-5 py-2 text-xs font-bold"; }
+            if(tipe === 'terbaru') { btnT.className = "bg-blue-500 text-white px-4 sm:px-5 py-2 rounded-full text-[11px] sm:text-xs font-bold shadow-sm transition-colors"; btnL.className = "text-slate-500 px-4 sm:px-5 py-2 text-[11px] sm:text-xs font-bold"; }
+            else { btnL.className = "bg-blue-500 text-white px-4 sm:px-5 py-2 rounded-full text-[11px] sm:text-xs font-bold shadow-sm transition-colors"; btnT.className = "text-slate-500 px-4 sm:px-5 py-2 text-[11px] sm:text-xs font-bold"; }
             terapkanFilter();
         }
 
@@ -808,17 +827,17 @@
                 const mainImg = gambarRaw.split(',')[0] || 'https://via.placeholder.com/400';
                 const isFav = listFavorit.includes(id);
                 return `
-                <div class="bg-white dark:bg-[#1C1C1E] rounded-[32px] p-2 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col group cursor-pointer" onclick="bukaDetailProduk('${id}')">
-                    <div class="relative h-48 sm:h-64 rounded-[24px] overflow-hidden bg-slate-50 dark:bg-slate-900">
+                <div class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-xl rounded-[24px] sm:rounded-[32px] p-2 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col group cursor-pointer hover:shadow-lg transition-shadow" onclick="bukaDetailProduk('${id}')">
+                    <div class="relative h-40 sm:h-48 md:h-64 rounded-[20px] sm:rounded-[24px] overflow-hidden bg-slate-50 dark:bg-slate-900">
                         <img src="${mainImg}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <button onclick="toggleFavorite('${id}', event)" class="absolute top-3 right-3 w-9 h-9 rounded-full glass-panel flex items-center justify-center transition active:scale-90 z-10">
-                            <i class="${isFav ? 'fa-solid fa-heart text-pink-500' : 'fa-regular fa-heart text-slate-400'} text-lg"></i>
+                        <button onclick="toggleFavorite('${id}', event)" class="absolute top-2 right-2 sm:top-3 sm:right-3 w-8 h-8 sm:w-9 sm:h-9 rounded-full glass-panel flex items-center justify-center transition active:scale-90 z-10">
+                            <i class="${isFav ? 'fa-solid fa-heart text-pink-500' : 'fa-regular fa-heart text-slate-400'} text-sm sm:text-lg"></i>
                         </button>
                     </div>
-                    <div class="p-3 flex-1 flex flex-col">
-                        <h3 class="font-bold text-black dark:text-white text-sm line-clamp-2 mb-1">${nama}</h3>
-                        ${deskripsi ? `<p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-2">${deskripsi}</p>` : ''}
-                        <p class="text-blue-500 font-extrabold text-lg mt-auto">${formatRp(harga)}</p>
+                    <div class="p-2 sm:p-3 flex-1 flex flex-col">
+                        <h3 class="font-bold text-black dark:text-white text-xs sm:text-sm line-clamp-2 mb-1 group-hover:text-blue-500 transition-colors">${nama}</h3>
+                        ${deskripsi ? `<p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-1.5 sm:mb-2">${deskripsi}</p>` : ''}
+                        <p class="text-blue-500 font-extrabold text-sm sm:text-lg mt-auto">${formatRp(harga)}</p>
                     </div>
                 </div>`;
             }).join('');
@@ -853,12 +872,12 @@
             const thumbContainer = document.getElementById('dtl-thumbnail-container');
             if(imgs.length > 1) {
                 thumbContainer.innerHTML = imgs.map((u, i) => `
-                    <div onclick="document.getElementById('dtl-gambar-utama').src='${u}'; document.getElementById('dtl-gambar-utama').onclick = () => openZoom('${gambarRaw}', ${i});" class="w-16 h-16 rounded-xl overflow-hidden cursor-pointer border-2 border-transparent hover:border-blue-500 shrink-0"><img src="${u}" class="w-full h-full object-cover"></div>
+                    <div onclick="document.getElementById('dtl-gambar-utama').src='${u}'; document.getElementById('dtl-gambar-utama').onclick = () => openZoom('${gambarRaw}', ${i});" class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden cursor-pointer border-2 border-transparent hover:border-blue-500 shrink-0"><img src="${u}" class="w-full h-full object-cover"></div>
                 `).join(''); thumbContainer.classList.remove('hidden');
             } else { thumbContainer.classList.add('hidden'); }
 
             const isFav = listFavorit.includes(id);
-            document.getElementById('dtl-btn-fav').innerHTML = `<i class="${isFav ? 'fa-solid text-pink-500' : 'fa-regular'} fa-heart text-xl"></i>`;
+            document.getElementById('dtl-btn-fav').innerHTML = `<i class="${isFav ? 'fa-solid text-pink-500' : 'fa-regular'} fa-heart text-lg sm:text-xl"></i>`;
             document.getElementById('dtl-btn-fav').onclick = (e) => toggleFavorite(id, e);
             
             const btnBeli = document.getElementById('dtl-btn-beli');
@@ -937,43 +956,43 @@
                     if(noPelunasan && p.Status !== 'Dibatalkan') {
                         htmlUploadLunas = `
                         <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-                            <p class="text-xs font-bold text-slate-500 mb-2">Upload Bukti Pelunasan DP</p>
+                            <p class="text-[11px] sm:text-xs font-bold text-slate-500 mb-2">Upload Bukti Pelunasan DP</p>
                             <div class="flex items-center gap-2">
                                 <input type="file" id="file_pelunasan_${trId}" accept="image/*" class="hidden" onchange="prosesUploadPelunasan(event, '${trId}')">
-                                <button onclick="event.stopPropagation(); document.getElementById('file_pelunasan_${trId}').click()" class="bg-[#F2F2F7] dark:bg-slate-800 text-blue-500 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 hover:bg-blue-50 transition-colors">
-                                    <i class="fa-solid fa-upload"></i> Pilih & Upload Foto
+                                <button onclick="event.stopPropagation(); document.getElementById('file_pelunasan_${trId}').click()" class="bg-[#F2F2F7] dark:bg-slate-800 text-blue-500 font-bold px-3 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs flex items-center gap-2 hover:bg-blue-50 transition-colors">
+                                    <i class="fa-solid fa-upload"></i> Pilih & Upload
                                 </button>
-                                <span id="loading_${trId}" class="text-xs text-blue-500 hidden"><i class="fa-solid fa-spinner fa-spin"></i> Mengunggah...</span>
+                                <span id="loading_${trId}" class="text-[10px] sm:text-xs text-blue-500 hidden"><i class="fa-solid fa-spinner fa-spin"></i> Mengunggah...</span>
                             </div>
                         </div>`;
                     } else if (!noPelunasan && p['Bukti Pelunasan']) {
                         htmlBukti += `<button onclick="bukaBuktiModal('${p['Bukti Pelunasan']}', event)" class="bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500 px-3 py-1.5 rounded-lg text-[10px] font-bold border border-emerald-100 dark:border-emerald-500/20 active:scale-95 transition-transform"><i class="fa-solid fa-image"></i> Struk Pelunasan</button>`;
                         htmlUploadLunas = `
                         <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
-                            <p class="text-xs font-bold text-emerald-500"><i class="fa-solid fa-circle-check"></i> Bukti Pelunasan Telah Dikirim</p>
+                            <p class="text-[11px] sm:text-xs font-bold text-emerald-500"><i class="fa-solid fa-circle-check"></i> Bukti Pelunasan Telah Dikirim</p>
                         </div>`;
                     }
                 }
                 htmlBukti += `</div>`;
 
                 return `
-                <div onclick="bukaDetailPesanan('${trId}')" class="bg-white dark:bg-[#1C1C1E] p-5 rounded-[24px] shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col cursor-pointer hover:border-blue-200 dark:hover:border-blue-800 transition-colors group">
+                <div onclick="bukaDetailPesanan('${trId}')" class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-xl p-4 sm:p-5 rounded-[24px] shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col cursor-pointer hover:shadow-md transition-shadow group">
                     <div class="flex justify-between items-start">
                         <div>
                             <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${trId}</span>
-                            <h4 class="font-bold text-black dark:text-white mt-1 group-hover:text-blue-500 transition-colors">${p['Nama Baju']}</h4>
-                            <p class="text-xs text-slate-500 mt-1">${p.Tanggal.split(',')[0]} &bull; ${p.Jumlah} Pcs &bull; <span class="text-blue-500 font-bold">${p.Status}</span></p>
-                            <p class="text-[10px] text-slate-500 mt-1 font-bold">Metode: ${p['Metode Bayar']||'-'} | Tipe: ${p['Tipe Pembayaran']} ${isDP ? `(${p['Detail DP']})` : ''}</p>
+                            <h4 class="font-bold text-sm sm:text-base text-black dark:text-white mt-1 group-hover:text-blue-500 transition-colors">${p['Nama Baju']}</h4>
+                            <p class="text-[11px] sm:text-xs text-slate-500 mt-1">${p.Tanggal.split(',')[0]} &bull; ${p.Jumlah} Pcs &bull; <span class="text-blue-500 font-bold">${p.Status}</span></p>
+                            <p class="text-[9px] sm:text-[10px] text-slate-500 mt-1 font-bold">Metode: ${p['Metode Bayar']||'-'} | Tipe: ${p['Tipe Pembayaran']} ${isDP ? `(${p['Detail DP']})` : ''}</p>
                         </div>
                         <div class="text-right">
-                            <p class="text-blue-500 font-extrabold">${formatRp(p['Total Harga'])}</p>
+                            <p class="text-blue-500 font-extrabold text-sm sm:text-base">${formatRp(p['Total Harga'])}</p>
                         </div>
                     </div>
                     ${htmlBukti}
                     ${htmlUploadLunas}
                 </div>`;
             }).join('');
-            else container.innerHTML = `<div class="py-20 text-center text-slate-400 font-medium">Belum ada pesanan</div>`;
+            else container.innerHTML = `<div class="py-20 text-center text-slate-400 font-medium text-sm sm:text-base">Belum ada pesanan</div>`;
         }
 
         function bukaDetailPesanan(idTrx) {
@@ -1003,7 +1022,7 @@
                 let pelunasanHtml = '';
                 if (sudahLunas) {
                     pelunasanHtml = `
-                        <div class="flex justify-between items-center text-sm mb-3 text-emerald-600 dark:text-emerald-400">
+                        <div class="flex justify-between items-center text-xs sm:text-sm mb-2 sm:mb-3 text-emerald-600 dark:text-emerald-400">
                             <span>Pelunasan</span>
                             <span class="font-semibold">- ${formatRp(sisaTagihan)}</span>
                         </div>
@@ -1012,58 +1031,58 @@
                 }
 
                 tagihanHtml = `
-                    <div class="flex justify-between items-center text-sm mb-1">
+                    <div class="flex justify-between items-center text-xs sm:text-sm mb-1">
                         <span class="text-slate-500 dark:text-slate-400">Total Harga (${p.Jumlah} Pcs)</span>
                         <span class="font-semibold text-black dark:text-white">${formatRp(totalHarga)}</span>
                     </div>
-                    <div class="flex justify-between items-center text-sm ${sudahLunas ? 'mb-1' : 'mb-3'} text-emerald-600 dark:text-emerald-400">
+                    <div class="flex justify-between items-center text-xs sm:text-sm ${sudahLunas ? 'mb-1' : 'mb-2 sm:mb-3'} text-emerald-600 dark:text-emerald-400">
                         <span>Telah Dibayar (DP)</span>
                         <span class="font-semibold">- ${formatRp(dpNominal)}</span>
                     </div>
                     ${pelunasanHtml}
-                    <div class="pt-3 border-t border-dashed border-slate-300 dark:border-slate-600 flex justify-between items-center">
-                        <span class="font-bold text-black dark:text-white">${sudahLunas ? 'Status Tagihan' : 'Sisa Tagihan'}</span>
-                        <span class="font-black ${sudahLunas ? 'text-emerald-500' : 'text-red-500'} text-lg">${sudahLunas ? '<i class="fa-solid fa-check-double mr-1"></i> LUNAS' : formatRp(sisaTagihan)}</span>
+                    <div class="pt-2 sm:pt-3 border-t border-dashed border-slate-300 dark:border-slate-600 flex justify-between items-center">
+                        <span class="font-bold text-black dark:text-white text-xs sm:text-sm">${sudahLunas ? 'Status Tagihan' : 'Sisa Tagihan'}</span>
+                        <span class="font-black ${sudahLunas ? 'text-emerald-500' : 'text-red-500'} text-base sm:text-lg">${sudahLunas ? '<i class="fa-solid fa-check-double mr-1"></i> LUNAS' : formatRp(sisaTagihan)}</span>
                     </div>
                 `;
             } else {
                 tagihanHtml = `
-                    <div class="flex justify-between items-center text-sm mb-1">
+                    <div class="flex justify-between items-center text-xs sm:text-sm mb-1">
                         <span class="text-slate-500 dark:text-slate-400">Total Harga (${p.Jumlah} Pcs)</span>
                         <span class="font-semibold text-black dark:text-white">${formatRp(totalHarga)}</span>
                     </div>
-                    <div class="pt-3 mt-3 border-t border-dashed border-slate-300 dark:border-slate-600 flex justify-between items-center">
-                        <span class="font-bold text-black dark:text-white">Total Lunas</span>
-                        <span class="font-black text-blue-500 text-lg">${formatRp(totalHarga)}</span>
+                    <div class="pt-2 sm:pt-3 mt-2 sm:mt-3 border-t border-dashed border-slate-300 dark:border-slate-600 flex justify-between items-center">
+                        <span class="font-bold text-black dark:text-white text-xs sm:text-sm">Total Lunas</span>
+                        <span class="font-black text-blue-500 text-base sm:text-lg">${formatRp(totalHarga)}</span>
                     </div>
                 `;
             }
 
             document.getElementById('content-detail-pesanan').innerHTML = `
-                <div class="bg-[#F2F2F7] dark:bg-[#2C2C2E] p-4 rounded-[20px]">
+                <div class="bg-[#F2F2F7] dark:bg-[#2C2C2E] p-3 sm:p-4 rounded-[16px] sm:rounded-[20px]">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ID: ${p['ID Transaksi']}</span>
-                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${statusColor}">${p.Status}</span>
+                        <span class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest">ID: ${p['ID Transaksi']}</span>
+                        <span class="px-2.5 py-1 rounded-full text-[9px] sm:text-[10px] font-bold ${statusColor}">${p.Status}</span>
                     </div>
-                    <p class="text-sm font-medium text-black dark:text-white"><i class="fa-regular fa-calendar mr-1"></i> ${p.Tanggal}</p>
+                    <p class="text-[11px] sm:text-sm font-medium text-black dark:text-white"><i class="fa-regular fa-calendar mr-1"></i> ${p.Tanggal}</p>
                 </div>
 
-                <div class="border border-slate-200 dark:border-slate-700 rounded-[20px] p-4">
-                    <h4 class="font-bold text-black dark:text-white mb-1">${p['Nama Baju']}</h4>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-3">Kuantitas: ${p.Jumlah} Pcs</p>
-                    <div class="h-px bg-slate-100 dark:bg-slate-800 w-full mb-3"></div>
-                    <div class="flex justify-between items-center text-sm mb-2">
+                <div class="border border-slate-200 dark:border-slate-700 rounded-[16px] sm:rounded-[20px] p-3 sm:p-4">
+                    <h4 class="font-bold text-black dark:text-white mb-1 text-sm sm:text-base">${p['Nama Baju']}</h4>
+                    <p class="text-[11px] sm:text-sm text-slate-500 dark:text-slate-400 mb-2 sm:mb-3">Kuantitas: ${p.Jumlah} Pcs</p>
+                    <div class="h-px bg-slate-100 dark:bg-slate-800 w-full mb-2 sm:mb-3"></div>
+                    <div class="flex justify-between items-center text-[11px] sm:text-sm mb-1.5 sm:mb-2">
                         <span class="text-slate-500 dark:text-slate-400">Metode Bayar</span>
                         <span class="font-semibold text-black dark:text-white">${p['Metode Bayar'] || '-'}</span>
                     </div>
-                    <div class="flex justify-between items-center text-sm">
+                    <div class="flex justify-between items-center text-[11px] sm:text-sm">
                         <span class="text-slate-500 dark:text-slate-400">Tipe Pembayaran</span>
-                        <span class="font-semibold text-black dark:text-white">${p['Tipe Pembayaran']} ${isDP ? `<span class="text-[10px] text-slate-400 font-normal ml-1">(${p['Detail DP']})</span>` : ''}</span>
+                        <span class="font-semibold text-black dark:text-white">${p['Tipe Pembayaran']} ${isDP ? `<span class="text-[9px] sm:text-[10px] text-slate-400 font-normal ml-1">(${p['Detail DP']})</span>` : ''}</span>
                     </div>
                 </div>
 
-                <div class="bg-slate-50 dark:bg-[#2C2C2E]/50 border border-slate-200 dark:border-slate-700 rounded-[20px] p-4">
-                    <h5 class="font-bold text-black dark:text-white mb-3 text-sm">Rincian Pembayaran</h5>
+                <div class="bg-slate-50 dark:bg-[#2C2C2E]/50 border border-slate-200 dark:border-slate-700 rounded-[16px] sm:rounded-[20px] p-3 sm:p-4">
+                    <h5 class="font-bold text-black dark:text-white mb-2 sm:mb-3 text-[13px] sm:text-sm">Rincian Pembayaran</h5>
                     ${tagihanHtml}
                 </div>
             `;
@@ -1277,8 +1296,8 @@
             while(bSource.length < 3) { bSource.push(grafisBanners[bSource.length % grafisBanners.length]); }
 
             track.innerHTML = bSource.map((item, i) => {
-                if(typeof item === 'string') { return `<div class="slide absolute inset-0 transition-opacity duration-700 ${i===0?'opacity-100':'opacity-0'}"><div class="absolute inset-0 bg-black/20 z-10"></div><img src="${item}" class="w-full h-full object-cover"><div class="absolute bottom-16 left-8 z-20 text-white"><h2 class="text-3xl font-extrabold mb-2 drop-shadow-lg">Gaya Masa Kini</h2></div></div>`; } 
-                else { return `<div class="slide absolute inset-0 transition-opacity duration-700 ${i===0?'opacity-100':'opacity-0'} bg-gradient-to-br ${item.bg} flex items-center justify-center text-center p-8"><div><i class="fa-solid ${item.icon} text-white/30 text-8xl mb-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i><div class="relative z-10"><h2 class="text-4xl font-black text-white mb-4">${item.title}</h2><p class="text-white/90 bg-black/10 px-6 py-2 rounded-full inline-block">${item.sub}</p></div></div></div>`; }
+                if(typeof item === 'string') { return `<div class="slide absolute inset-0 transition-opacity duration-700 ${i===0?'opacity-100':'opacity-0'}"><div class="absolute inset-0 bg-black/20 z-10"></div><img src="${item}" class="w-full h-full object-cover"><div class="absolute bottom-16 left-8 z-20 text-white"><h2 class="text-2xl sm:text-3xl font-extrabold mb-2 drop-shadow-lg">Gaya Masa Kini</h2></div></div>`; } 
+                else { return `<div class="slide absolute inset-0 transition-opacity duration-700 ${i===0?'opacity-100':'opacity-0'} bg-gradient-to-br ${item.bg} flex items-center justify-center text-center p-8"><div><i class="fa-solid ${item.icon} text-white/30 text-6xl sm:text-8xl mb-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i><div class="relative z-10"><h2 class="text-2xl sm:text-4xl font-black text-white mb-2 sm:mb-4">${item.title}</h2><p class="text-[10px] sm:text-sm text-white/90 bg-black/10 px-4 sm:px-6 py-1.5 sm:py-2 rounded-full inline-block">${item.sub}</p></div></div></div>`; }
             }).join('');
             dots.innerHTML = bSource.map((_, i) => `<div class="w-2 h-2 rounded-full transition-all ${i===0?'bg-white w-6':'bg-white/40'}"></div>`).join('');
             bIdx = 0; clearInterval(bInterval); bInterval = setInterval(() => bNav(1), 4000);
