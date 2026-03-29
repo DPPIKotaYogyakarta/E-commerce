@@ -319,10 +319,10 @@
             </footer>
 
             <!-- TOMBOL WA MENGAPUNG (FAB) DENGAN MENU -->
-            <div id="wa-fab-container" class="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-50 hidden">
+            <div id="wa-fab-container" class="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-50">
                 <!-- Tooltip / Menu yang muncul saat diklik -->
                 <div id="wa-menu" class="absolute bottom-full right-0 mb-4 bg-white dark:bg-[#2C2C2E] rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.15)] border border-slate-100 dark:border-zinc-700 overflow-hidden opacity-0 pointer-events-none transition-all duration-300 transform translate-y-4 backdrop-blur-xl">
-                    <a href="#" id="wa-link-btn" target="_blank" class="flex items-center gap-3 px-6 py-4 hover:bg-slate-50 dark:hover:bg-zinc-700/50 transition-colors whitespace-nowrap text-[#25D366] font-bold">
+                    <a href="https://wa.me/6281234567890?text=Halo%20Admin" id="wa-link-btn" target="_blank" class="flex items-center gap-3 px-6 py-4 hover:bg-slate-50 dark:hover:bg-zinc-700/50 transition-colors whitespace-nowrap text-[#25D366] font-bold">
                         <i class="fa-brands fa-whatsapp text-2xl"></i>
                         <span>Chat Admin</span>
                     </a>
@@ -594,6 +594,14 @@
     <script>
         const formatRp = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
         
+        // FUNGSI BANTUAN UNTUK FORMAT NOMOR WA OTOMATIS
+        const formatWaNumber = (num) => {
+            let cleaned = String(num).replace(/\D/g, ''); // Hapus semua karakter selain angka
+            if (cleaned.startsWith('0')) return '62' + cleaned.substring(1);
+            if (cleaned.startsWith('8')) return '62' + cleaned;
+            return cleaned;
+        };
+
         // VARIABEL CACHING
         let dataLoaded = { pesanan: false };
         let currentUser = null;
@@ -687,7 +695,7 @@
             // Konfigurasi Floating Button WA dengan Pop-up
             if (appSettings.admin_wa) {
                 let waNumbers = appSettings.admin_wa.split(',');
-                let firstNum = waNumbers[0].trim().replace(/^0/, '62');
+                let firstNum = formatWaNumber(waNumbers[0]);
                 const waLink = document.getElementById('wa-link-btn');
                 const waContainer = document.getElementById('wa-fab-container');
                 if (waLink && firstNum) {
@@ -807,7 +815,8 @@
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'login', username: document.getElementById('l-user').value, password: document.getElementById('l-pass').value }), headers: { 'Content-Type': 'text/plain' } });
                 const data = await res.json();
                 if(data.status === 'success') { localStorage.setItem('tokoBajuUser', JSON.stringify(data.data)); checkAuth(); } else { alert(data.message); }
-            } catch (err) { console.error(err); } btn.innerHTML = 'Masuk Sekarang'; btn.disabled = false;
+            } catch (err) { console.error(err); } 
+            finally { btn.innerHTML = 'Masuk Sekarang'; btn.disabled = false; }
         }
 
         async function handleRegister(e) {
@@ -832,7 +841,8 @@
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'register', nama_lengkap: document.getElementById('r-nama').value, no_hp: noHp, username: document.getElementById('r-user').value, password: document.getElementById('r-pass').value, foto: authFotoBase64 }), headers: { 'Content-Type': 'text/plain' } });
                 const data = await res.json();
                 if(data.status === 'success') { alert('Registrasi Berhasil! Silakan login.'); switchAuthTab('login'); } else { alert(data.message); }
-            } catch (err) {} btn.innerHTML = 'Daftar Akun'; btn.disabled = false;
+            } catch (err) {} 
+            finally { btn.innerHTML = 'Daftar Akun'; btn.disabled = false; }
         }
 
         function handleLogout() {
@@ -1503,10 +1513,7 @@
             
             // Memulai animasi frame berikutnya
             requestAnimationFrame(() => {
-                ghost.style.left = deltaX + 'px';
-                ghost.style.top = deltaY + 'px';
-                ghost.style.width = '20px';
-                ghost.style.height = '20px';
+                ghost.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.05)`;
                 ghost.style.opacity = '0.3';
             });
             
@@ -1539,7 +1546,7 @@
             const textPesan = encodeURIComponent(`Halo Admin, saya baru saja membuat pesanan di TokoBaju.\n\nID Transaksi: *${idTrx}*\nProduk: *${namaBaju}* (${qty} Pcs)\nMetode Bayar: *${metode}*\nTipe: *${tipe}*\nTotal Belanja: *${formatRp(total)}*\n\nMohon segera diproses ya. Terima kasih!`);
             
             waContainer.innerHTML = numbers.map((num, idx) => {
-                let cleanNum = num.trim().replace(/^0/, '62'); 
+                let cleanNum = formatWaNumber(num); 
                 return `<a href="https://wa.me/${cleanNum}?text=${textPesan}" target="_blank" class="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white font-bold py-3 sm:py-3.5 px-4 rounded-xl transition-all active:scale-95 shadow-lg shadow-green-500/30 mb-2 text-sm sm:text-base"><i class="fa-brands fa-whatsapp text-xl"></i> Chat Admin ${numbers.length > 1 ? idx+1 : ''} (WA)</a>`;
             }).join('');
             
@@ -1571,8 +1578,16 @@
                         showSuccessModal(data.id_transaksi, namaBaju, q, (q*h), tipe, metode, gambarUrl);
                     }, 400);
 
-                } else alert(data.message);
-            } catch (err) {} btn.innerHTML = 'Konfirmasi Pesanan'; btn.disabled = false;
+                } else {
+                    alert(data.message);
+                }
+            } catch (err) {
+                alert("Gagal memproses pesanan. Pastikan koneksi internet stabil dan URL Script benar.");
+                console.error(err);
+            } finally {
+                btn.innerHTML = 'Konfirmasi Pesanan'; 
+                btn.disabled = false;
+            }
         }
 
         window.onload = initApp;
