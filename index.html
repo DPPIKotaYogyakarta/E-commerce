@@ -460,6 +460,21 @@
         </div>
     </div>
 
+    <!-- MODAL DETAIL PESANAN -->
+    <div id="modal-detail-pesanan" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-end sm:items-center justify-center z-[90] transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="tutupDetailPesanan()"></div>
+        <div class="modal-sheet bg-white dark:bg-[#1C1C1E] w-full sm:w-11/12 sm:max-w-md mx-auto rounded-t-[40px] sm:rounded-[40px] shadow-2xl z-[95] max-h-[90vh] flex flex-col relative safe-pb">
+            <div class="w-12 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full mx-auto mt-4 mb-2 sm:hidden shrink-0"></div>
+            <div class="px-5 sm:px-6 py-4 flex justify-between items-center shrink-0 border-b border-slate-100 dark:border-slate-800">
+                <p class="text-xl font-bold text-black dark:text-white tracking-tight">Detail Transaksi</p>
+                <button onclick="tutupDetailPesanan()" class="text-slate-400 hover:text-black dark:hover:text-white bg-slate-100 dark:bg-[#2C2C2E] w-8 h-8 rounded-full flex items-center justify-center transition-colors"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div id="content-detail-pesanan" class="px-5 sm:px-6 overflow-y-auto hide-scrollbar scroll-touch flex-1 py-4 space-y-4">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
     <script>
         const formatRp = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
         
@@ -712,6 +727,7 @@
             const grid = document.getElementById(containerId);
             if(data.length > 0) grid.innerHTML = data.map(p => {
                 const id = p.ID || p.id; const nama = p['Nama Baju'] || p.nama; const harga = p.Harga || p.harga; const stok = p.Stok || p.stok;
+                const deskripsi = p.Deskripsi || p.deskripsi || '';
                 const gambarRaw = p['URL Gambar'] || p.gambar || '';
                 const mainImg = gambarRaw.split(',')[0] || 'https://via.placeholder.com/400';
                 const isFav = listFavorit.includes(id);
@@ -725,6 +741,7 @@
                     </div>
                     <div class="p-3 flex-1 flex flex-col">
                         <h3 class="font-bold text-black dark:text-white text-sm line-clamp-2 mb-1">${nama}</h3>
+                        ${deskripsi ? `<p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-2">${deskripsi}</p>` : ''}
                         <p class="text-blue-500 font-extrabold text-lg mt-auto">${formatRp(harga)}</p>
                     </div>
                 </div>`;
@@ -743,7 +760,7 @@
         }
         function showPesanan() { 
             hideAllSections(); document.getElementById('sec-pesanan').classList.remove('hidden'); 
-            renderTabelPesanan(); 
+            fetchPesananCustomer(true); // force refresh saat dibuka
         }
 
         function bukaDetailProduk(id) {
@@ -848,7 +865,7 @@
                             <p class="text-xs font-bold text-slate-500 mb-2">Upload Bukti Pelunasan DP</p>
                             <div class="flex items-center gap-2">
                                 <input type="file" id="file_pelunasan_${trId}" accept="image/*" class="hidden" onchange="prosesUploadPelunasan(event, '${trId}')">
-                                <button onclick="document.getElementById('file_pelunasan_${trId}').click()" class="bg-[#F2F2F7] dark:bg-slate-800 text-blue-500 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 hover:bg-blue-50 transition-colors">
+                                <button onclick="event.stopPropagation(); document.getElementById('file_pelunasan_${trId}').click()" class="bg-[#F2F2F7] dark:bg-slate-800 text-blue-500 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 hover:bg-blue-50 transition-colors">
                                     <i class="fa-solid fa-upload"></i> Pilih & Upload Foto
                                 </button>
                                 <span id="loading_${trId}" class="text-xs text-blue-500 hidden"><i class="fa-solid fa-spinner fa-spin"></i> Mengunggah...</span>
@@ -865,11 +882,11 @@
                 htmlBukti += `</div>`;
 
                 return `
-                <div class="bg-white dark:bg-[#1C1C1E] p-5 rounded-[24px] shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col">
+                <div onclick="bukaDetailPesanan('${trId}')" class="bg-white dark:bg-[#1C1C1E] p-5 rounded-[24px] shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col cursor-pointer hover:border-blue-200 dark:hover:border-blue-800 transition-colors group">
                     <div class="flex justify-between items-start">
                         <div>
                             <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${trId}</span>
-                            <h4 class="font-bold text-black dark:text-white mt-1">${p['Nama Baju']}</h4>
+                            <h4 class="font-bold text-black dark:text-white mt-1 group-hover:text-blue-500 transition-colors">${p['Nama Baju']}</h4>
                             <p class="text-xs text-slate-500 mt-1">${p.Tanggal.split(',')[0]} &bull; ${p.Jumlah} Pcs &bull; <span class="text-blue-500 font-bold">${p.Status}</span></p>
                             <p class="text-[10px] text-slate-500 mt-1 font-bold">Metode: ${p['Metode Bayar']||'-'} | Tipe: ${p['Tipe Pembayaran']} ${isDP ? `(${p['Detail DP']})` : ''}</p>
                         </div>
@@ -882,6 +899,97 @@
                 </div>`;
             }).join('');
             else container.innerHTML = `<div class="py-20 text-center text-slate-400 font-medium">Belum ada pesanan</div>`;
+        }
+
+        function bukaDetailPesanan(idTrx) {
+            const p = globalPenjualan.find(x => x['ID Transaksi'] === idTrx);
+            if(!p) return;
+
+            const isDP = p['Tipe Pembayaran'] === 'DP';
+            let totalHarga = parseInt(p['Total Harga']) || 0;
+            let dpNominal = 0;
+            let sisaTagihan = 0;
+            let tagihanHtml = '';
+
+            // Status Badge Color
+            let statusColor = "text-blue-500 bg-blue-50 dark:bg-blue-500/10";
+            if(p.Status === 'Selesai') statusColor = "text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10";
+            if(p.Status === 'Dibatalkan') statusColor = "text-red-500 bg-red-50 dark:bg-red-500/10";
+
+            if(isDP && p['Detail DP']) {
+                // Ekstrak nominal DP dari string "50% (Rp 50000)"
+                const match = p['Detail DP'].match(/Rp\s*(\d+)/);
+                if(match) dpNominal = parseInt(match[1]);
+                sisaTagihan = totalHarga - dpNominal;
+
+                tagihanHtml = `
+                    <div class="flex justify-between items-center text-sm mb-1">
+                        <span class="text-slate-500 dark:text-slate-400">Total Harga (${p.Jumlah} Pcs)</span>
+                        <span class="font-semibold text-black dark:text-white">${formatRp(totalHarga)}</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm mb-3 text-emerald-600 dark:text-emerald-400">
+                        <span>Telah Dibayar (DP)</span>
+                        <span class="font-semibold">- ${formatRp(dpNominal)}</span>
+                    </div>
+                    <div class="pt-3 border-t border-dashed border-slate-300 dark:border-slate-600 flex justify-between items-center">
+                        <span class="font-bold text-black dark:text-white">Sisa Tagihan</span>
+                        <span class="font-black text-red-500 text-lg">${formatRp(sisaTagihan)}</span>
+                    </div>
+                `;
+            } else {
+                tagihanHtml = `
+                    <div class="flex justify-between items-center text-sm mb-1">
+                        <span class="text-slate-500 dark:text-slate-400">Total Harga (${p.Jumlah} Pcs)</span>
+                        <span class="font-semibold text-black dark:text-white">${formatRp(totalHarga)}</span>
+                    </div>
+                    <div class="pt-3 mt-3 border-t border-dashed border-slate-300 dark:border-slate-600 flex justify-between items-center">
+                        <span class="font-bold text-black dark:text-white">Total Lunas</span>
+                        <span class="font-black text-blue-500 text-lg">${formatRp(totalHarga)}</span>
+                    </div>
+                `;
+            }
+
+            document.getElementById('content-detail-pesanan').innerHTML = `
+                <div class="bg-[#F2F2F7] dark:bg-[#2C2C2E] p-4 rounded-[20px]">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ID: ${p['ID Transaksi']}</span>
+                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${statusColor}">${p.Status}</span>
+                    </div>
+                    <p class="text-sm font-medium text-black dark:text-white"><i class="fa-regular fa-calendar mr-1"></i> ${p.Tanggal}</p>
+                </div>
+
+                <div class="border border-slate-200 dark:border-slate-700 rounded-[20px] p-4">
+                    <h4 class="font-bold text-black dark:text-white mb-1">${p['Nama Baju']}</h4>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-3">Kuantitas: ${p.Jumlah} Pcs</p>
+                    <div class="h-px bg-slate-100 dark:bg-slate-800 w-full mb-3"></div>
+                    <div class="flex justify-between items-center text-sm mb-2">
+                        <span class="text-slate-500 dark:text-slate-400">Metode Bayar</span>
+                        <span class="font-semibold text-black dark:text-white">${p['Metode Bayar'] || '-'}</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-slate-500 dark:text-slate-400">Tipe Pembayaran</span>
+                        <span class="font-semibold text-black dark:text-white">${p['Tipe Pembayaran']} ${isDP ? `<span class="text-[10px] text-slate-400 font-normal ml-1">(${p['Detail DP']})</span>` : ''}</span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 dark:bg-[#2C2C2E]/50 border border-slate-200 dark:border-slate-700 rounded-[20px] p-4">
+                    <h5 class="font-bold text-black dark:text-white mb-3 text-sm">Rincian Pembayaran</h5>
+                    ${tagihanHtml}
+                </div>
+            `;
+
+            const body = document.querySelector('body');
+            const modal = document.getElementById('modal-detail-pesanan');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => modal.classList.add('show'), 10);
+            body.classList.add('modal-active');
+        }
+
+        function tutupDetailPesanan() {
+            const body = document.querySelector('body');
+            const modal = document.getElementById('modal-detail-pesanan');
+            modal.classList.remove('show');
+            setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); body.classList.remove('modal-active'); }, 300);
         }
 
         function prosesUploadPelunasan(event, idTrx) {
