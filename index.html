@@ -916,24 +916,39 @@
             if(p.Status === 'Selesai') statusColor = "text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10";
             if(p.Status === 'Dibatalkan') statusColor = "text-red-500 bg-red-50 dark:bg-red-500/10";
 
+            const noPelunasan = !p['Bukti Pelunasan'] || p['Bukti Pelunasan'] === "Menunggu Pelunasan";
+            const sudahLunas = !noPelunasan;
+
             if(isDP && p['Detail DP']) {
                 // Ekstrak nominal DP dari string "50% (Rp 50000)"
                 const match = p['Detail DP'].match(/Rp\s*(\d+)/);
                 if(match) dpNominal = parseInt(match[1]);
                 sisaTagihan = totalHarga - dpNominal;
 
+                let pelunasanHtml = '';
+                if (sudahLunas) {
+                    pelunasanHtml = `
+                        <div class="flex justify-between items-center text-sm mb-3 text-emerald-600 dark:text-emerald-400">
+                            <span>Pelunasan</span>
+                            <span class="font-semibold">- ${formatRp(sisaTagihan)}</span>
+                        </div>
+                    `;
+                    sisaTagihan = 0; // Karena sudah lunas
+                }
+
                 tagihanHtml = `
                     <div class="flex justify-between items-center text-sm mb-1">
                         <span class="text-slate-500 dark:text-slate-400">Total Harga (${p.Jumlah} Pcs)</span>
                         <span class="font-semibold text-black dark:text-white">${formatRp(totalHarga)}</span>
                     </div>
-                    <div class="flex justify-between items-center text-sm mb-3 text-emerald-600 dark:text-emerald-400">
+                    <div class="flex justify-between items-center text-sm ${sudahLunas ? 'mb-1' : 'mb-3'} text-emerald-600 dark:text-emerald-400">
                         <span>Telah Dibayar (DP)</span>
                         <span class="font-semibold">- ${formatRp(dpNominal)}</span>
                     </div>
+                    ${pelunasanHtml}
                     <div class="pt-3 border-t border-dashed border-slate-300 dark:border-slate-600 flex justify-between items-center">
-                        <span class="font-bold text-black dark:text-white">Sisa Tagihan</span>
-                        <span class="font-black text-red-500 text-lg">${formatRp(sisaTagihan)}</span>
+                        <span class="font-bold text-black dark:text-white">${sudahLunas ? 'Status Tagihan' : 'Sisa Tagihan'}</span>
+                        <span class="font-black ${sudahLunas ? 'text-emerald-500' : 'text-red-500'} text-lg">${sudahLunas ? '<i class="fa-solid fa-check-double mr-1"></i> LUNAS' : formatRp(sisaTagihan)}</span>
                     </div>
                 `;
             } else {
