@@ -61,7 +61,7 @@
 <body class="text-[#1C1C1E] dark:text-white min-h-dvh selection:bg-blue-200 flex flex-col relative overflow-x-hidden">
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwPHoyf-hGR5_oYdnc3Fz6NIxcGicwV2Q63_6UntL6Xex8WtFv3-wlAZp01zica1keN/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5g_TeVjTLA1o9g0vW350IKwE9FcUpmitHyLtOegYWgpU8sYRPcQSAwMZt6cBFqRs6/exec'; 
     </script>
 
     <!-- LOADING SCREEN -->
@@ -70,7 +70,13 @@
             <i class="fa-solid fa-shirt text-4xl text-blue-500 animate-bounce"></i>
             <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-8 h-1 bg-blue-500/20 rounded-full blur-sm"></div>
         </div>
-        <p class="text-slate-500 dark:text-slate-400 font-medium mt-8 tracking-wide text-sm">Menyiapkan butik...</p>
+        
+        <!-- PROGRESS BAR -->
+        <div class="w-48 sm:w-64 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full mt-8 overflow-hidden shadow-inner">
+            <div id="loading-progress" class="h-full bg-blue-500 rounded-full transition-all duration-500 ease-out" style="width: 10%"></div>
+        </div>
+        
+        <p id="loading-text" class="text-slate-500 dark:text-slate-400 font-bold mt-3 tracking-wider text-[10px] sm:text-[11px] uppercase">Menyiapkan antarmuka...</p>
     </div>
 
     <!-- AREA LOGIN (RAPID & OPTIMIZED) -->
@@ -594,6 +600,14 @@
     <script>
         const formatRp = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
         
+        // FUNGSI BANTUAN UNTUK PROGRESS BAR LOADING
+        function updateProgress(percent, text) {
+            const bar = document.getElementById('loading-progress');
+            const label = document.getElementById('loading-text');
+            if(bar) bar.style.width = percent + '%';
+            if(label && text) label.textContent = text;
+        }
+
         // FUNGSI BANTUAN UNTUK FORMAT NOMOR WA OTOMATIS
         const formatWaNumber = (num) => {
             let cleaned = String(num).replace(/\D/g, ''); // Hapus semua karakter selain angka
@@ -656,11 +670,19 @@
         }
 
         async function initApp() {
+            updateProgress(20, 'Menyiapkan antarmuka...');
             const cachedSettings = sessionStorage.getItem('tokoBaju_settings');
+            
             if(cachedSettings) {
+                updateProgress(60, 'Memuat pengaturan tersimpan...');
                 applySettings(JSON.parse(cachedSettings));
-                document.getElementById('init-loading').classList.add('hidden');
-                checkAuth();
+                setTimeout(() => {
+                    updateProgress(100, 'Memulai aplikasi...');
+                    document.getElementById('init-loading').classList.add('hidden');
+                    checkAuth();
+                }, 400);
+            } else {
+                updateProgress(30, 'Menghubungkan ke server...');
             }
             fetchSettingsBg();
         }
@@ -708,9 +730,11 @@
         async function fetchSettingsBg() {
             let isFirstLoad = !document.getElementById('init-loading').classList.contains('hidden');
             try {
+                if (isFirstLoad) updateProgress(40, 'Mengunduh pengaturan toko...');
                 const res = await fetch(`${SCRIPT_URL}?action=getPengaturan`);
                 const data = await res.json();
                 if(data.status === 'success' && data.data) {
+                    if (isFirstLoad) updateProgress(80, 'Menerapkan pengaturan...');
                     let newSettings = { banners: [] };
                     data.data.forEach(item => {
                         if(item.Key === 'logo' && item.Value) newSettings.logo = item.Value;
@@ -725,13 +749,17 @@
                     applySettings(newSettings);
                 }
             } catch(err) {
+                if (isFirstLoad) updateProgress(80, 'Menjalankan mode offline...');
                 console.error("Gagal mengambil pengaturan:", err);
             } finally {
                 if (isFirstLoad) {
-                    const loader = document.getElementById('init-loading');
-                    loader.style.opacity = '0';
-                    setTimeout(() => { loader.classList.add('hidden'); }, 300);
-                    checkAuth();
+                    updateProgress(100, 'Memulai aplikasi...');
+                    setTimeout(() => {
+                        const loader = document.getElementById('init-loading');
+                        loader.style.opacity = '0';
+                        setTimeout(() => { loader.classList.add('hidden'); }, 300);
+                        checkAuth();
+                    }, 600);
                 }
             }
         }
