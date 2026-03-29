@@ -73,16 +73,19 @@
         <p class="text-slate-500 dark:text-slate-400 font-medium mt-8 tracking-wide text-sm">Menyiapkan butik...</p>
     </div>
 
-    <!-- AREA LOGIN -->
+    <!-- AREA LOGIN (RAPID & OPTIMIZED) -->
     <div id="auth-section" class="min-h-dvh flex hidden relative bg-[#F2F2F7] dark:bg-black overflow-hidden w-full">
+        
+        <!-- Mobile Background (No Extreme Zoom & Gradient Fade) -->
         <div id="dynamic-login-bg-mobile" class="absolute inset-0 lg:hidden bg-[length:100%_auto] sm:bg-cover bg-no-repeat bg-top opacity-70 dark:opacity-60 z-0" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');"></div>
         <div class="absolute inset-0 lg:hidden bg-gradient-to-b from-transparent via-[#F2F2F7]/95 to-[#F2F2F7] dark:from-transparent dark:via-black/95 dark:to-black z-0"></div>
 
+        <!-- Background Ornamen Blur (Glow Biru & Ungu) -->
         <div class="absolute top-[-5%] left-[-10%] w-72 h-72 sm:w-[500px] sm:h-[500px] bg-blue-500/30 dark:bg-blue-500/40 blur-[80px] sm:blur-[100px] rounded-full pointer-events-none z-0"></div>
         <div class="absolute bottom-[-5%] right-[-10%] w-72 h-72 sm:w-[500px] sm:h-[500px] bg-purple-500/30 dark:bg-purple-500/40 blur-[80px] sm:blur-[100px] rounded-full pointer-events-none z-0"></div>
         
         <div class="w-full flex flex-col lg:flex-row max-w-7xl mx-auto z-10 min-h-dvh relative">
-            <!-- Left Branding -->
+            <!-- Left Branding (Desktop) -->
             <div class="hidden lg:flex w-1/2 flex-col justify-center p-8 relative min-h-dvh">
                 <div id="dynamic-login-bg" class="absolute inset-8 rounded-[40px] bg-cover bg-center overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.3)]" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');">
                     <div class="absolute inset-0 bg-gradient-to-br from-black/90 via-black/40 to-transparent"></div>
@@ -94,25 +97,30 @@
                 </div>
             </div>
 
-            <!-- Right Form Area -->
+            <!-- Right Form Area (Mobile & Desktop) -->
             <div class="w-full lg:w-1/2 flex items-center justify-center px-5 py-8 sm:p-12 min-h-dvh relative">
                 <div class="w-full max-w-[420px] relative z-10 bg-white/70 dark:bg-[#1C1C1E]/70 backdrop-blur-2xl p-7 sm:p-10 rounded-[32px] sm:rounded-[40px] shadow-2xl border border-white/60 dark:border-slate-700/50 flex flex-col">
+                    
                     <div class="shrink-0 mb-6">
                         <div class="text-center pt-2 lg:hidden mb-5">
                             <div id="app-logo-auth-mobile" class="text-blue-500 flex justify-center drop-shadow-md"><i class="fa-solid fa-shirt text-5xl"></i></div>
                         </div>
+                        
                         <div class="text-center">
                             <h2 class="text-2xl sm:text-3xl font-extrabold text-black dark:text-white tracking-tight">Selamat Datang</h2>
                             <p class="mt-2 text-sm text-slate-500 dark:text-slate-400 font-medium" id="auth-subtitle">Masuk ke akun Anda untuk melanjutkan</p>
                         </div>
+
                         <div class="bg-slate-100/50 dark:bg-black/50 p-1.5 rounded-[16px] flex gap-1 relative mt-7">
                             <button onclick="switchAuthTab('login')" id="tab-login" class="flex-1 py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-sm transition-all duration-300">Masuk</button>
                             <button onclick="switchAuthTab('register')" id="tab-register" class="flex-1 py-2.5 rounded-[12px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-bold text-sm transition-all duration-300">Daftar</button>
                         </div>
                     </div>
 
-                    <!-- PENGGULUNG FORM -->
+                    <!-- PENGGULUNG FORM UNTUK LAYAR KECIL -->
                     <div class="overflow-y-auto hide-scrollbar scroll-touch flex-1 w-full px-1 max-h-[50vh] sm:max-h-[60vh]">
+                        
+                        <!-- LOGIN FORM -->
                         <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4 pb-2">
                             <div class="relative group">
                                 <i class="fa-solid fa-user absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-sm"></i>
@@ -126,6 +134,7 @@
                             <button type="submit" id="btn-login" class="w-full flex justify-center py-4 px-4 rounded-[20px] shadow-lg shadow-blue-500/30 text-[16px] font-bold text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.98] transition-all mt-2">Masuk Sekarang</button>
                         </form>
 
+                        <!-- REGISTER FORM -->
                         <form id="form-register" onsubmit="handleRegister(event)" class="space-y-4 hidden pb-6">
                             <div class="flex flex-col items-center justify-center mb-2">
                                 <div onclick="document.getElementById('r-foto').click()" class="relative w-24 h-24 rounded-full bg-white dark:bg-black/40 flex items-center justify-center cursor-pointer overflow-hidden border border-slate-200 dark:border-slate-800 group transition-all hover:ring-4 ring-blue-500/20 shrink-0">
@@ -137,6 +146,7 @@
                                     <img id="r-foto-preview" src="" class="absolute inset-0 w-full h-full object-cover hidden">
                                 </div>
                             </div>
+                            
                             <div class="relative group">
                                 <i class="fa-solid fa-address-card absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-sm"></i>
                                 <input id="r-nama" required type="text" placeholder="Nama Lengkap" class="w-full bg-white dark:bg-black/40 border border-slate-200 dark:border-slate-800 rounded-[20px] pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base">
@@ -308,11 +318,21 @@
                 <p>&copy; 2026 TokoBaju Fashion. Didesain secara eksklusif.</p>
             </footer>
 
-            <!-- TOMBOL WA MENGAPUNG (FAB) -->
-            <a href="#" id="fab-wa" target="_blank" class="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-50 bg-[#25D366] text-white px-5 py-3 sm:px-6 sm:py-4 rounded-full flex items-center gap-3 shadow-[0_8px_24px_rgba(37,211,102,0.4)] hover:scale-105 active:scale-95 transition-all duration-300 hidden">
-                <i class="fa-brands fa-whatsapp text-2xl sm:text-3xl"></i>
-                <span class="font-bold text-sm sm:text-base whitespace-nowrap tracking-wide">Chat Admin</span>
-            </a>
+            <!-- TOMBOL WA MENGAPUNG (FAB) DENGAN MENU -->
+            <div id="wa-fab-container" class="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-50 hidden">
+                <!-- Tooltip / Menu yang muncul saat diklik -->
+                <div id="wa-menu" class="absolute bottom-full right-0 mb-4 bg-white dark:bg-[#2C2C2E] rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.15)] border border-slate-100 dark:border-zinc-700 overflow-hidden opacity-0 pointer-events-none transition-all duration-300 transform translate-y-4 backdrop-blur-xl">
+                    <a href="#" id="wa-link-btn" target="_blank" class="flex items-center gap-3 px-6 py-4 hover:bg-slate-50 dark:hover:bg-zinc-700/50 transition-colors whitespace-nowrap text-[#25D366] font-bold">
+                        <i class="fa-brands fa-whatsapp text-2xl"></i>
+                        <span>Chat Admin</span>
+                    </a>
+                </div>
+                
+                <!-- Tombol Utama -->
+                <button onclick="toggleWaMenu()" class="bg-[#25D366] text-white w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-[0_8px_24px_rgba(37,211,102,0.4)] hover:scale-105 active:scale-95 transition-all duration-300 relative z-10 focus:outline-none">
+                    <i class="fa-brands fa-whatsapp text-3xl sm:text-4xl"></i>
+                </button>
+            </div>
 
         </div> <!-- End of Wrapper Content -->
     </div> <!-- End of App Section -->
@@ -530,16 +550,25 @@
     <!-- MODAL SUKSES (ANIMASI KE KERANJANG) -->
     <div id="modal-success" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[110] transition-opacity duration-300">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
-        <div id="success-card" class="modal-sheet bg-white dark:bg-[#1C1C1E] w-11/12 max-w-sm mx-auto rounded-[32px] p-6 shadow-2xl z-10 relative flex flex-col items-center">
-            <div class="w-20 h-20 bg-emerald-100 dark:bg-emerald-500/20 rounded-full flex items-center justify-center mb-4 text-emerald-500 shadow-inner">
-                <i class="fa-solid fa-check text-4xl"></i>
+        <div class="bg-white dark:bg-[#1C1C1E] w-11/12 max-w-sm mx-auto rounded-[32px] p-6 shadow-2xl z-10 relative flex flex-col items-center transform scale-95 transition-transform duration-300" id="success-card">
+            
+            <div class="relative w-24 h-24 mb-4">
+                <div class="absolute inset-0 bg-emerald-100 dark:bg-emerald-500/20 rounded-full animate-ping opacity-75"></div>
+                <div class="relative w-full h-full bg-white dark:bg-[#2C2C2E] rounded-full flex items-center justify-center border-4 border-emerald-400 z-10 overflow-hidden shadow-lg">
+                    <img id="succ-img" src="" class="w-full h-full object-cover">
+                    <!-- Overlay ikon centang -->
+                    <div class="absolute inset-0 bg-emerald-500/60 flex items-center justify-center backdrop-blur-[2px]">
+                         <i class="fa-solid fa-check text-4xl text-white drop-shadow-md"></i>
+                    </div>
+                </div>
             </div>
-            <h3 class="text-2xl font-bold text-black dark:text-white tracking-tight mb-1">Transaksi Sukses!</h3>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 text-center">Pesanan Anda telah kami terima.</p>
+
+            <h3 class="text-2xl font-bold text-black dark:text-white tracking-tight mb-1">Pesanan Berhasil!</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 text-center">Terima kasih, pesanan Anda telah kami terima.</p>
             
             <div class="w-full bg-[#F2F2F7] dark:bg-[#2C2C2E] p-4 rounded-[20px] mb-6 text-left border border-slate-200 dark:border-slate-800">
                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1" id="succ-id">ID: -</p>
-                <h4 class="font-bold text-black dark:text-white text-base mb-2" id="succ-nama">Nama Baju</h4>
+                <h4 class="font-bold text-black dark:text-white text-base mb-3" id="succ-nama">Nama Baju</h4>
                 <div class="flex justify-between text-sm mb-1">
                     <span class="text-slate-500 dark:text-slate-400">Kuantitas</span>
                     <span class="font-semibold text-black dark:text-white" id="succ-qty">1 Pcs</span>
@@ -558,7 +587,7 @@
             <div id="succ-wa-container" class="w-full mb-3">
                 <!-- Tombol WA Dinamis -->
             </div>
-            <button onclick="animateToCart()" class="w-full bg-slate-100 dark:bg-[#2C2C2E] text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-sm">Selesai & Tutup</button>
+            <button onclick="animateToCart()" class="w-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-xl hover:bg-slate-200 dark:hover:bg-zinc-700 transition-colors text-sm">Tutup & Masukkan Pesanan</button>
         </div>
     </div>
 
@@ -584,6 +613,15 @@
         let zoomIdx = 0;
         let currentDetailId = null;
         let currentTrxPrint = null;
+
+        // Tutup menu WA saat klik area luar
+        document.addEventListener('click', function(e) {
+            const container = document.getElementById('wa-fab-container');
+            const menu = document.getElementById('wa-menu');
+            if(container && menu && !container.contains(e.target)) {
+                menu.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+            }
+        });
 
         function initTheme() {
             const savedTheme = localStorage.getItem('tokoBajuTheme');
@@ -619,6 +657,15 @@
             fetchSettingsBg();
         }
 
+        function toggleWaMenu() {
+            const menu = document.getElementById('wa-menu');
+            if(menu.classList.contains('opacity-0')) {
+                menu.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+            } else {
+                menu.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+            }
+        }
+
         function applySettings(data) {
             appSettings = { ...appSettings, ...data };
             if (appSettings.loginBg) {
@@ -637,14 +684,15 @@
             }
             if (appSettings.qris_name) document.getElementById('qris-nama-label').textContent = "A/N: " + appSettings.qris_name;
             
-            // Konfigurasi Floating Button WA
+            // Konfigurasi Floating Button WA dengan Pop-up
             if (appSettings.admin_wa) {
                 let waNumbers = appSettings.admin_wa.split(',');
                 let firstNum = waNumbers[0].trim().replace(/^0/, '62');
-                const fabWa = document.getElementById('fab-wa');
-                if (fabWa && firstNum) {
-                    fabWa.href = `https://wa.me/${firstNum}?text=${encodeURIComponent("Halo Admin, saya ingin bertanya tentang produk di TokoBaju.")}`;
-                    fabWa.classList.remove('hidden');
+                const waLink = document.getElementById('wa-link-btn');
+                const waContainer = document.getElementById('wa-fab-container');
+                if (waLink && firstNum) {
+                    waLink.href = `https://wa.me/${firstNum}?text=${encodeURIComponent("Halo Admin, saya ingin bertanya tentang produk di TokoBaju.")}`;
+                    waContainer.classList.remove('hidden');
                 }
             }
         }
@@ -1420,48 +1468,69 @@
         function animateToCart() {
             const card = document.getElementById('success-card');
             const cartIcon = document.getElementById('nav-cart-icon'); 
+            const sourceImg = document.getElementById('succ-img'); // Ambil foto produk dari modal success
             
-            const cardRect = card.getBoundingClientRect();
+            if (!cartIcon || !sourceImg) {
+                // Fallback jika tidak ditemukan
+                document.getElementById('modal-success').classList.add('opacity-0', 'pointer-events-none');
+                showPesanan();
+                return;
+            }
+
+            // Dapatkan posisi foto produk
+            const sourceRect = sourceImg.getBoundingClientRect();
             const iconRect = cartIcon.getBoundingClientRect();
             
-            const clone = card.cloneNode(true);
-            clone.style.position = 'fixed';
-            clone.style.left = cardRect.left + 'px';
-            clone.style.top = cardRect.top + 'px';
-            clone.style.width = cardRect.width + 'px';
-            clone.style.height = cardRect.height + 'px';
-            clone.style.margin = '0';
-            clone.style.zIndex = '9999';
-            clone.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
-            clone.style.pointerEvents = 'none';
-            clone.classList.remove('modal-sheet'); 
+            // Buat tiruan elemen (gambar yang akan terbang)
+            const ghost = document.createElement('img');
+            ghost.src = sourceImg.src;
+            ghost.className = 'fixed z-[9999] rounded-full object-cover shadow-2xl border-2 border-blue-500';
+            ghost.style.left = sourceRect.left + 'px';
+            ghost.style.top = sourceRect.top + 'px';
+            ghost.style.width = sourceRect.width + 'px';
+            ghost.style.height = sourceRect.height + 'px';
+            ghost.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)'; // Timing function melengkung
+            ghost.style.pointerEvents = 'none';
             
-            document.body.appendChild(clone);
+            document.body.appendChild(ghost);
             
+            // Sembunyikan modal aslinya
             document.getElementById('modal-success').classList.add('opacity-0', 'pointer-events-none');
             
-            const deltaX = iconRect.left + iconRect.width/2 - (cardRect.left + cardRect.width/2);
-            const deltaY = iconRect.top + iconRect.height/2 - (cardRect.top + cardRect.height/2);
+            // Menghitung target titik tujuan (tengah keranjang)
+            const deltaX = iconRect.left + (iconRect.width/2) - (sourceRect.width/2);
+            const deltaY = iconRect.top + (iconRect.height/2) - (sourceRect.height/2);
             
+            // Memulai animasi frame berikutnya
             requestAnimationFrame(() => {
-                clone.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.05)`;
-                clone.style.opacity = '0';
+                ghost.style.left = deltaX + 'px';
+                ghost.style.top = deltaY + 'px';
+                ghost.style.width = '20px';
+                ghost.style.height = '20px';
+                ghost.style.opacity = '0.3';
             });
             
             setTimeout(() => {
-                clone.remove();
-                cartIcon.classList.add('scale-125', 'text-blue-500');
-                setTimeout(() => cartIcon.classList.remove('scale-125', 'text-blue-500'), 300);
+                ghost.remove();
+                
+                // Efek denyut pada keranjang
+                cartIcon.classList.add('scale-125', 'text-blue-500', 'animate-pulse');
+                setTimeout(() => cartIcon.classList.remove('scale-125', 'text-blue-500', 'animate-pulse'), 400);
+                
+                // Pindah halaman
                 showPesanan(); 
             }, 800);
         }
 
-        function showSuccessModal(idTrx, namaBaju, qty, total, tipe, metode) {
+        function showSuccessModal(idTrx, namaBaju, qty, total, tipe, metode, imgUrl) {
             document.getElementById('succ-id').textContent = `ID: ${idTrx}`;
             document.getElementById('succ-nama').textContent = namaBaju;
             document.getElementById('succ-qty').textContent = `${qty} Pcs`;
             document.getElementById('succ-tipe').textContent = tipe;
             document.getElementById('succ-total').textContent = formatRp(total);
+            
+            // Atur gambar produk di kartu sukses
+            if (imgUrl) document.getElementById('succ-img').src = imgUrl;
 
             const waContainer = document.getElementById('succ-wa-container');
             let numbers = appSettings.admin_wa ? appSettings.admin_wa.split(',') : []; 
@@ -1484,7 +1553,8 @@
             let dpDetailStr = "-"; if(tipe === "DP") { dpDetailStr = `${document.getElementById('dp-pct').value}% (Rp ${document.getElementById('dp-nom').value})`; }
             const btn = document.getElementById('btn-proses-beli'); btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Memproses...'; btn.disabled = true;
             const q = parseInt(document.getElementById('m-jumlah').value); const h = parseInt(document.getElementById('m-hargasatuan').value); const namaBaju = document.getElementById('m-nama').textContent;
-            
+            const gambarUrl = document.getElementById('m-gambar').src; // Ambil gambar yang di checkout
+
             const payload = { action: "addPenjualan", username: currentUser.username, id_baju: document.getElementById('m-id').value, nama_baju: namaBaju, jumlah: q, total_harga: (q * h), tipe_pembayaran: tipe, metode_bayar: metode, detail_dp: dpDetailStr, bukti_pembayaran: buktiBase64, bukti_pelunasan: pelunasanBase64 };
             
             try {
@@ -1496,9 +1566,9 @@
                     fetchKatalog(true); 
                     fetchPesananCustomer(true); 
                     
-                    // Tampilkan Animasi dan Detail Sukses
+                    // Tampilkan Modal Animasi Sukses setelah modal checkout tertutup
                     setTimeout(() => {
-                        showSuccessModal(data.id_transaksi, namaBaju, q, (q*h), tipe, metode);
+                        showSuccessModal(data.id_transaksi, namaBaju, q, (q*h), tipe, metode, gambarUrl);
                     }, 400);
 
                 } else alert(data.message);
