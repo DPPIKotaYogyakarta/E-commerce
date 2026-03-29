@@ -678,12 +678,12 @@
             document.getElementById('form-login').classList.toggle('hidden', !isLogin); document.getElementById('form-register').classList.toggle('hidden', isLogin);
             const tabLogin = document.getElementById('tab-login'); const tabReg = document.getElementById('tab-register');
             if(isLogin) {
-                tabLogin.className = "flex-1 py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-sm";
-                tabReg.className = "flex-1 py-2.5 rounded-[12px] text-slate-500 font-bold text-sm";
+                tabLogin.className = "flex-1 py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-sm transition-all duration-300";
+                tabReg.className = "flex-1 py-2.5 rounded-[12px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-bold text-sm transition-all duration-300";
                 document.getElementById('auth-subtitle').textContent = "Masuk ke akun Anda untuk melanjutkan";
             } else {
-                tabLogin.className = "flex-1 py-2.5 rounded-[12px] text-slate-500 font-bold text-sm";
-                tabReg.className = "flex-1 py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-sm";
+                tabLogin.className = "flex-1 py-2.5 rounded-[12px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-bold text-sm transition-all duration-300";
+                tabReg.className = "flex-1 py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-sm transition-all duration-300";
                 document.getElementById('auth-subtitle').textContent = "Lengkapi form untuk bergabung";
             }
         }
@@ -980,7 +980,7 @@
             const p = globalPenjualan.find(x => x['ID Transaksi'] === idTrx);
             if(!p) return;
             
-            currentTrxPrint = p; // simpan data untuk print
+            currentTrxPrint = p;
 
             const isDP = p['Tipe Pembayaran'] === 'DP';
             let totalHarga = parseInt(p['Total Harga']) || 0;
@@ -1096,6 +1096,13 @@
             const sudahLunas = (!p['Bukti Pelunasan'] || p['Bukti Pelunasan'] === "Menunggu Pelunasan") ? false : true;
             const sisa = isDP ? (totalHarga - dpNominal) : 0;
 
+            let statusColor = "#3b82f6"; 
+            if(p.Status === 'Selesai') statusColor = "#10b981"; 
+            if(p.Status === 'Dibatalkan') statusColor = "#ef4444"; 
+
+            let tagihanStatus = isDP ? (sudahLunas ? 'LUNAS' : 'BELUM LUNAS') : 'LUNAS';
+            let tagihanColor = (tagihanStatus === 'LUNAS') ? '#10b981' : '#ef4444';
+
             const printWindow = window.open('', '_blank');
             printWindow.document.write(`
                 <!DOCTYPE html>
@@ -1103,48 +1110,125 @@
                 <head>
                     <title>Invoice - ${p['ID Transaksi']}</title>
                     <style>
-                        body { font-family: 'Courier New', Courier, monospace; color: #000; padding: 20px; font-size: 14px; max-width: 400px; margin: auto; }
-                        .header { text-align: center; margin-bottom: 20px; border-bottom: 2px dashed #000; padding-bottom: 10px; }
-                        .header h1 { margin: 0; font-size: 24px; letter-spacing: 1px; }
-                        .header p { margin: 5px 0 0; font-size: 12px; }
-                        .row { display: flex; justify-content: space-between; margin-bottom: 5px; }
-                        .bold { font-weight: bold; }
-                        .divider { border-bottom: 1px dashed #000; margin: 10px 0; }
+                        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #111827; padding: 40px; font-size: 14px; max-width: 800px; margin: auto; background: #F2F2F7; }
+                        .invoice-box { background: #fff; border: 1px solid #e5e7eb; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+                        .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #f3f4f6; padding-bottom: 20px; margin-bottom: 30px; }
+                        .header-left h1 { margin: 0; font-size: 28px; color: #3b82f6; letter-spacing: -0.5px; font-weight: 900; }
+                        .header-left p { margin: 5px 0 0; color: #6b7280; font-size: 13px; }
+                        .header-right { text-align: right; }
+                        .header-right h2 { margin: 0; font-size: 24px; color: #111827; font-weight: 800; letter-spacing: 2px; }
+                        .header-right p { margin: 5px 0 0; color: #6b7280; font-size: 13px; font-weight: 600; }
+                        
+                        .info-section { display: flex; justify-content: space-between; margin-bottom: 40px; }
+                        .info-col { width: 48%; }
+                        .info-col h3 { font-size: 11px; text-transform: uppercase; color: #9ca3af; margin-bottom: 5px; letter-spacing: 1px; }
+                        .info-col p { margin: 0; font-weight: 700; color: #374151; font-size: 15px; }
+                        .status-badge { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: bold; color: white; background-color: ${statusColor}; margin-top: 5px; }
+
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+                        th { background-color: #f9fafb; text-align: left; padding: 15px 12px; font-size: 12px; text-transform: uppercase; color: #6b7280; border-bottom: 2px solid #e5e7eb; border-top: 1px solid #e5e7eb; }
+                        td { padding: 20px 12px; border-bottom: 1px solid #f3f4f6; color: #111827; }
+                        .text-right { text-align: right; }
                         .text-center { text-align: center; }
-                        .mt-10 { margin-top: 10px; }
+                        
+                        .summary-section { width: 100%; display: flex; justify-content: flex-end; }
+                        .summary-box { width: 350px; }
+                        .summary-row { display: flex; justify-content: space-between; padding: 10px 0; color: #4b5563; font-size: 14px; }
+                        .summary-row.bold { font-weight: bold; color: #111827; }
+                        .summary-row.total { font-size: 20px; font-weight: 900; color: #111827; border-top: 2px solid #e5e7eb; padding-top: 15px; margin-top: 5px; }
+                        .tagihan-badge { display: inline-block; padding: 6px 12px; border-radius: 8px; font-size: 15px; font-weight: 900; color: white; background-color: ${tagihanColor}; letter-spacing: 1px;}
+
+                        .footer { text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #f3f4f6; color: #9ca3af; font-size: 12px; line-height: 1.6; }
+                        
                         @media print { 
-                            body { padding: 0; max-width: 100%; margin: 1cm; } 
+                            body { padding: 0; margin: 0; background: #fff; } 
+                            .invoice-box { border: none; box-shadow: none; padding: 0; }
+                            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
                         }
                     </style>
                 </head>
                 <body>
-                    <div class="header">
-                        <h1>TOKOBAJU</h1>
-                        <p>Invoice Pembelian Fashion</p>
+                    <div class="invoice-box">
+                        <div class="header">
+                            <div class="header-left">
+                                <h1>TOKOBAJU</h1>
+                                <p>Elegansi dalam Setiap Jahitan.</p>
+                            </div>
+                            <div class="header-right">
+                                <h2>INVOICE</h2>
+                                <p>#${p['ID Transaksi']}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-section">
+                            <div class="info-col">
+                                <h3>Informasi Pembeli</h3>
+                                <p>${p['Username Pembeli']}</p>
+                                <h3 style="margin-top: 20px;">Metode Pembayaran</h3>
+                                <p>${p['Metode Bayar'] || '-'} <span style="font-weight:normal; color:#6b7280;">(${p['Tipe Pembayaran']})</span></p>
+                            </div>
+                            <div class="info-col text-right">
+                                <h3>Tanggal Transaksi</h3>
+                                <p>${p.Tanggal.split(',')[0]}</p>
+                                <h3 style="margin-top: 20px;">Status Pesanan</h3>
+                                <span class="status-badge">${p.Status}</span>
+                            </div>
+                        </div>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Deskripsi Produk</th>
+                                    <th class="text-center">Qty</th>
+                                    <th class="text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="font-weight: 700; font-size: 15px;">${p['Nama Baju']}</td>
+                                    <td class="text-center" style="font-weight: 600;">${p.Jumlah}</td>
+                                    <td class="text-right" style="font-weight: 700;">${formatRp(totalHarga)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="summary-section">
+                            <div class="summary-box">
+                                <div class="summary-row">
+                                    <span>Subtotal</span>
+                                    <span style="font-weight: 600;">${formatRp(totalHarga)}</span>
+                                </div>
+                                ${isDP ? `
+                                    <div class="summary-row">
+                                        <span>DP Dibayar</span>
+                                        <span style="font-weight: 600;">- ${formatRp(dpNominal)}</span>
+                                    </div>
+                                    ${sudahLunas ? `
+                                    <div class="summary-row">
+                                        <span>Pelunasan</span>
+                                        <span style="font-weight: 600;">- ${formatRp(sisa)}</span>
+                                    </div>
+                                    ` : ''}
+                                ` : ''}
+                                
+                                <div class="summary-row total">
+                                    <span>${sudahLunas || !isDP ? 'Status Tagihan' : 'Sisa Tagihan'}</span>
+                                    ${sudahLunas || !isDP ? `
+                                        <span class="tagihan-badge">LUNAS</span>
+                                    ` : `
+                                        <span style="color: #ef4444;">${formatRp(sisa)}</span>
+                                    `}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="footer">
+                            <p style="font-weight: 600; color: #6b7280; font-size: 14px;">Terima kasih atas kepercayaan Anda berbelanja di TokoBaju.</p>
+                            <p>Jika Anda memiliki pertanyaan, silakan hubungi layanan pelanggan kami.</p>
+                        </div>
                     </div>
-                    <div class="row"><span>ID Transaksi:</span> <span class="bold">${p['ID Transaksi']}</span></div>
-                    <div class="row"><span>Tanggal:</span> <span>${p.Tanggal.split(',')[0]}</span></div>
-                    <div class="row"><span>Pembeli:</span> <span>${p['Username Pembeli']}</span></div>
-                    <div class="row mt-10"><span>Status Transaksi:</span> <span class="bold">${p.Status}</span></div>
-                    <div class="divider"></div>
-                    <div class="row bold"><span>Item</span> <span>Subtotal</span></div>
-                    <div class="row"><span>${p['Nama Baju']} (x${p.Jumlah})</span> <span>${formatRp(totalHarga)}</span></div>
-                    <div class="divider"></div>
-                    <div class="row"><span>Tipe Pembayaran:</span> <span>${p['Tipe Pembayaran']}</span></div>
-                    <div class="row"><span>Metode:</span> <span>${p['Metode Bayar'] || '-'}</span></div>
-                    <div class="divider"></div>
-                    <div class="row bold"><span>Total:</span> <span>${formatRp(totalHarga)}</span></div>
-                    ${isDP ? `
-                        <div class="row"><span>DP Dibayar:</span> <span>- ${formatRp(dpNominal)}</span></div>
-                        ${sudahLunas ? `<div class="row"><span>Pelunasan:</span> <span>- ${formatRp(sisa)}</span></div>` : ''}
-                        <div class="row bold mt-10"><span>${sudahLunas ? 'Status Tagihan:' : 'Sisa Tagihan:'}</span> <span>${sudahLunas ? 'LUNAS' : formatRp(sisa)}</span></div>
-                    ` : `
-                        <div class="row bold mt-10"><span>Status Tagihan:</span> <span>LUNAS</span></div>
-                    `}
-                    <div class="divider"></div>
-                    <p class="text-center" style="font-size:12px; margin-top: 20px;">Terima Kasih atas Pembelian Anda!<br>Semoga harimu menyenangkan.</p>
                     <script>
-                        window.onload = function() { window.print(); }
+                        window.onload = function() { setTimeout(() => { window.print(); }, 500); }
                     <\/script>
                 </body>
                 </html>
