@@ -70,48 +70,96 @@
         <p class="text-slate-500 dark:text-slate-400 font-medium mt-8">Menyiapkan butik...</p>
     </div>
 
-    <!-- AREA LOGIN -->
-    <div id="auth-section" class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-cover bg-center hidden relative" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');">
-        <div class="absolute inset-0 glass-dark"></div>
-        <div class="max-w-md w-full space-y-8 glass-panel p-8 rounded-[40px] shadow-[0_32px_64px_rgba(0,0,0,0.2)] z-10 relative">
-            <div class="text-center pt-2">
-                <div id="app-logo-auth" class="text-blue-500 mb-4 flex justify-center drop-shadow-md"><i class="fa-solid fa-shirt text-5xl"></i></div>
-                <h2 class="text-3xl font-bold text-black dark:text-white tracking-tight">TokoBaju</h2>
-                <p class="mt-2 text-sm text-slate-500 dark:text-slate-300 font-medium" id="auth-subtitle">Masuk untuk melanjutkan</p>
-            </div>
-            <div class="bg-[#767680]/12 dark:bg-[#767680]/30 p-1 rounded-[14px] flex gap-1 relative mt-6">
-                <button onclick="switchAuthTab('login')" id="tab-login" class="flex-1 py-2 rounded-[10px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-semibold text-sm transition-all duration-300">Masuk</button>
-                <button onclick="switchAuthTab('register')" id="tab-register" class="flex-1 py-2 rounded-[10px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-semibold text-sm transition-all duration-300">Daftar</button>
-            </div>
-
-            <form id="form-login" onsubmit="handleLogin(event)" class="mt-6 space-y-5">
-                <div class="space-y-4">
-                    <input id="l-user" required type="text" placeholder="Username" class="w-full bg-[#767680]/10 dark:bg-[#767680]/30 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 dark:placeholder-slate-500">
-                    <div class="relative">
-                        <input id="l-pass" required type="password" placeholder="Password" class="w-full bg-[#767680]/10 dark:bg-[#767680]/30 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 dark:placeholder-slate-500 pr-12">
-                        <button type="button" onclick="togglePassword('l-pass', 'l-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-black dark:hover:text-white focus:outline-none"><i id="l-eye" class="fa-solid fa-eye"></i></button>
+    <!-- AREA LOGIN (REVAMPED) -->
+    <div id="auth-section" class="min-h-screen flex hidden relative bg-[#F2F2F7] dark:bg-black overflow-hidden">
+        <!-- Background Ornamen Blur -->
+        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-500/20 dark:bg-blue-500/30 blur-[100px] rounded-full pointer-events-none"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-500/20 dark:bg-purple-500/30 blur-[100px] rounded-full pointer-events-none"></div>
+        
+        <div class="w-full flex flex-col lg:flex-row max-w-7xl mx-auto z-10">
+            <!-- Left Branding (Desktop) -->
+            <div class="hidden lg:flex w-1/2 flex-col justify-center p-8 lg:p-12 relative">
+                <div id="dynamic-login-bg" class="absolute inset-4 rounded-[40px] bg-cover bg-center overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.3)]" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');">
+                    <div class="absolute inset-0 bg-gradient-to-br from-black/90 via-black/50 to-transparent"></div>
+                    <div class="absolute bottom-16 left-12 right-12">
+                        <div id="app-logo-auth" class="text-blue-400 mb-6 drop-shadow-md"><i class="fa-solid fa-shirt text-6xl"></i></div>
+                        <h1 class="text-5xl font-black text-white mb-4 leading-tight tracking-tight">Elegansi dalam <br><span class="text-blue-400">Setiap Jahitan.</span></h1>
+                        <p class="text-lg text-slate-300 font-medium max-w-md">Bergabung sekarang dan temukan koleksi fashion eksklusif yang dirancang khusus untuk gaya Anda.</p>
                     </div>
                 </div>
-                <button type="submit" id="btn-login" class="w-full flex justify-center py-4 px-4 rounded-full shadow-lg shadow-blue-500/30 text-[17px] font-semibold text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.97] transition-all">Lanjutkan</button>
-            </form>
+            </div>
 
-            <form id="form-register" onsubmit="handleRegister(event)" class="mt-6 space-y-4 hidden max-h-[55vh] overflow-y-auto hide-scrollbar scroll-touch pb-4">
-                <div class="flex justify-center mb-6">
-                    <div onclick="document.getElementById('r-foto').click()" class="relative w-28 h-28 rounded-full bg-[#767680]/10 dark:bg-[#767680]/30 flex items-center justify-center cursor-pointer overflow-hidden shadow-inner border-4 border-white dark:border-[#2C2C2E]">
-                        <input type="file" id="r-foto" accept="image/*" class="hidden" onchange="previewImage(event, 'r-foto-preview', 'authFotoBase64', true)">
-                        <i id="r-foto-icon" class="fa-solid fa-camera text-slate-400 dark:text-slate-500 text-2xl"></i>
-                        <img id="r-foto-preview" src="" class="absolute inset-0 w-full h-full object-cover hidden">
+            <!-- Right Form Area -->
+            <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 min-h-screen lg:min-h-0 relative">
+                <!-- Mobile Background Fallback -->
+                <div id="dynamic-login-bg-mobile" class="absolute inset-0 lg:hidden bg-cover bg-center opacity-30 dark:opacity-20" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');"></div>
+                <div class="absolute inset-0 lg:hidden bg-gradient-to-t from-[#F2F2F7] via-[#F2F2F7]/95 to-[#F2F2F7]/80 dark:from-black dark:via-black/95 dark:to-black/80"></div>
+
+                <div class="w-full max-w-md relative z-10 bg-white/70 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl p-8 rounded-[40px] shadow-[0_32px_64px_rgba(0,0,0,0.05)] border border-white dark:border-slate-800">
+                    <div class="text-center pt-2 lg:hidden">
+                        <div id="app-logo-auth-mobile" class="text-blue-500 mb-4 flex justify-center drop-shadow-md"><i class="fa-solid fa-shirt text-5xl"></i></div>
                     </div>
+                    
+                    <div class="text-center">
+                        <h2 class="text-3xl font-bold text-black dark:text-white tracking-tight">Selamat Datang</h2>
+                        <p class="mt-2 text-sm text-slate-500 dark:text-slate-400 font-medium" id="auth-subtitle">Masuk ke akun Anda untuk melanjutkan</p>
+                    </div>
+
+                    <div class="bg-[#767680]/10 dark:bg-[#767680]/30 p-1.5 rounded-[16px] flex gap-1 relative mt-8">
+                        <button onclick="switchAuthTab('login')" id="tab-login" class="flex-1 py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-sm transition-all duration-300">Masuk</button>
+                        <button onclick="switchAuthTab('register')" id="tab-register" class="flex-1 py-2.5 rounded-[12px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-bold text-sm transition-all duration-300">Daftar</button>
+                    </div>
+
+                    <!-- LOGIN FORM -->
+                    <form id="form-login" onsubmit="handleLogin(event)" class="mt-8 space-y-5">
+                        <div class="space-y-4">
+                            <div class="relative group">
+                                <i class="fa-solid fa-user absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
+                                <input id="l-user" required type="text" placeholder="Username" class="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all">
+                            </div>
+                            <div class="relative group">
+                                <i class="fa-solid fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
+                                <input id="l-pass" required type="password" placeholder="Password" class="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-12 pr-12 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all">
+                                <button type="button" onclick="togglePassword('l-pass', 'l-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-black dark:hover:text-white focus:outline-none"><i id="l-eye" class="fa-solid fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <button type="submit" id="btn-login" class="w-full flex justify-center py-4 px-4 rounded-2xl shadow-lg shadow-blue-500/30 text-[17px] font-bold text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.98] transition-all mt-2">Masuk Sekarang</button>
+                    </form>
+
+                    <!-- REGISTER FORM -->
+                    <form id="form-register" onsubmit="handleRegister(event)" class="mt-8 space-y-4 hidden max-h-[60vh] overflow-y-auto hide-scrollbar scroll-touch pb-4 px-1">
+                        <div class="flex flex-col items-center justify-center mb-6">
+                            <div onclick="document.getElementById('r-foto').click()" class="relative w-28 h-28 rounded-full bg-slate-100 dark:bg-black/50 flex items-center justify-center cursor-pointer overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 group transition-all hover:ring-4 ring-blue-500/20">
+                                <input type="file" id="r-foto" accept="image/*" class="hidden" onchange="previewImage(event, 'r-foto-preview', 'authFotoBase64', true)">
+                                <div id="r-foto-icon" class="text-center group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-camera text-slate-400 dark:text-slate-500 text-2xl mb-1"></i>
+                                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Pasang Foto</p>
+                                </div>
+                                <img id="r-foto-preview" src="" class="absolute inset-0 w-full h-full object-cover hidden">
+                            </div>
+                        </div>
+                        
+                        <div class="relative group">
+                            <i class="fa-solid fa-address-card absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
+                            <input id="r-nama" required type="text" placeholder="Nama Lengkap" class="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all">
+                        </div>
+                        <div class="relative group">
+                            <i class="fa-solid fa-phone absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
+                            <input id="r-hp" required type="tel" placeholder="Nomor Handphone (10-15 digit)" class="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all">
+                        </div>
+                        <div class="relative group">
+                            <i class="fa-solid fa-user absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
+                            <input id="r-user" required type="text" placeholder="Username" class="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all">
+                        </div>
+                        <div class="relative group">
+                            <i class="fa-solid fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
+                            <input id="r-pass" required type="password" placeholder="Buat Password" class="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-slate-800 rounded-2xl pl-12 pr-12 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all">
+                            <button type="button" onclick="togglePassword('r-pass', 'r-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-black dark:hover:text-white focus:outline-none"><i id="r-eye" class="fa-solid fa-eye"></i></button>
+                        </div>
+                        <button type="submit" id="btn-register" class="w-full flex justify-center py-4 px-4 rounded-2xl shadow-lg shadow-blue-500/30 text-[17px] font-bold text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.98] transition-all mt-6">Buat Akun Baru</button>
+                    </form>
                 </div>
-                <input id="r-nama" required type="text" placeholder="Nama Lengkap" class="w-full bg-[#767680]/10 dark:bg-[#767680]/30 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 dark:placeholder-slate-500">
-                <input id="r-hp" required type="tel" placeholder="Nomor Handphone" class="w-full bg-[#767680]/10 dark:bg-[#767680]/30 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 dark:placeholder-slate-500">
-                <input id="r-user" required type="text" placeholder="Username" class="w-full bg-[#767680]/10 dark:bg-[#767680]/30 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 dark:placeholder-slate-500">
-                <div class="relative">
-                    <input id="r-pass" required type="password" placeholder="Buat Password" class="w-full bg-[#767680]/10 dark:bg-[#767680]/30 border-0 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 dark:placeholder-slate-500 pr-12">
-                    <button type="button" onclick="togglePassword('r-pass', 'r-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-black dark:hover:text-white focus:outline-none"><i id="r-eye" class="fa-solid fa-eye"></i></button>
-                </div>
-                <button type="submit" id="btn-register" class="w-full flex justify-center py-4 px-4 rounded-full shadow-lg shadow-blue-500/30 text-[17px] font-semibold text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.97] transition-all mt-6">Buat Akun</button>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -467,7 +515,10 @@
             <div class="w-12 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full mx-auto mt-4 mb-2 sm:hidden shrink-0"></div>
             <div class="px-5 sm:px-6 py-4 flex justify-between items-center shrink-0 border-b border-slate-100 dark:border-slate-800">
                 <p class="text-xl font-bold text-black dark:text-white tracking-tight">Detail Transaksi</p>
-                <button onclick="tutupDetailPesanan()" class="text-slate-400 hover:text-black dark:hover:text-white bg-slate-100 dark:bg-[#2C2C2E] w-8 h-8 rounded-full flex items-center justify-center transition-colors"><i class="fa-solid fa-times"></i></button>
+                <div class="flex items-center gap-2">
+                    <button onclick="cetakStruk()" class="text-blue-500 hover:text-blue-700 bg-blue-50 dark:bg-blue-500/10 w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm"><i class="fa-solid fa-print"></i></button>
+                    <button onclick="tutupDetailPesanan()" class="text-slate-400 hover:text-black dark:hover:text-white bg-slate-100 dark:bg-[#2C2C2E] w-8 h-8 rounded-full flex items-center justify-center transition-colors"><i class="fa-solid fa-times"></i></button>
+                </div>
             </div>
             <div id="content-detail-pesanan" class="px-5 sm:px-6 overflow-y-auto hide-scrollbar scroll-touch flex-1 py-4 space-y-4">
                 <!-- Injected via JS -->
@@ -492,10 +543,11 @@
         let activeSort = 'terbaru'; 
         let globalPenjualan = [];
 
-        // ZOOM STATE
+        // ZOOM STATE & PRINT
         let zoomImages = [];
         let zoomIdx = 0;
         let currentDetailId = null;
+        let currentTrxPrint = null;
 
         function initTheme() {
             const savedTheme = localStorage.getItem('tokoBajuTheme');
@@ -533,9 +585,18 @@
 
         function applySettings(data) {
             appSettings = { ...appSettings, ...data };
-            if (appSettings.loginBg) document.getElementById('auth-section').style.backgroundImage = `url('${appSettings.loginBg}')`;
+            if (appSettings.loginBg) {
+                const dynamicBg = document.getElementById('dynamic-login-bg');
+                const dynamicBgMobile = document.getElementById('dynamic-login-bg-mobile');
+                if(dynamicBg) dynamicBg.style.backgroundImage = `url('${appSettings.loginBg}')`;
+                if(dynamicBgMobile) dynamicBgMobile.style.backgroundImage = `url('${appSettings.loginBg}')`;
+            }
             if (appSettings.logo) {
-                document.getElementById('app-logo-auth').innerHTML = `<img src="${appSettings.logo}" class="h-24 object-contain mx-auto">`;
+                const logoHtml = `<img src="${appSettings.logo}" class="h-24 object-contain mx-auto">`;
+                const authLogo = document.getElementById('app-logo-auth');
+                const authLogoMobile = document.getElementById('app-logo-auth-mobile');
+                if(authLogo) authLogo.innerHTML = logoHtml;
+                if(authLogoMobile) authLogoMobile.innerHTML = logoHtml;
                 document.getElementById('app-logo-nav').innerHTML = `<img src="${appSettings.logo}" class="h-8 object-contain">`;
             }
             if (appSettings.qris_name) document.getElementById('qris-nama-label').textContent = "A/N: " + appSettings.qris_name;
@@ -617,38 +678,53 @@
             document.getElementById('form-login').classList.toggle('hidden', !isLogin); document.getElementById('form-register').classList.toggle('hidden', isLogin);
             const tabLogin = document.getElementById('tab-login'); const tabReg = document.getElementById('tab-register');
             if(isLogin) {
-                tabLogin.className = "flex-1 py-2 rounded-[10px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-semibold text-sm";
-                tabReg.className = "flex-1 py-2 rounded-[10px] text-slate-500 font-semibold text-sm";
-                document.getElementById('auth-subtitle').textContent = "Masuk untuk melanjutkan";
+                tabLogin.className = "flex-1 py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-sm";
+                tabReg.className = "flex-1 py-2.5 rounded-[12px] text-slate-500 font-bold text-sm";
+                document.getElementById('auth-subtitle').textContent = "Masuk ke akun Anda untuk melanjutkan";
             } else {
-                tabLogin.className = "flex-1 py-2 rounded-[10px] text-slate-500 font-semibold text-sm";
-                tabReg.className = "flex-1 py-2 rounded-[10px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-semibold text-sm";
-                document.getElementById('auth-subtitle').textContent = "Buat akun baru untuk mulai";
+                tabLogin.className = "flex-1 py-2.5 rounded-[12px] text-slate-500 font-bold text-sm";
+                tabReg.className = "flex-1 py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-sm";
+                document.getElementById('auth-subtitle').textContent = "Lengkapi form untuk bergabung";
             }
         }
 
         async function handleLogin(e) {
             e.preventDefault();
-            const btn = document.getElementById('btn-login'); btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i>'; btn.disabled = true;
+            const btn = document.getElementById('btn-login'); btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>'; btn.disabled = true;
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'login', username: document.getElementById('l-user').value, password: document.getElementById('l-pass').value }), headers: { 'Content-Type': 'text/plain' } });
                 const data = await res.json();
                 if(data.status === 'success') { localStorage.setItem('tokoBajuUser', JSON.stringify(data.data)); checkAuth(); } else { alert(data.message); }
-            } catch (err) {} btn.innerHTML = 'Lanjutkan'; btn.disabled = false;
+            } catch (err) {} btn.innerHTML = 'Masuk Sekarang'; btn.disabled = false;
         }
 
         async function handleRegister(e) {
             e.preventDefault();
-            const btn = document.getElementById('btn-register'); btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i>'; btn.disabled = true;
+            
+            // Validasi Foto Profil wajib
+            if (!authFotoBase64) {
+                alert("Silakan unggah Foto Profil Anda terlebih dahulu.");
+                return;
+            }
+
+            // Validasi Nomor Handphone (Regex 10-15 digit)
+            const noHp = document.getElementById('r-hp').value;
+            const hpRegex = /^[0-9]{10,15}$/;
+            if (!hpRegex.test(noHp)) {
+                alert("Nomor Handphone tidak valid! Harap masukkan 10 hingga 15 digit angka saja.");
+                return;
+            }
+
+            const btn = document.getElementById('btn-register'); btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>'; btn.disabled = true;
             try {
-                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'register', nama_lengkap: document.getElementById('r-nama').value, no_hp: document.getElementById('r-hp').value, username: document.getElementById('r-user').value, password: document.getElementById('r-pass').value, foto: authFotoBase64 }), headers: { 'Content-Type': 'text/plain' } });
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'register', nama_lengkap: document.getElementById('r-nama').value, no_hp: noHp, username: document.getElementById('r-user').value, password: document.getElementById('r-pass').value, foto: authFotoBase64 }), headers: { 'Content-Type': 'text/plain' } });
                 const data = await res.json();
-                if(data.status === 'success') { alert('Registrasi Berhasil!'); switchAuthTab('login'); } else { alert(data.message); }
-            } catch (err) {} btn.innerHTML = 'Buat Akun'; btn.disabled = false;
+                if(data.status === 'success') { alert('Registrasi Berhasil! Silakan login.'); switchAuthTab('login'); } else { alert(data.message); }
+            } catch (err) {} btn.innerHTML = 'Buat Akun Baru'; btn.disabled = false;
         }
 
         function handleLogout() {
-            if(confirm("Keluar dari akun?")) { localStorage.removeItem('tokoBajuUser'); currentUser = null; sessionStorage.clear(); toggleProfileModal(); checkAuth(); }
+            if(confirm("Apakah Anda yakin ingin keluar?")) { localStorage.removeItem('tokoBajuUser'); currentUser = null; sessionStorage.clear(); toggleProfileModal(); checkAuth(); }
         }
 
         function toggleProfileModal() {
@@ -671,7 +747,7 @@
 
         // Muka Modal Bukti untuk Customer
         function bukaBuktiModal(url, event) {
-            if(event) event.stopPropagation(); // Mencegah klik menembus ke elemen di bawahnya
+            if(event) event.stopPropagation();
             const img = document.getElementById('img-bukti-customer');
             img.src = url;
             const body = document.querySelector('body'); const modal = document.getElementById('modal-bukti-customer');
@@ -760,7 +836,7 @@
         }
         function showPesanan() { 
             hideAllSections(); document.getElementById('sec-pesanan').classList.remove('hidden'); 
-            fetchPesananCustomer(true); // force refresh saat dibuka
+            fetchPesananCustomer(true); 
         }
 
         function bukaDetailProduk(id) {
@@ -853,7 +929,6 @@
                 let htmlUploadLunas = "";
                 let htmlBukti = `<div class="flex gap-2 mt-3 flex-wrap">`;
 
-                // Tampilkan Struk DP / Pembayaran Awal
                 if(p['Bukti Pembayaran'] && p['Bukti Pembayaran'] !== "Bayar Cash") {
                     htmlBukti += `<button onclick="bukaBuktiModal('${p['Bukti Pembayaran']}', event)" class="bg-blue-50 dark:bg-blue-500/10 text-blue-500 px-3 py-1.5 rounded-lg text-[10px] font-bold border border-blue-100 dark:border-blue-500/20 active:scale-95 transition-transform"><i class="fa-solid fa-image"></i> Struk Utama / DP</button>`;
                 }
@@ -904,6 +979,8 @@
         function bukaDetailPesanan(idTrx) {
             const p = globalPenjualan.find(x => x['ID Transaksi'] === idTrx);
             if(!p) return;
+            
+            currentTrxPrint = p; // simpan data untuk print
 
             const isDP = p['Tipe Pembayaran'] === 'DP';
             let totalHarga = parseInt(p['Total Harga']) || 0;
@@ -911,7 +988,6 @@
             let sisaTagihan = 0;
             let tagihanHtml = '';
 
-            // Status Badge Color
             let statusColor = "text-blue-500 bg-blue-50 dark:bg-blue-500/10";
             if(p.Status === 'Selesai') statusColor = "text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10";
             if(p.Status === 'Dibatalkan') statusColor = "text-red-500 bg-red-50 dark:bg-red-500/10";
@@ -920,7 +996,6 @@
             const sudahLunas = !noPelunasan;
 
             if(isDP && p['Detail DP']) {
-                // Ekstrak nominal DP dari string "50% (Rp 50000)"
                 const match = p['Detail DP'].match(/Rp\s*(\d+)/);
                 if(match) dpNominal = parseInt(match[1]);
                 sisaTagihan = totalHarga - dpNominal;
@@ -933,7 +1008,7 @@
                             <span class="font-semibold">- ${formatRp(sisaTagihan)}</span>
                         </div>
                     `;
-                    sisaTagihan = 0; // Karena sudah lunas
+                    sisaTagihan = 0;
                 }
 
                 tagihanHtml = `
@@ -1005,6 +1080,76 @@
             const modal = document.getElementById('modal-detail-pesanan');
             modal.classList.remove('show');
             setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); body.classList.remove('modal-active'); }, 300);
+        }
+
+        function cetakStruk() {
+            if(!currentTrxPrint) return;
+            const p = currentTrxPrint;
+            const isDP = p['Tipe Pembayaran'] === 'DP';
+            let totalHarga = parseInt(p['Total Harga']) || 0;
+            let dpNominal = 0;
+            if(isDP && p['Detail DP']) {
+                const match = p['Detail DP'].match(/Rp\s*(\d+)/);
+                if(match) dpNominal = parseInt(match[1]);
+            }
+            
+            const sudahLunas = (!p['Bukti Pelunasan'] || p['Bukti Pelunasan'] === "Menunggu Pelunasan") ? false : true;
+            const sisa = isDP ? (totalHarga - dpNominal) : 0;
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Invoice - ${p['ID Transaksi']}</title>
+                    <style>
+                        body { font-family: 'Courier New', Courier, monospace; color: #000; padding: 20px; font-size: 14px; max-width: 400px; margin: auto; }
+                        .header { text-align: center; margin-bottom: 20px; border-bottom: 2px dashed #000; padding-bottom: 10px; }
+                        .header h1 { margin: 0; font-size: 24px; letter-spacing: 1px; }
+                        .header p { margin: 5px 0 0; font-size: 12px; }
+                        .row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+                        .bold { font-weight: bold; }
+                        .divider { border-bottom: 1px dashed #000; margin: 10px 0; }
+                        .text-center { text-align: center; }
+                        .mt-10 { margin-top: 10px; }
+                        @media print { 
+                            body { padding: 0; max-width: 100%; margin: 1cm; } 
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>TOKOBAJU</h1>
+                        <p>Invoice Pembelian Fashion</p>
+                    </div>
+                    <div class="row"><span>ID Transaksi:</span> <span class="bold">${p['ID Transaksi']}</span></div>
+                    <div class="row"><span>Tanggal:</span> <span>${p.Tanggal.split(',')[0]}</span></div>
+                    <div class="row"><span>Pembeli:</span> <span>${p['Username Pembeli']}</span></div>
+                    <div class="row mt-10"><span>Status Transaksi:</span> <span class="bold">${p.Status}</span></div>
+                    <div class="divider"></div>
+                    <div class="row bold"><span>Item</span> <span>Subtotal</span></div>
+                    <div class="row"><span>${p['Nama Baju']} (x${p.Jumlah})</span> <span>${formatRp(totalHarga)}</span></div>
+                    <div class="divider"></div>
+                    <div class="row"><span>Tipe Pembayaran:</span> <span>${p['Tipe Pembayaran']}</span></div>
+                    <div class="row"><span>Metode:</span> <span>${p['Metode Bayar'] || '-'}</span></div>
+                    <div class="divider"></div>
+                    <div class="row bold"><span>Total:</span> <span>${formatRp(totalHarga)}</span></div>
+                    ${isDP ? `
+                        <div class="row"><span>DP Dibayar:</span> <span>- ${formatRp(dpNominal)}</span></div>
+                        ${sudahLunas ? `<div class="row"><span>Pelunasan:</span> <span>- ${formatRp(sisa)}</span></div>` : ''}
+                        <div class="row bold mt-10"><span>${sudahLunas ? 'Status Tagihan:' : 'Sisa Tagihan:'}</span> <span>${sudahLunas ? 'LUNAS' : formatRp(sisa)}</span></div>
+                    ` : `
+                        <div class="row bold mt-10"><span>Status Tagihan:</span> <span>LUNAS</span></div>
+                    `}
+                    <div class="divider"></div>
+                    <p class="text-center" style="font-size:12px; margin-top: 20px;">Terima Kasih atas Pembelian Anda!<br>Semoga harimu menyenangkan.</p>
+                    <script>
+                        window.onload = function() { window.print(); }
+                    </script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
         }
 
         function prosesUploadPelunasan(event, idTrx) {
