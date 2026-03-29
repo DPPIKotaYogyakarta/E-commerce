@@ -313,9 +313,15 @@
                 </main>
             </div>
             
-            <footer class="text-slate-400 dark:text-slate-600 py-8 text-center mt-auto font-medium text-xs sm:text-sm safe-pb">
+            <footer class="text-slate-400 dark:text-slate-600 py-8 text-center mt-auto font-medium text-xs sm:text-sm safe-pb relative z-10">
                 <p>&copy; 2026 TokoBaju Fashion. Didesain secara eksklusif.</p>
             </footer>
+
+            <!-- TOMBOL WA MENGAPUNG (FAB) -->
+            <a href="#" id="fab-wa" target="_blank" class="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-50 bg-[#25D366] text-white w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-[0_8px_24px_rgba(37,211,102,0.4)] hover:scale-110 active:scale-95 transition-all duration-300 hidden group">
+                <i class="fa-brands fa-whatsapp text-3xl sm:text-4xl"></i>
+                <span class="absolute right-full mr-4 bg-white dark:bg-zinc-800 text-black dark:text-white px-4 py-2 rounded-xl text-sm font-bold shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap border border-slate-100 dark:border-zinc-700 hidden sm:block">Hubungi Admin</span>
+            </a>
 
         </div> <!-- End of Wrapper Content -->
     </div> <!-- End of App Section -->
@@ -620,6 +626,17 @@
                 document.getElementById('app-logo-nav').innerHTML = `<img src="${appSettings.logo}" class="h-8 object-contain">`;
             }
             if (appSettings.qris_name) document.getElementById('qris-nama-label').textContent = "A/N: " + appSettings.qris_name;
+            
+            // Konfigurasi Floating Button WA
+            if (appSettings.admin_wa) {
+                let waNumbers = appSettings.admin_wa.split(',');
+                let firstNum = waNumbers[0].trim().replace(/^0/, '62');
+                const fabWa = document.getElementById('fab-wa');
+                if (fabWa && firstNum) {
+                    fabWa.href = `https://wa.me/${firstNum}?text=${encodeURIComponent("Halo Admin, saya ingin bertanya tentang produk di TokoBaju.")}`;
+                    fabWa.classList.remove('hidden');
+                }
+            }
         }
 
         async function fetchSettingsBg() {
@@ -698,12 +715,12 @@
             document.getElementById('form-login').classList.toggle('hidden', !isLogin); document.getElementById('form-register').classList.toggle('hidden', isLogin);
             const tabLogin = document.getElementById('tab-login'); const tabReg = document.getElementById('tab-register');
             if(isLogin) {
-                tabLogin.className = "flex-1 py-2 sm:py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-xs sm:text-sm transition-all duration-300";
-                tabReg.className = "flex-1 py-2 sm:py-2.5 rounded-[12px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-bold text-xs sm:text-sm transition-all duration-300";
+                tabLogin.className = "flex-1 py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-sm transition-all duration-300";
+                tabReg.className = "flex-1 py-2.5 rounded-[12px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-bold text-sm transition-all duration-300";
                 document.getElementById('auth-subtitle').textContent = "Masuk ke akun Anda untuk melanjutkan";
             } else {
-                tabLogin.className = "flex-1 py-2 sm:py-2.5 rounded-[12px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-bold text-xs sm:text-sm transition-all duration-300";
-                tabReg.className = "flex-1 py-2 sm:py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-xs sm:text-sm transition-all duration-300";
+                tabLogin.className = "flex-1 py-2.5 rounded-[12px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-bold text-sm transition-all duration-300";
+                tabReg.className = "flex-1 py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-sm transition-all duration-300";
                 document.getElementById('auth-subtitle').textContent = "Lengkapi form untuk bergabung";
             }
         }
