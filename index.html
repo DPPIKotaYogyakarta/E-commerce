@@ -73,19 +73,16 @@
         <p class="text-slate-500 dark:text-slate-400 font-medium mt-8 tracking-wide text-sm">Menyiapkan butik...</p>
     </div>
 
-    <!-- AREA LOGIN (RAPID & OPTIMIZED) -->
+    <!-- AREA LOGIN -->
     <div id="auth-section" class="min-h-dvh flex hidden relative bg-[#F2F2F7] dark:bg-black overflow-hidden w-full">
-        
-        <!-- Mobile Background (No Extreme Zoom & Gradient Fade) -->
         <div id="dynamic-login-bg-mobile" class="absolute inset-0 lg:hidden bg-[length:100%_auto] sm:bg-cover bg-no-repeat bg-top opacity-70 dark:opacity-60 z-0" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');"></div>
         <div class="absolute inset-0 lg:hidden bg-gradient-to-b from-transparent via-[#F2F2F7]/95 to-[#F2F2F7] dark:from-transparent dark:via-black/95 dark:to-black z-0"></div>
 
-        <!-- Background Ornamen Blur (Glow Biru & Ungu) -->
         <div class="absolute top-[-5%] left-[-10%] w-72 h-72 sm:w-[500px] sm:h-[500px] bg-blue-500/30 dark:bg-blue-500/40 blur-[80px] sm:blur-[100px] rounded-full pointer-events-none z-0"></div>
         <div class="absolute bottom-[-5%] right-[-10%] w-72 h-72 sm:w-[500px] sm:h-[500px] bg-purple-500/30 dark:bg-purple-500/40 blur-[80px] sm:blur-[100px] rounded-full pointer-events-none z-0"></div>
         
         <div class="w-full flex flex-col lg:flex-row max-w-7xl mx-auto z-10 min-h-dvh relative">
-            <!-- Left Branding (Desktop) -->
+            <!-- Left Branding -->
             <div class="hidden lg:flex w-1/2 flex-col justify-center p-8 relative min-h-dvh">
                 <div id="dynamic-login-bg" class="absolute inset-8 rounded-[40px] bg-cover bg-center overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.3)]" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');">
                     <div class="absolute inset-0 bg-gradient-to-br from-black/90 via-black/40 to-transparent"></div>
@@ -97,30 +94,25 @@
                 </div>
             </div>
 
-            <!-- Right Form Area (Mobile & Desktop) -->
+            <!-- Right Form Area -->
             <div class="w-full lg:w-1/2 flex items-center justify-center px-5 py-8 sm:p-12 min-h-dvh relative">
                 <div class="w-full max-w-[420px] relative z-10 bg-white/70 dark:bg-[#1C1C1E]/70 backdrop-blur-2xl p-7 sm:p-10 rounded-[32px] sm:rounded-[40px] shadow-2xl border border-white/60 dark:border-slate-700/50 flex flex-col">
-                    
                     <div class="shrink-0 mb-6">
                         <div class="text-center pt-2 lg:hidden mb-5">
                             <div id="app-logo-auth-mobile" class="text-blue-500 flex justify-center drop-shadow-md"><i class="fa-solid fa-shirt text-5xl"></i></div>
                         </div>
-                        
                         <div class="text-center">
                             <h2 class="text-2xl sm:text-3xl font-extrabold text-black dark:text-white tracking-tight">Selamat Datang</h2>
                             <p class="mt-2 text-sm text-slate-500 dark:text-slate-400 font-medium" id="auth-subtitle">Masuk ke akun Anda untuk melanjutkan</p>
                         </div>
-
                         <div class="bg-slate-100/50 dark:bg-black/50 p-1.5 rounded-[16px] flex gap-1 relative mt-7">
                             <button onclick="switchAuthTab('login')" id="tab-login" class="flex-1 py-2.5 rounded-[12px] bg-white dark:bg-[#2C2C2E] shadow-sm text-black dark:text-white font-bold text-sm transition-all duration-300">Masuk</button>
                             <button onclick="switchAuthTab('register')" id="tab-register" class="flex-1 py-2.5 rounded-[12px] text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white font-bold text-sm transition-all duration-300">Daftar</button>
                         </div>
                     </div>
 
-                    <!-- PENGGULUNG FORM UNTUK LAYAR KECIL -->
+                    <!-- PENGGULUNG FORM -->
                     <div class="overflow-y-auto hide-scrollbar scroll-touch flex-1 w-full px-1 max-h-[50vh] sm:max-h-[60vh]">
-                        
-                        <!-- LOGIN FORM -->
                         <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4 pb-2">
                             <div class="relative group">
                                 <i class="fa-solid fa-user absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-sm"></i>
@@ -134,7 +126,6 @@
                             <button type="submit" id="btn-login" class="w-full flex justify-center py-4 px-4 rounded-[20px] shadow-lg shadow-blue-500/30 text-[16px] font-bold text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.98] transition-all mt-2">Masuk Sekarang</button>
                         </form>
 
-                        <!-- REGISTER FORM -->
                         <form id="form-register" onsubmit="handleRegister(event)" class="space-y-4 hidden pb-6">
                             <div class="flex flex-col items-center justify-center mb-2">
                                 <div onclick="document.getElementById('r-foto').click()" class="relative w-24 h-24 rounded-full bg-white dark:bg-black/40 flex items-center justify-center cursor-pointer overflow-hidden border border-slate-200 dark:border-slate-800 group transition-all hover:ring-4 ring-blue-500/20 shrink-0">
@@ -146,7 +137,6 @@
                                     <img id="r-foto-preview" src="" class="absolute inset-0 w-full h-full object-cover hidden">
                                 </div>
                             </div>
-                            
                             <div class="relative group">
                                 <i class="fa-solid fa-address-card absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-sm"></i>
                                 <input id="r-nama" required type="text" placeholder="Nama Lengkap" class="w-full bg-white dark:bg-black/40 border border-slate-200 dark:border-slate-800 rounded-[20px] pl-12 pr-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-black dark:text-white placeholder-slate-400 transition-all text-sm sm:text-base">
@@ -194,9 +184,9 @@
                         <button onclick="showFavorites()" class="text-slate-500 hover:text-pink-500 active:scale-90 transition-all" title="Favorit Saya">
                             <i class="fa-solid fa-heart text-[20px] sm:text-[22px]"></i>
                         </button>
-                        <button onclick="showPesanan()" class="text-slate-500 hover:text-blue-500 active:scale-90 transition-all relative" title="Pesanan Saya">
+                        <button id="nav-cart-icon" onclick="showPesanan()" class="text-slate-500 hover:text-blue-500 active:scale-90 transition-all relative" title="Pesanan Saya">
                             <i class="fa-solid fa-cart-shopping text-[20px] sm:text-[22px]"></i>
-                            <span id="badge-pesanan-count" class="absolute -top-1.5 -right-2 bg-red-500 text-white text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white dark:border-[#2C2C2E] shadow-sm hidden">0</span>
+                            <span id="badge-pesanan-count" class="absolute -top-1.5 -right-2 bg-red-500 text-white text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white dark:border-[#2C2C2E] shadow-sm hidden transition-transform duration-300">0</span>
                         </button>
                         <div class="h-6 w-px bg-slate-300 dark:bg-slate-700 mx-1"></div>
                         <div class="flex items-center gap-3 cursor-pointer active:scale-95 transition-all" onclick="toggleProfileModal()">
@@ -319,9 +309,9 @@
             </footer>
 
             <!-- TOMBOL WA MENGAPUNG (FAB) -->
-            <a href="#" id="fab-wa" target="_blank" class="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-50 bg-[#25D366] text-white w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-[0_8px_24px_rgba(37,211,102,0.4)] hover:scale-110 active:scale-95 transition-all duration-300 hidden group">
-                <i class="fa-brands fa-whatsapp text-3xl sm:text-4xl"></i>
-                <span class="absolute right-full mr-4 bg-white dark:bg-zinc-800 text-black dark:text-white px-4 py-2 rounded-xl text-sm font-bold shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap border border-slate-100 dark:border-zinc-700 hidden sm:block">Hubungi Admin</span>
+            <a href="#" id="fab-wa" target="_blank" class="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-50 bg-[#25D366] text-white px-5 py-3 sm:px-6 sm:py-4 rounded-full flex items-center gap-3 shadow-[0_8px_24px_rgba(37,211,102,0.4)] hover:scale-105 active:scale-95 transition-all duration-300 hidden">
+                <i class="fa-brands fa-whatsapp text-2xl sm:text-3xl"></i>
+                <span class="font-bold text-sm sm:text-base whitespace-nowrap tracking-wide">Chat Admin</span>
             </a>
 
         </div> <!-- End of Wrapper Content -->
@@ -508,22 +498,6 @@
         </div>
     </div>
 
-    <!-- MODAL WA REDIRECT -->
-    <div id="modal-wa" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[110] transition-opacity duration-300">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
-        <div class="modal-sheet bg-white dark:bg-[#1C1C1E] w-11/12 max-w-sm mx-auto rounded-[32px] p-6 text-center shadow-2xl z-10 relative">
-            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-500 shadow-inner">
-                <i class="fa-brands fa-whatsapp text-3xl"></i>
-            </div>
-            <h3 class="text-2xl font-bold text-black dark:text-white tracking-tight mb-2">Pesanan Berhasil!</h3>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Untuk mempercepat proses, silakan konfirmasi pesanan Anda ke Admin melalui WhatsApp.</p>
-            <div id="wa-button-container" class="space-y-3">
-                <!-- Buttons admin dinamis diisi JS -->
-            </div>
-            <button onclick="tutupWaModal()" class="mt-4 text-slate-400 hover:text-black dark:hover:text-white text-xs font-bold uppercase tracking-wider p-2">Nanti Saja</button>
-        </div>
-    </div>
-
     <!-- MODAL BUKTI TRANSAKSI CUSTOMER -->
     <div id="modal-bukti-customer" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[120] transition-opacity duration-300">
         <div class="absolute w-full h-full bg-black/90 backdrop-blur-md" onclick="tutupBuktiModal()"></div>
@@ -550,6 +524,41 @@
             <div id="content-detail-pesanan" class="px-5 sm:px-6 overflow-y-auto hide-scrollbar scroll-touch flex-1 py-4 space-y-4">
                 <!-- Injected via JS -->
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL SUKSES (ANIMASI KE KERANJANG) -->
+    <div id="modal-success" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[110] transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
+        <div id="success-card" class="modal-sheet bg-white dark:bg-[#1C1C1E] w-11/12 max-w-sm mx-auto rounded-[32px] p-6 shadow-2xl z-10 relative flex flex-col items-center">
+            <div class="w-20 h-20 bg-emerald-100 dark:bg-emerald-500/20 rounded-full flex items-center justify-center mb-4 text-emerald-500 shadow-inner">
+                <i class="fa-solid fa-check text-4xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-black dark:text-white tracking-tight mb-1">Transaksi Sukses!</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 text-center">Pesanan Anda telah kami terima.</p>
+            
+            <div class="w-full bg-[#F2F2F7] dark:bg-[#2C2C2E] p-4 rounded-[20px] mb-6 text-left border border-slate-200 dark:border-slate-800">
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1" id="succ-id">ID: -</p>
+                <h4 class="font-bold text-black dark:text-white text-base mb-2" id="succ-nama">Nama Baju</h4>
+                <div class="flex justify-between text-sm mb-1">
+                    <span class="text-slate-500 dark:text-slate-400">Kuantitas</span>
+                    <span class="font-semibold text-black dark:text-white" id="succ-qty">1 Pcs</span>
+                </div>
+                <div class="flex justify-between text-sm mb-1">
+                    <span class="text-slate-500 dark:text-slate-400">Pembayaran</span>
+                    <span class="font-semibold text-black dark:text-white" id="succ-tipe">Lunas</span>
+                </div>
+                <div class="h-px bg-slate-200 dark:bg-slate-700 my-3"></div>
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-black dark:text-white text-sm">Total Bayar</span>
+                    <span class="font-black text-blue-500 text-lg" id="succ-total">Rp 0</span>
+                </div>
+            </div>
+
+            <div id="succ-wa-container" class="w-full mb-3">
+                <!-- Tombol WA Dinamis -->
+            </div>
+            <button onclick="animateToCart()" class="w-full bg-slate-100 dark:bg-[#2C2C2E] text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-sm">Selesai & Tutup</button>
         </div>
     </div>
 
@@ -681,7 +690,7 @@
                 const img = new Image();
                 img.onload = function() {
                     const canvas = document.createElement('canvas'); 
-                    const MAX_SIZE = 1200; // Ditingkatkan ke 1200px agar jernih saat di-zoom
+                    const MAX_SIZE = 1200; 
                     let w = img.width; let h = img.height;
                     
                     if (w > h && w > MAX_SIZE) { h *= MAX_SIZE / w; w = MAX_SIZE; } 
@@ -690,10 +699,9 @@
                     canvas.width = w; canvas.height = h; 
                     const ctx = canvas.getContext('2d');
                     ctx.imageSmoothingEnabled = true;
-                    ctx.imageSmoothingQuality = 'high'; // Mengutamakan resolusi yang jernih
+                    ctx.imageSmoothingQuality = 'high'; 
                     ctx.drawImage(img, 0, 0, w, h);
                     
-                    // Menggunakan WEBP agar size kecil namun kualitas tetap bagus (tidak burik)
                     const base64Str = canvas.toDataURL('image/webp', 0.85); 
                     
                     if(targetVariable === 'authFotoBase64') authFotoBase64 = base64Str;
@@ -1408,16 +1416,65 @@
             } else { qris.src = appSettings.qris_lunas || 'https://via.placeholder.com/250?text=Admin+Belum+Set+QRIS+Lunas'; document.getElementById('m-totalharga').textContent = formatRp(t); }
         }
 
-        function tutupWaModal() { document.getElementById('modal-wa').classList.add('opacity-0', 'pointer-events-none'); showPesanan(); }
+        // FUNGSI ANIMASI KARTU KE KERANJANG
+        function animateToCart() {
+            const card = document.getElementById('success-card');
+            const cartIcon = document.getElementById('nav-cart-icon'); 
+            
+            const cardRect = card.getBoundingClientRect();
+            const iconRect = cartIcon.getBoundingClientRect();
+            
+            const clone = card.cloneNode(true);
+            clone.style.position = 'fixed';
+            clone.style.left = cardRect.left + 'px';
+            clone.style.top = cardRect.top + 'px';
+            clone.style.width = cardRect.width + 'px';
+            clone.style.height = cardRect.height + 'px';
+            clone.style.margin = '0';
+            clone.style.zIndex = '9999';
+            clone.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
+            clone.style.pointerEvents = 'none';
+            clone.classList.remove('modal-sheet'); 
+            
+            document.body.appendChild(clone);
+            
+            document.getElementById('modal-success').classList.add('opacity-0', 'pointer-events-none');
+            
+            const deltaX = iconRect.left + iconRect.width/2 - (cardRect.left + cardRect.width/2);
+            const deltaY = iconRect.top + iconRect.height/2 - (cardRect.top + cardRect.height/2);
+            
+            requestAnimationFrame(() => {
+                clone.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.05)`;
+                clone.style.opacity = '0';
+            });
+            
+            setTimeout(() => {
+                clone.remove();
+                cartIcon.classList.add('scale-125', 'text-blue-500');
+                setTimeout(() => cartIcon.classList.remove('scale-125', 'text-blue-500'), 300);
+                showPesanan(); 
+            }, 800);
+        }
 
-        function showWaRedirectModal(idTrx, namaBaju, qty, total, tipe, metode) {
-            const container = document.getElementById('wa-button-container'); let numbers = appSettings.admin_wa ? appSettings.admin_wa.split(',') : []; if(numbers.length === 0) numbers = ["6281234567890"];
+        function showSuccessModal(idTrx, namaBaju, qty, total, tipe, metode) {
+            document.getElementById('succ-id').textContent = `ID: ${idTrx}`;
+            document.getElementById('succ-nama').textContent = namaBaju;
+            document.getElementById('succ-qty').textContent = `${qty} Pcs`;
+            document.getElementById('succ-tipe').textContent = tipe;
+            document.getElementById('succ-total').textContent = formatRp(total);
+
+            const waContainer = document.getElementById('succ-wa-container');
+            let numbers = appSettings.admin_wa ? appSettings.admin_wa.split(',') : []; 
+            if(numbers.length === 0) numbers = ["6281234567890"];
+            
             const textPesan = encodeURIComponent(`Halo Admin, saya baru saja membuat pesanan di TokoBaju.\n\nID Transaksi: *${idTrx}*\nProduk: *${namaBaju}* (${qty} Pcs)\nMetode Bayar: *${metode}*\nTipe: *${tipe}*\nTotal Belanja: *${formatRp(total)}*\n\nMohon segera diproses ya. Terima kasih!`);
-            container.innerHTML = numbers.map((num, idx) => {
+            
+            waContainer.innerHTML = numbers.map((num, idx) => {
                 let cleanNum = num.trim().replace(/^0/, '62'); 
-                return `<a href="https://wa.me/${cleanNum}?text=${textPesan}" target="_blank" onclick="tutupWaModal()" class="flex items-center justify-center gap-2 w-full bg-[#F2F2F7] hover:bg-green-50 text-green-600 font-bold py-3 px-4 rounded-xl transition-colors active:scale-95"><i class="fa-brands fa-whatsapp text-lg"></i> Hubungi Admin ${idx+1}</a>`;
+                return `<a href="https://wa.me/${cleanNum}?text=${textPesan}" target="_blank" class="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white font-bold py-3 sm:py-3.5 px-4 rounded-xl transition-all active:scale-95 shadow-lg shadow-green-500/30 mb-2 text-sm sm:text-base"><i class="fa-brands fa-whatsapp text-xl"></i> Chat Admin ${numbers.length > 1 ? idx+1 : ''} (WA)</a>`;
             }).join('');
-            document.getElementById('modal-wa').classList.remove('opacity-0', 'pointer-events-none');
+            
+            document.getElementById('modal-success').classList.remove('opacity-0', 'pointer-events-none');
         }
 
         async function prosesBeli(e) {
@@ -1425,12 +1482,26 @@
             const metode = document.querySelector('input[name="metode_bayar"]:checked').value; const tipe = document.querySelector('input[name="tipe_bayar"]:checked').value;
             if(metode === "QRIS" && !buktiBase64) return alert("Upload bukti transfer QRIS wajib diisi.");
             let dpDetailStr = "-"; if(tipe === "DP") { dpDetailStr = `${document.getElementById('dp-pct').value}% (Rp ${document.getElementById('dp-nom').value})`; }
-            const btn = document.getElementById('btn-proses-beli'); btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>'; btn.disabled = true;
+            const btn = document.getElementById('btn-proses-beli'); btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Memproses...'; btn.disabled = true;
             const q = parseInt(document.getElementById('m-jumlah').value); const h = parseInt(document.getElementById('m-hargasatuan').value); const namaBaju = document.getElementById('m-nama').textContent;
+            
             const payload = { action: "addPenjualan", username: currentUser.username, id_baju: document.getElementById('m-id').value, nama_baju: namaBaju, jumlah: q, total_harga: (q * h), tipe_pembayaran: tipe, metode_bayar: metode, detail_dp: dpDetailStr, bukti_pembayaran: buktiBase64, bukti_pelunasan: pelunasanBase64 };
+            
             try {
-                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } }); const data = await res.json();
-                if(data.status === 'success') { toggleCheckoutModal(); fetchKatalog(true); fetchPesananCustomer(true); showWaRedirectModal(data.id_transaksi, namaBaju, q, (q*h), tipe, metode); } else alert(data.message);
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } }); 
+                const data = await res.json();
+                
+                if(data.status === 'success') { 
+                    toggleCheckoutModal(); 
+                    fetchKatalog(true); 
+                    fetchPesananCustomer(true); 
+                    
+                    // Tampilkan Animasi dan Detail Sukses
+                    setTimeout(() => {
+                        showSuccessModal(data.id_transaksi, namaBaju, q, (q*h), tipe, metode);
+                    }, 400);
+
+                } else alert(data.message);
             } catch (err) {} btn.innerHTML = 'Konfirmasi Pesanan'; btn.disabled = false;
         }
 
